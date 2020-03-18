@@ -1,1 +1,33 @@
-<p>client-agency works!</p>
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showCAForm = true">Add Client Agency</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Client Agency ID</th>
+                <th>Client Type</th>
+                <th>Client Name</th>
+                <th>Client Description</th>
+                <th>Client State</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let clientAgency of clientAgencies">
+                <td>{{ clientAgency.id }}</td>
+                <td>{{ clientAgency.type }}</td>
+                <td>{{ clientAgency.name }}</td>
+                <td>{{ clientAgency.description }}</td>
+                <td>{{ clientAgency.state }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editCA(clientAgency)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteCA(clientAgency.id)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-ca-form-modal *ngIf="showCAForm" [selectedCAData]="selectedCA" (caFormClosed)="formClosed()"></app-ca-form-modal>
+<app-ca-delete-modal *ngIf="deleteCAid" [caID]="deleteCAid" (modalClosed)="deleteCAid = ''"></app-ca-delete-modal>

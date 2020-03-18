@@ -1,0 +1,38 @@
+@import 'src/sass/_variables.sass'
+// Common styles for Admin Dashboard screens
+.main-content
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
+    background-color: #fff
+    margin-left: 40px
+
+    .add-btn
+        font-family: "Roboto", sans-serif
+        font-size: 14px
+        letter-spacing: 0.25px
+        color: $primary-color
+        border-color: $primary-color
+
+        &:hover
+            background-color: $primary-color
+            color: $white-color
+
+        // &:active
+        //     background-color: $primary-color-active
+        //     color: $white-color
+            
+    .table-container
+        font-family: 'Roboto Condensed', sans-serif
+
+        thead
+            background-color: $primary-color
+            color: $white-color
+        
+        td
+            color: $nav-link-color
+
+            fa-icon
+                padding: 0px 5px
+                cursor: pointer
+
+                &:hover
+                    color: $primary-color

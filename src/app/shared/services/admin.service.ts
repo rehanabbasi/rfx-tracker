@@ -10,13 +10,15 @@ export class AdminService {
   private buCollection: AngularFirestoreCollection<BusinessUnit>;
   public businessUnits: Observable<BusinessUnit[]>;
 
+  private caCollection: AngularFirestoreCollection<ClientAgency>;
+  public clientAgencies: Observable<ClientAgency[]>;
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units');
     this.businessUnits = this.buCollection.valueChanges()
 
-    // this.businessUnits.subscribe( res => {
-    //   console.log('the bu steams sends: ', res)
-    // })
+    this.caCollection = afs.collection<ClientAgency>('client-agencies');
+    this.clientAgencies = this.caCollection.valueChanges()
   }
 
   public createBusinessUnit( data: BusinessUnit ): Promise<any> {
@@ -31,8 +33,24 @@ export class AdminService {
     return this.buCollection.doc(data.id).set(data)
   }
 
-  public deleteBusinessUnit( buId: string): Promise<any> {
-    return this.buCollection.doc(buId).delete()
+  public deleteBusinessUnit( docId: string): Promise<any> {
+    return this.buCollection.doc(docId).delete()
+  }
+
+  public createClientAgency( data: ClientAgency ): Promise<any> {
+    return this.caCollection.add(data)
+  }
+
+  public attachIdToClientAgency( docId: string): Promise<any> {
+    return this.caCollection.doc(docId).update( { id: docId })
+  }
+
+  public updateClientAgency( data: ClientAgency): Promise<any> {
+    return this.caCollection.doc(data.id).set(data)
+  }
+
+  public deleteClientAgency( docId: string): Promise<any> {
+    return this.caCollection.doc(docId).delete()
   }
 }
 
@@ -41,4 +59,12 @@ export interface BusinessUnit {
   name: string,
   description: string,
   date: string
+}
+
+export interface ClientAgency { 
+  id?: string,
+  type: string,
+  name: string,
+  description: string,
+  state: string
 }

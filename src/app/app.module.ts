@@ -17,15 +17,17 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { SearchComponent } from './search/search.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { SideNavComponent } from './admin-dashboard/side-nav/side-nav.component';
+import { BusinessUnitComponent } from './admin-dashboard/business-unit/business-unit.component';
 import { BuFormModalComponent } from './admin-dashboard/business-unit/bu-form-modal/bu-form-modal.component';
 import { BuDeleteModalComponent } from './admin-dashboard/business-unit/bu-delete-modal/bu-delete-modal.component';
+import { ClientAgencyComponent } from './admin-dashboard/client-agency/client-agency.component';
+import { CaDeleteModalComponent } from './admin-dashboard/client-agency/ca-delete-modal/ca-delete-modal.component';
+import { CaFormModalComponent } from './admin-dashboard/client-agency/ca-form-modal/ca-form-modal.component';
 
 import { AuthService } from './shared/services/auth.service';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { from } from 'rxjs';
-import { BusinessUnitComponent } from './admin-dashboard/business-unit/business-unit.component';
-import { ClientAgencyComponent } from './admin-dashboard/client-agency/client-agency.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { ClientAgencyComponent } from './admin-dashboard/client-agency/client-ag
     BusinessUnitComponent,
     ClientAgencyComponent,
     BuFormModalComponent,
-    BuDeleteModalComponent
+    BuDeleteModalComponent,
+    CaDeleteModalComponent,
+    CaFormModalComponent
   ],
   imports: [
     BrowserModule,

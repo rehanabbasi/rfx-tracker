@@ -1,0 +1,103 @@
+@import 'src/sass/_variables.sass'
+// Common styles for Modals
+.modal
+    .modal-content
+        border-radius: 2px
+        border: 0px
+
+        .modal-header
+            background-color: #27909d
+            color: $white-color
+            border-radius: 2px
+
+            .modal-title
+                font-family: 'Roboto Condensed', sans-serif
+
+            .close
+                color: $white-color
+
+        .modal-body
+            .status-container
+                display: flex
+                justify-content: center
+
+                .alert
+                    width: 450px
+                    font-size: 14px
+
+            .info-text
+                width: 450px
+                margin: auto
+                font-family: "Nunito", sans-serif
+                letter-spacing: 0.25px
+                color: $nav-link-color
+
+            .form-contianer
+                display: flex
+                justify-content: center
+
+                .form-status-container
+                    display: flex
+                    justify-content: center
+
+                    .alert
+                        width: 375px
+                        font-size: 14px
+
+                input[type='text'],input[type='date']
+                    width: 375px
+                    height: 40px
+                    padding: 10px
+                    border: 1px solid $input-border-color
+                    color: $input-color !important
+                    font-family: "Roboto", sans-serif
+
+                    &.date-input
+                        color: $place-holder-color !important
+                        text-transform: uppercase
+
+                        &.has-value
+                            color: $input-color !important
+
+                textarea
+                    width: 375px
+                    padding: 10px
+                    border: 1px solid $input-border-color
+                    color: $input-color !important
+                    font-family: "Roboto", sans-serif
+
+                select
+                    width: 375px
+                    height: 40px
+                    border: 1px solid $input-border-color
+                    color: $input-color !important
+                    font-family: "Roboto", sans-serif
+                    border-radius: 0px
+        
+            .action-buttons
+                padding: 10px 0px
+
+                button
+                    font-family: "Roboto", sans-serif
+                    font-size: 14px
+                    letter-spacing: 0.25px
+                    width: 75px
+
+                    &.btn-primary
+                        color: $white-color
+                        border-color: $primary-color
+                        background-color: $primary-color
+
+                        &:hover
+                            background-color: $primary-color-hover
+                            border-color: $primary-color-hover
+
+                    &.btn-secondary
+                        color: $primary-color
+                        border-color: $primary-color
+                        background-color: $white-color
+                        margin: 0px 5px
+
+                        &:hover
+                            background-color: $primary-color
+                            color: $white-color
