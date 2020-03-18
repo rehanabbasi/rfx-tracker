@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Arimo:wght@700&family=Cabin+Condensed:wght@400;600;700&family=Nunito:wght@300;400&family=Roboto+Condensed:wght@300&family=Roboto:wght@300;400;700&display=swap')
+@import './sass/_variables'
+/* Global styles */
+
+// Input placeholder
+::placeholder
+    color: $place-holder-color
+
+:-ms-input-placeholder
+    color: $place-holder-color
+    
+::-ms-input-placeholder
+    color: $place-holder-color
+
+// Styles common to admin-dashboard routes
+.inner-wrapper
+    display: flex
+
+    app-side-nav
+        flex: 1
+
+    app-business-unit
+        flex: 5

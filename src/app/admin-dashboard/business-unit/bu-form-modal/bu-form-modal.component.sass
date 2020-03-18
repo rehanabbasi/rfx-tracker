@@ -1,0 +1,80 @@
+@import 'src/sass/_variables.sass'
+
+.modal
+    .modal-content
+        border-radius: 2px
+        border: 0px
+
+        .modal-header
+            background-color: #27909d
+            color: #fff
+            border-radius: 2px
+
+            .modal-title
+                font-family: 'Roboto Condensed', sans-serif
+
+            .close
+                color: #ffffff
+
+        .modal-body
+            .form-contianer
+                display: flex
+                justify-content: center
+
+                .form-status-container
+                    display: flex
+                    justify-content: center
+
+                    .alert
+                        width: 375px
+                        font-size: 14px
+
+                input[type='text'],input[type='date']
+                    width: 375px
+                    height: 40px
+                    padding: 10px
+                    border: 1px solid $input-border-color
+                    color: #333333 !important
+                    font-family: "Roboto", sans-serif
+
+                    &.date-input
+                        color: $place-holder-color !important
+                        text-transform: uppercase
+
+                        &.has-value
+                            color: #333333 !important
+
+                textarea
+                    width: 375px
+                    padding: 10px
+                    border: 1px solid $input-border-color
+                    color: #333333 !important
+                    font-family: "Roboto", sans-serif
+        
+                .action-buttons
+                    padding: 10px 0px
+
+                    button
+                        font-family: "Roboto", sans-serif
+                        font-size: 14px
+                        letter-spacing: 0.25px
+                        width: 75px
+
+                        &.btn-primary
+                            color: $white-color
+                            border-color: $primary-color
+                            background-color: $primary-color
+
+                            &:hover
+                                background-color: $primary-color-hover
+                                border-color: $primary-color-hover
+
+                        &.btn-secondary
+                            color: $primary-color
+                            border-color: $primary-color
+                            background-color: $white-color
+                            margin: 0px 5px
+
+                            &:hover
+                                background-color: $primary-color
+                                color: $white-color

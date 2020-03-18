@@ -1,0 +1,14 @@
+<div class="row header-container">
+    <div class="col-3 px-4">
+        <a [routerLink]="['/']">
+            <img class="logo-img" src="./../../../assets/img/test-logo.png" alt="image">
+        </a>
+    </div>
+    <div class="col-9 px-4">
+        <div class="nav-container text-right">
+            <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/search']" class="mx-3 link" [ngClass]="{ 'active': router.url == '/search' }">Search</a>
+            <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/admin-dashboard']" class="mx-3 link" [ngClass]="{ 'active': router.url == '/admin-dashboard' }">Admin Dashboard</a>
+            <a *ngIf="_auth.isLoggedIn | async" class="mx-3 link" (click)="logout()">Logout</a>
+        </div>
+    </div>
+</div>

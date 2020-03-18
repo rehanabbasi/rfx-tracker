@@ -1,0 +1,26 @@
+@import '../../../sass/_variables'
+
+.header-container
+    height: 75px
+    line-height: 75px
+    box-shadow: 0 1px 6px 0 rgba(32,33,36,.28)
+    background-color: #FFF
+    
+    .logo-img
+        height: 70px
+
+    .nav-container
+        .link
+            font-family: 'Roboto', sans-serif
+            font-size: 18px
+            cursor: pointer
+            color: $nav-link-color
+            text-decoration: none !important
+            padding-bottom: 3px
+
+            &.active
+                border-bottom: 1px solid $nav-link-color
+
+            &:hover
+                border-bottom: 1px solid $nav-link-color
+        

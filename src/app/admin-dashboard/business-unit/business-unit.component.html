@@ -1,0 +1,31 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showBUForm = true">Add Business Unit</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Business Unit ID</th>
+                <th>Business Unit Name</th>
+                <th>Business Unit Description</th>
+                <th>Business Unit Effective Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let businessUnit of businessUnits">
+                <td>{{ businessUnit.id }}</td>
+                <td>{{ businessUnit.name }}</td>
+                <td>{{ businessUnit.description }}</td>
+                <td>{{ businessUnit.date | date:'longDate' }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editBU(businessUnit)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteBU(businessUnit.id)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-bu-form-modal *ngIf="showBUForm" [selectedBUData]="selectedBU" (buFormClosed)="formClosed()"></app-bu-form-modal>
+<app-bu-delete-modal *ngIf="deleteBUid" [buID]="deleteBUid" (modalClosed)="deleteBUid = ''"></app-bu-delete-modal>

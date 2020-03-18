@@ -1,0 +1,50 @@
+@import 'src/sass/_variables.sass'
+    
+.page-heading
+    font-family: 'Cabin Condensed', sans-serif
+    // font-size: 18px
+.login-contianer
+    width: 40%
+    min-height: 500px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    margin: auto
+    background: #FFFFFF
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
+
+    .form-status-container
+        display: flex
+        justify-content: center
+
+        .alert
+            width: 375px
+            font-size: 14px
+
+    input[type='text'],input[type='password']
+        width: 375px
+        height: 40px
+        padding: 10px
+        border: 1px solid $input-border-color
+        color: #333333 !important
+        font-family: "Roboto", sans-serif
+    
+    input[type='submit']
+        font-family: 'Arimo', sans-serif
+        font-size: 15px
+        color: $white-color
+        background-color: $primary-color
+        border: none
+        border-radius: 2px
+        width: 175px
+        height: 36px
+        transition: background-color 250ms ease-out
+        
+        &:hover
+            background-color: $primary-color-hover
+
+        &:active
+            background-color: $primary-color-active
+
+        &:focus
+            // outline: none    

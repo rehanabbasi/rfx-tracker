@@ -1,0 +1,30 @@
+<div class="side-nav p-3">
+    <div class="sec mb-2">
+        <div class="sec-header" [ngClass]="{ 'sec-expanded': orgLinksShown }" data-toggle="collapse" data-target="#organizationalNavLinks" aria-expanded="false" aria-controls="organizationalNavLinks" (click)="orgLinksShown = !orgLinksShown">
+            <div>Organizational</div>
+            <fa-icon [icon]="navSecHeaderIcon"></fa-icon>
+        </div>
+        <div class="collapse links" id="organizationalNavLinks">
+            <a>Business Unit</a>
+            <a>Client Agency</a>
+            <a>RFx Categories</a>
+            <a class="selected">RFx Types</a>
+            <a>Manage RFx Statues</a>
+            <a>RFx Document Types</a>
+            <a>Proposal Document Types</a>
+            <a>Users</a>
+            <a>Roles</a>
+        </div>
+    </div>
+    <div class="sec mb-2">
+        <div class="sec-header" [ngClass]="{ 'sec-expanded': securityLinksShown }" data-toggle="collapse" data-target="#securityNavLinks" aria-expanded="false" aria-controls="securityNavLinks" (click)="securityLinksShown = !securityLinksShown">
+            <div>Security</div>
+            <fa-icon [icon]="navSecHeaderIcon"></fa-icon>
+        </div>
+        <div class="collapse links" id="securityNavLinks">
+            <a>View Access by Roles</a>
+            <a>User - BU Setup</a>
+            <a>User - Category Setup</a>
+        </div>
+    </div>
+</div>
