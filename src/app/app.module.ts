@@ -31,6 +31,9 @@ import { from } from 'rxjs';
 import { RfxCategoryComponent } from './admin-dashboard/rfx-category/rfx-category.component';
 import { RcFormModalComponent } from './admin-dashboard/rfx-category/rc-form-modal/rc-form-modal.component';
 import { RcDeleteModalComponent } from './admin-dashboard/rfx-category/rc-delete-modal/rc-delete-modal.component';
+import { RfxTypeComponent } from './admin-dashboard/rfx-type/rfx-type.component';
+import { RtFormModalComponent } from './admin-dashboard/rfx-type/rt-form-modal/rt-form-modal.component';
+import { RtDeleteModalComponent } from './admin-dashboard/rfx-type/rt-delete-modal/rt-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,10 @@ import { RcDeleteModalComponent } from './admin-dashboard/rfx-category/rc-delete
     CaFormModalComponent,
     RfxCategoryComponent,
     RcFormModalComponent,
-    RcDeleteModalComponent
+    RcDeleteModalComponent,
+    RfxTypeComponent,
+    RtFormModalComponent,
+    RtDeleteModalComponent
   ],
   imports: [
     BrowserModule,

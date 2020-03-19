@@ -16,6 +16,9 @@ export class AdminService {
   private rcCollection: AngularFirestoreCollection<RfxCategory>
   public rfxCategories: Observable<RfxCategory[]>
 
+  private rtCollection: AngularFirestoreCollection<RfxType>
+  public rfxTypes: Observable<RfxType[]>
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
@@ -25,6 +28,9 @@ export class AdminService {
 
     this.rcCollection = afs.collection<RfxCategory>('rfx-categories')
     this.rfxCategories = this.rcCollection.valueChanges()
+
+    this.rtCollection = afs.collection<RfxType>('rfx-types')
+    this.rfxTypes = this.rtCollection.valueChanges()
   }
 
   public createBusinessUnit( data: BusinessUnit ): Promise<any> {
@@ -74,6 +80,22 @@ export class AdminService {
   public deleteRfxCategory( docId: string): Promise<any> {
     return this.rcCollection.doc(docId).delete()
   }
+
+  public createRfxType( data: RfxType ): Promise<any> {
+    return this.rtCollection.add(data)
+  }
+
+  public attachIdToRfxType( docId: string): Promise<any> {
+    return this.rtCollection.doc(docId).update( { id: docId })
+  }
+
+  public updateRfxType( data: RfxType): Promise<any> {
+    return this.rtCollection.doc(data.id).set(data)
+  }
+
+  public deleteRfxType( docId: string): Promise<any> {
+    return this.rtCollection.doc(docId).delete()
+  }
 }
 
 export interface BusinessUnit { 
@@ -92,6 +114,13 @@ export interface ClientAgency {
 }
 
 export interface RfxCategory {
+  id?: string,
+  code: string,
+  display_text: string,
+  help_text: string
+}
+
+export interface RfxType {
   id?: string,
   code: string,
   display_text: string,

@@ -1,0 +1,31 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showRTForm = true">Add RFx Type</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>RFx Type ID</th>
+                <th>RFx Type Code</th>
+                <th>RFx Type Text</th>
+                <th>RFx Type Help Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rfxType of rfxTypes">
+                <td>{{ rfxType.id }}</td>
+                <td>{{ rfxType.code }}</td>
+                <td>{{ rfxType.display_text }}</td>
+                <td>{{ rfxType.help_text }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editRT(rfxType)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteRT(rfxType.id)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-rt-form-modal *ngIf="showRTForm" [selectedRTData]="selectedRT" (rtFormClosed)="formClosed()"></app-rt-form-modal>
+<app-rt-delete-modal *ngIf="deleteRTid" [rtID]="deleteRTid" (modalClosed)="deleteRTid = ''"></app-rt-delete-modal>
