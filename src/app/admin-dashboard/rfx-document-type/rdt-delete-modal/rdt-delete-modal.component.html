@@ -1,0 +1,30 @@
+<div class="modal fade" id="rdtDeleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Delete RFx Document Type</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeDeleteModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row status-container">
+                    <div class="alert alert-dismissible fade" [ngClass]="{ 'show': deleteErrorMessage || deleteSuccessMessage, 'hide': !deleteErrorMessage && !deleteSuccessMessage, 'alert-danger': deleteErrorMessage, 'alert-success': deleteSuccessMessage }" role="alert">
+                        {{ deleteErrorMessage || deleteSuccessMessage }}
+                        <button type="button" class="close" aria-label="Close" (click)="deleteErrorMessage = ''; deleteSuccessMessage = '';">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-text mb-2">Are you sure you want to delete this RFx Document Type? Once deleted, the RFx Document Type cannot be retrieved.</div>
+
+                <div class="action-buttons text-right">
+                    <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancel</button>
+                    <button type="submit" [disabled]="rdtDeleted" class="btn btn-primary" (click)="deleteRDT()">Delete</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

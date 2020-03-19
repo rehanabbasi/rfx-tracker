@@ -1,0 +1,31 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showRDTForm = true">Add RFx Document Type</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>RFx Document ID</th>
+                <th>RFx Document Type</th>
+                <th>RFx Description</th>
+                <th>RFx Document Type Help Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rfxDocumentType of rfxDocumentTypes">
+                <td>{{ rfxDocumentType.id }}</td>
+                <td>{{ rfxDocumentType.type }}</td>
+                <td>{{ rfxDocumentType.description }}</td>
+                <td>{{ rfxDocumentType.help_text }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editRDT(rfxDocumentType)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteRDT(rfxDocumentType.id)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-rdt-form-modal *ngIf="showRDTForm" [selectedRDTData]="selectedRDT" (rdtFormClosed)="formClosed()"></app-rdt-form-modal>
+<app-rdt-delete-modal *ngIf="deleteRDTid" [rdtID]="deleteRDTid" (modalClosed)="deleteRDTid = ''"></app-rdt-delete-modal>

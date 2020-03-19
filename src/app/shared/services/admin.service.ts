@@ -7,17 +7,25 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
 
+  // Observables for Business Units
   private buCollection: AngularFirestoreCollection<BusinessUnit>
   public businessUnits: Observable<BusinessUnit[]>
 
+  // Observables for Client Agencies
   private caCollection: AngularFirestoreCollection<ClientAgency>
   public clientAgencies: Observable<ClientAgency[]>
 
+  // Observables for RFx Categories
   private rcCollection: AngularFirestoreCollection<RfxCategory>
   public rfxCategories: Observable<RfxCategory[]>
 
+  // Observables for RFx Types
   private rtCollection: AngularFirestoreCollection<RfxType>
   public rfxTypes: Observable<RfxType[]>
+
+  // Observables for RFx Document Types
+  private rdtCollection: AngularFirestoreCollection<RfxDocumentType>
+  public rfxDocumentTypes: Observable<RfxDocumentType[]>
 
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
@@ -31,8 +39,12 @@ export class AdminService {
 
     this.rtCollection = afs.collection<RfxType>('rfx-types')
     this.rfxTypes = this.rtCollection.valueChanges()
+
+    this.rdtCollection = afs.collection<RfxDocumentType>('rfx-document-types')
+    this.rfxDocumentTypes = this.rdtCollection.valueChanges()
   }
 
+  // CUD calls for Business Unit
   public createBusinessUnit( data: BusinessUnit ): Promise<any> {
     return this.buCollection.add(data)
   }
@@ -49,6 +61,7 @@ export class AdminService {
     return this.buCollection.doc(docId).delete()
   }
 
+  // CUD calls for Client Agency
   public createClientAgency( data: ClientAgency ): Promise<any> {
     return this.caCollection.add(data)
   }
@@ -65,6 +78,7 @@ export class AdminService {
     return this.caCollection.doc(docId).delete()
   }
 
+  // CUD calls for RFx Category
   public createRfxCategory( data: RfxCategory ): Promise<any> {
     return this.rcCollection.add(data)
   }
@@ -81,6 +95,7 @@ export class AdminService {
     return this.rcCollection.doc(docId).delete()
   }
 
+  // CUD calls for RFx Type
   public createRfxType( data: RfxType ): Promise<any> {
     return this.rtCollection.add(data)
   }
@@ -95,6 +110,23 @@ export class AdminService {
 
   public deleteRfxType( docId: string): Promise<any> {
     return this.rtCollection.doc(docId).delete()
+  }
+
+  // CUD calls for RFx Document Type
+  public createRfxDocumentType( data: RfxDocumentType ): Promise<any> {
+    return this.rdtCollection.add(data)
+  }
+
+  public attachIdToRfxDocumentType( docId: string): Promise<any> {
+    return this.rdtCollection.doc(docId).update( { id: docId })
+  }
+
+  public updateRfxDocumentType( data: RfxDocumentType): Promise<any> {
+    return this.rdtCollection.doc(data.id).set(data)
+  }
+
+  public deleteRfxDocumentType( docId: string): Promise<any> {
+    return this.rdtCollection.doc(docId).delete()
   }
 }
 
@@ -124,5 +156,12 @@ export interface RfxType {
   id?: string,
   code: string,
   display_text: string,
+  help_text: string
+}
+
+export interface RfxDocumentType {
+  id?: string,
+  type: string,
+  description: string,
   help_text: string
 }

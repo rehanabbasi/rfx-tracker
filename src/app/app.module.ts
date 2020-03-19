@@ -34,6 +34,9 @@ import { RcDeleteModalComponent } from './admin-dashboard/rfx-category/rc-delete
 import { RfxTypeComponent } from './admin-dashboard/rfx-type/rfx-type.component';
 import { RtFormModalComponent } from './admin-dashboard/rfx-type/rt-form-modal/rt-form-modal.component';
 import { RtDeleteModalComponent } from './admin-dashboard/rfx-type/rt-delete-modal/rt-delete-modal.component';
+import { RfxDocumentTypeComponent } from './admin-dashboard/rfx-document-type/rfx-document-type.component';
+import { RdtFormModalComponent } from './admin-dashboard/rfx-document-type/rdt-form-modal/rdt-form-modal.component';
+import { RdtDeleteModalComponent } from './admin-dashboard/rfx-document-type/rdt-delete-modal/rdt-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,10 @@ import { RtDeleteModalComponent } from './admin-dashboard/rfx-type/rt-delete-mod
     RcDeleteModalComponent,
     RfxTypeComponent,
     RtFormModalComponent,
-    RtDeleteModalComponent
+    RtDeleteModalComponent,
+    RfxDocumentTypeComponent,
+    RdtFormModalComponent,
+    RdtDeleteModalComponent
   ],
   imports: [
     BrowserModule,
