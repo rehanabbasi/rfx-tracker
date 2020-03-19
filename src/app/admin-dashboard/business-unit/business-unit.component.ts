@@ -46,11 +46,9 @@ export class BusinessUnitComponent implements OnInit, OnDestroy {
   public editBU(businessUnit: BusinessUnit): void {
     this.selectedBU = businessUnit
     this.showBUForm = true
-    // console.log('BU data for edit: ', businessUnit)
   }
 
   public deleteBU(buId: string): void {
-    // console.log('BU id for delete is: ', buId)
     this.deleteBUid = buId
   }
 

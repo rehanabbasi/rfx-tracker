@@ -5,9 +5,9 @@
             <fa-icon [icon]="navSecHeaderIcon"></fa-icon>
         </div>
         <div class="collapse links" id="organizationalNavLinks">
-            <a>Business Unit</a>
-            <a>Client Agency</a>
-            <a>RFx Categories</a>
+            <a [routerLink]="['/admin-dashboard/business-unit']">Business Unit</a>
+            <a [routerLink]="['/admin-dashboard/client-agency']">Client Agency</a>
+            <a [routerLink]="['/admin-dashboard/rfx-category']">RFx Categories</a>
             <a class="selected">RFx Types</a>
             <a>Manage RFx Statues</a>
             <a>RFx Document Types</a>

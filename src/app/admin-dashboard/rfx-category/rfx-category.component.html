@@ -1,0 +1,31 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showRCForm = true">Add RFx Category</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>RFx Category ID</th>
+                <th>RFx Category Code</th>
+                <th>RFx Category Text</th>
+                <th>RFx Category Help Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rfxCategory of rfxCategories">
+                <td>{{ rfxCategory.id }}</td>
+                <td>{{ rfxCategory.code }}</td>
+                <td>{{ rfxCategory.display_text }}</td>
+                <td>{{ rfxCategory.help_text }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editRC(rfxCategory)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteRC(rfxCategory.id)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-rc-form-modal *ngIf="showRCForm" [selectedRCData]="selectedRC" (rcFormClosed)="formClosed()"></app-rc-form-modal>
+<app-rc-delete-modal *ngIf="deleteRCid" [rcID]="deleteRCid" (modalClosed)="deleteRCid = ''"></app-rc-delete-modal>

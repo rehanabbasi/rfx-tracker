@@ -28,6 +28,9 @@ import { AuthService } from './shared/services/auth.service';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { from } from 'rxjs';
+import { RfxCategoryComponent } from './admin-dashboard/rfx-category/rfx-category.component';
+import { RcFormModalComponent } from './admin-dashboard/rfx-category/rc-form-modal/rc-form-modal.component';
+import { RcDeleteModalComponent } from './admin-dashboard/rfx-category/rc-delete-modal/rc-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { from } from 'rxjs';
     BuFormModalComponent,
     BuDeleteModalComponent,
     CaDeleteModalComponent,
-    CaFormModalComponent
+    CaFormModalComponent,
+    RfxCategoryComponent,
+    RcFormModalComponent,
+    RcDeleteModalComponent
   ],
   imports: [
     BrowserModule,

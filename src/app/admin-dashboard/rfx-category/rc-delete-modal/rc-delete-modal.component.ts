@@ -5,22 +5,22 @@ import { AdminService } from '../../../shared/services/admin.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-bu-delete-modal',
-  templateUrl: './bu-delete-modal.component.html',
-  styleUrls: ['./bu-delete-modal.component.sass']
+  selector: 'app-rc-delete-modal',
+  templateUrl: './rc-delete-modal.component.html',
+  styleUrls: ['./rc-delete-modal.component.sass']
 })
-export class BuDeleteModalComponent implements OnInit {
+export class RcDeleteModalComponent implements OnInit {
 
   public deleteErrorMessage: string = ''
   public deleteSuccessMessage: string = ''
 
   @Input()
-  public buID: string
+  public rcID: string
   
   @Output() 
   modalClosed: EventEmitter<any> = new EventEmitter()
 
-  public buDeleted: boolean = false
+  public rcDeleted: boolean = false
 
   constructor(
     private _admin: AdminService
@@ -30,29 +30,26 @@ export class BuDeleteModalComponent implements OnInit {
     this.showDeleteModal()
   }
 
-  public deleteBU(): void {
-    this._admin.deleteBusinessUnit(this.buID)
+  public deleteRC(): void {
+    this._admin.deleteRfxCategory(this.rcID)
       .then( res => {
-        this.deleteSuccessMessage = 'The Business Unit has been permanently deleted.'
-        this.buDeleted = true
-        // setTimeout(() => {
-        //   this.closeDeleteModal()
-        // }, 5000)
+        this.deleteSuccessMessage = 'The RFx Category has been permanently deleted.'
+        this.rcDeleted = true
       })
       .catch( error => {
-        console.error('Error while deleting business unit: ', error)
+        console.error('Error while deleting RFx Category: ', error)
       })
   }
 
   public showDeleteModal(): void {
     this.deleteErrorMessage = ''
     this.deleteSuccessMessage = ''
-    this.buDeleted = false
-    $('#buDeleteModal').modal('show')
+    this.rcDeleted = false
+    $('#rcDeleteModal').modal('show')
   }
 
   public closeDeleteModal(): void {
-    $('#buDeleteModal').modal('hide')
+    $('#rcDeleteModal').modal('hide')
     this.modalClosed.emit()
   }
 

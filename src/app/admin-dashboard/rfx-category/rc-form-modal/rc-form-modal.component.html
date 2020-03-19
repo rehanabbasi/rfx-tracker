@@ -1,0 +1,41 @@
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="rcForm" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{ selectedRCData ? 'Edit' : 'Add' }} RFx Category</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeRCForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-contianer p-3">
+                    <form [formGroup]="rcForm" (ngSubmit)="rcFormSubmit()">
+                        <div class="row form-status-container">
+                            <div class="alert alert-dismissible fade" [ngClass]="{ 'show': formStatusMessage || formSuccessMessage, 'hide': !formStatusMessage && !formSuccessMessage, 'alert-danger': formStatusMessage, 'alert-success': formSuccessMessage }" role="alert">
+                                {{ formStatusMessage || formSuccessMessage }}
+                                <button type="button" class="close" aria-label="Close" (click)="formStatusMessage = ''; formSuccessMessage = '';">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center"><input type="text" formControlName="code" placeholder="RFx Category Code"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center"><input type="text" formControlName="display_text" placeholder="RFx Category Display Text"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center d-flex"><textarea rows="3" formControlName="help_text" placeholder="RFx Category Help Text"></textarea></div>
+                        </div>
+                        
+                        <div class="action-buttons text-right">
+                            <button type="button" class="btn btn-secondary" (click)="closeRCForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

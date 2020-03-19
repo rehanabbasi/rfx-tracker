@@ -7,18 +7,24 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
 
-  private buCollection: AngularFirestoreCollection<BusinessUnit>;
-  public businessUnits: Observable<BusinessUnit[]>;
+  private buCollection: AngularFirestoreCollection<BusinessUnit>
+  public businessUnits: Observable<BusinessUnit[]>
 
-  private caCollection: AngularFirestoreCollection<ClientAgency>;
-  public clientAgencies: Observable<ClientAgency[]>;
+  private caCollection: AngularFirestoreCollection<ClientAgency>
+  public clientAgencies: Observable<ClientAgency[]>
+
+  private rcCollection: AngularFirestoreCollection<RfxCategory>
+  public rfxCategories: Observable<RfxCategory[]>
 
   constructor(private afs: AngularFirestore) {
-    this.buCollection = afs.collection<BusinessUnit>('business-units');
+    this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
 
-    this.caCollection = afs.collection<ClientAgency>('client-agencies');
+    this.caCollection = afs.collection<ClientAgency>('client-agencies')
     this.clientAgencies = this.caCollection.valueChanges()
+
+    this.rcCollection = afs.collection<RfxCategory>('rfx-categories')
+    this.rfxCategories = this.rcCollection.valueChanges()
   }
 
   public createBusinessUnit( data: BusinessUnit ): Promise<any> {
@@ -52,6 +58,22 @@ export class AdminService {
   public deleteClientAgency( docId: string): Promise<any> {
     return this.caCollection.doc(docId).delete()
   }
+
+  public createRfxCategory( data: RfxCategory ): Promise<any> {
+    return this.rcCollection.add(data)
+  }
+
+  public attachIdToRfxCategory( docId: string): Promise<any> {
+    return this.rcCollection.doc(docId).update( { id: docId })
+  }
+
+  public updateRfxCategory( data: RfxCategory): Promise<any> {
+    return this.rcCollection.doc(data.id).set(data)
+  }
+
+  public deleteRfxCategory( docId: string): Promise<any> {
+    return this.rcCollection.doc(docId).delete()
+  }
 }
 
 export interface BusinessUnit { 
@@ -67,4 +89,11 @@ export interface ClientAgency {
   name: string,
   description: string,
   state: string
+}
+
+export interface RfxCategory {
+  id?: string,
+  code: string,
+  display_text: string,
+  help_text: string
 }
