@@ -37,6 +37,12 @@ import { RtDeleteModalComponent } from './admin-dashboard/rfx-type/rt-delete-mod
 import { RfxDocumentTypeComponent } from './admin-dashboard/rfx-document-type/rfx-document-type.component';
 import { RdtFormModalComponent } from './admin-dashboard/rfx-document-type/rdt-form-modal/rdt-form-modal.component';
 import { RdtDeleteModalComponent } from './admin-dashboard/rfx-document-type/rdt-delete-modal/rdt-delete-modal.component';
+import { ProposalDocumentTypeComponent } from './admin-dashboard/proposal-document-type/proposal-document-type.component';
+import { PdtFormModalComponent } from './admin-dashboard/proposal-document-type/pdt-form-modal/pdt-form-modal.component';
+import { PdtDeleteModalComponent } from './admin-dashboard/proposal-document-type/pdt-delete-modal/pdt-delete-modal.component';
+import { UserRoleComponent } from './admin-dashboard/user-role/user-role.component';
+import { UrFormModalComponent } from './admin-dashboard/user-role/ur-form-modal/ur-form-modal.component';
+import { UrStatusModalComponent } from './admin-dashboard/user-role/ur-status-modal/ur-status-modal.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +67,13 @@ import { RdtDeleteModalComponent } from './admin-dashboard/rfx-document-type/rdt
     RtDeleteModalComponent,
     RfxDocumentTypeComponent,
     RdtFormModalComponent,
-    RdtDeleteModalComponent
+    RdtDeleteModalComponent,
+    ProposalDocumentTypeComponent,
+    PdtFormModalComponent,
+    PdtDeleteModalComponent,
+    UserRoleComponent,
+    UrFormModalComponent,
+    UrStatusModalComponent
   ],
   imports: [
     BrowserModule,

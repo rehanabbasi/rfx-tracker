@@ -27,6 +27,14 @@ export class AdminService {
   private rdtCollection: AngularFirestoreCollection<RfxDocumentType>
   public rfxDocumentTypes: Observable<RfxDocumentType[]>
 
+  // Observables for Proposal Document Types
+  private pdtCollection: AngularFirestoreCollection<ProposalDocumentType>
+  public proposalDocumentTypes: Observable<ProposalDocumentType[]>
+
+  //  Observables for User Roles
+  private urCollection: AngularFirestoreCollection<UserRole>
+  public userRoles: Observable<UserRole[]>
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
@@ -42,6 +50,12 @@ export class AdminService {
 
     this.rdtCollection = afs.collection<RfxDocumentType>('rfx-document-types')
     this.rfxDocumentTypes = this.rdtCollection.valueChanges()
+
+    this.pdtCollection = afs.collection<ProposalDocumentType>('proposal-document-types')
+    this.proposalDocumentTypes = this.pdtCollection.valueChanges()
+
+    this.urCollection = afs.collection<UserRole>('user-roles')
+    this.userRoles = this.urCollection.valueChanges()
   }
 
   // CUD calls for Business Unit
@@ -50,7 +64,7 @@ export class AdminService {
   }
 
   public attachIdToBusinessUnit( docId: string): Promise<any> {
-    return this.buCollection.doc(docId).update( { id: docId })
+    return this.buCollection.doc(docId).update({ id: docId })
   }
 
   public updateBusinessUnit( data: BusinessUnit): Promise<any> {
@@ -67,7 +81,7 @@ export class AdminService {
   }
 
   public attachIdToClientAgency( docId: string): Promise<any> {
-    return this.caCollection.doc(docId).update( { id: docId })
+    return this.caCollection.doc(docId).update({ id: docId })
   }
 
   public updateClientAgency( data: ClientAgency): Promise<any> {
@@ -84,7 +98,7 @@ export class AdminService {
   }
 
   public attachIdToRfxCategory( docId: string): Promise<any> {
-    return this.rcCollection.doc(docId).update( { id: docId })
+    return this.rcCollection.doc(docId).update({ id: docId })
   }
 
   public updateRfxCategory( data: RfxCategory): Promise<any> {
@@ -101,7 +115,7 @@ export class AdminService {
   }
 
   public attachIdToRfxType( docId: string): Promise<any> {
-    return this.rtCollection.doc(docId).update( { id: docId })
+    return this.rtCollection.doc(docId).update({ id: docId })
   }
 
   public updateRfxType( data: RfxType): Promise<any> {
@@ -118,7 +132,7 @@ export class AdminService {
   }
 
   public attachIdToRfxDocumentType( docId: string): Promise<any> {
-    return this.rdtCollection.doc(docId).update( { id: docId })
+    return this.rdtCollection.doc(docId).update({ id: docId })
   }
 
   public updateRfxDocumentType( data: RfxDocumentType): Promise<any> {
@@ -127,6 +141,41 @@ export class AdminService {
 
   public deleteRfxDocumentType( docId: string): Promise<any> {
     return this.rdtCollection.doc(docId).delete()
+  }
+
+  // CUD calls for Proposal Document Type
+  public createProposalDocumentType( data: ProposalDocumentType ): Promise<any> {
+    return this.pdtCollection.add(data)
+  }
+
+  public attachIdToProposalDocumentType( docId: string): Promise<any> {
+    return this.pdtCollection.doc(docId).update({ id: docId })
+  }
+
+  public updateProposalDocumentType( data: ProposalDocumentType): Promise<any> {
+    return this.pdtCollection.doc(data.id).set(data)
+  }
+
+  public deleteProposalDocumentType( docId: string): Promise<any> {
+    return this.pdtCollection.doc(docId).delete()
+  }
+
+  // CUD calls for User Roles
+  public createUserRole( data: UserRole ): Promise<any> {
+    data.active = true
+    return this.urCollection.add(data)
+  }
+
+  public attachIdToUserRole( docId: string): Promise<any> {
+    return this.urCollection.doc(docId).update({ id: docId })
+  }
+
+  public updateUserRole( data: UserRole): Promise<any> {
+    return this.urCollection.doc(data.id).set(data)
+  }
+
+  public updateUserRoleStatus( docId: string, status: boolean): Promise<any> {
+    return this.urCollection.doc(docId).update({ active: status })
   }
 }
 
@@ -164,4 +213,19 @@ export interface RfxDocumentType {
   type: string,
   description: string,
   help_text: string
+}
+
+export interface ProposalDocumentType {
+  id?: string,
+  type: string,
+  description: string,
+  help_text: string
+}
+
+export interface UserRole {
+  id?: string,
+  name: string,
+  text: string,
+  help_text: string,
+  active: boolean
 }
