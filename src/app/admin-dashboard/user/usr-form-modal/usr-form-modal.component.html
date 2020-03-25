@@ -1,0 +1,48 @@
+<!-- Add/Edit Modal -->
+<div class="modal fade" id="usrForm" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{ selectedUSRData ? 'Edit' : 'Add' }} User</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeUSRForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-contianer p-3">
+                    <form [formGroup]="usrForm" (ngSubmit)="usrFormSubmit()">
+                        <div class="row form-status-container">
+                            <div class="alert alert-dismissible fade" [ngClass]="{ 'show': formStatusMessage || formSuccessMessage, 'hide': !formStatusMessage && !formSuccessMessage, 'alert-danger': formStatusMessage, 'alert-success': formSuccessMessage }" role="alert">
+                                {{ formStatusMessage || formSuccessMessage }}
+                                <button type="button" class="close" aria-label="Close" (click)="formStatusMessage = ''; formSuccessMessage = '';">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center"><input type="text" formControlName="name" placeholder="User Name"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center"><input type="text" formControlName="email" placeholder="User Email"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center"><input type="text" formControlName="phone" placeholder="User Phone"></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-12 text-center">
+                                <select class="custom-select" formControlName="role_id">
+                                    <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons text-right">
+                            <button type="button" class="btn btn-secondary" (click)="closeUSRForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

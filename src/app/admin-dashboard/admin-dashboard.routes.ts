@@ -7,6 +7,7 @@ import { RfxTypeComponent } from './rfx-type/rfx-type.component'
 import { RfxDocumentTypeComponent } from './rfx-document-type/rfx-document-type.component'
 import { ProposalDocumentTypeComponent } from './proposal-document-type/proposal-document-type.component'
 import { UserRoleComponent } from './user-role/user-role.component'
+import {  UserComponent } from './user/user.component'
 
 export const AdminDashboardRoutes: Routes = [
   { path: '', redirectTo: 'business-unit', pathMatch: 'full'},
@@ -16,5 +17,6 @@ export const AdminDashboardRoutes: Routes = [
   { path: 'rfx-type', component: RfxTypeComponent },
   { path: 'rfx-doc-type', component: RfxDocumentTypeComponent },
   { path: 'proposal-doc-type', component: ProposalDocumentTypeComponent },
-  { path: 'user-role', component: UserRoleComponent }
+  { path: 'user-role', component: UserRoleComponent },
+  { path: 'user', component: UserComponent }
 ]

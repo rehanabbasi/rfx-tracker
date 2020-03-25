@@ -43,6 +43,9 @@ import { PdtDeleteModalComponent } from './admin-dashboard/proposal-document-typ
 import { UserRoleComponent } from './admin-dashboard/user-role/user-role.component';
 import { UrFormModalComponent } from './admin-dashboard/user-role/ur-form-modal/ur-form-modal.component';
 import { UrStatusModalComponent } from './admin-dashboard/user-role/ur-status-modal/ur-status-modal.component';
+import { UserComponent } from './admin-dashboard/user/user.component';
+import { UsrFormModalComponent } from './admin-dashboard/user/usr-form-modal/usr-form-modal.component';
+import { UsrStatusModalComponent } from './admin-dashboard/user/usr-status-modal/usr-status-modal.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +76,10 @@ import { UrStatusModalComponent } from './admin-dashboard/user-role/ur-status-mo
     PdtDeleteModalComponent,
     UserRoleComponent,
     UrFormModalComponent,
-    UrStatusModalComponent
+    UrStatusModalComponent,
+    UserComponent,
+    UsrFormModalComponent,
+    UsrStatusModalComponent
   ],
   imports: [
     BrowserModule,

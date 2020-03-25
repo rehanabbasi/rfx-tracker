@@ -35,6 +35,10 @@ export class AdminService {
   private urCollection: AngularFirestoreCollection<UserRole>
   public userRoles: Observable<UserRole[]>
 
+  //  Observables for Users
+  private usrCollection: AngularFirestoreCollection<User>
+  public users: Observable<User[]>
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
@@ -56,6 +60,9 @@ export class AdminService {
 
     this.urCollection = afs.collection<UserRole>('user-roles')
     this.userRoles = this.urCollection.valueChanges()
+
+    this.usrCollection = afs.collection<User>('users')
+    this.users = this.usrCollection.valueChanges()
   }
 
   // CUD calls for Business Unit
@@ -177,6 +184,24 @@ export class AdminService {
   public updateUserRoleStatus( docId: string, status: boolean): Promise<any> {
     return this.urCollection.doc(docId).update({ active: status })
   }
+
+  // CUD calls for Users
+  public createUser( data: User ): Promise<any> {
+    data.active = true
+    return this.usrCollection.add(data)
+  }
+
+  public attachIdToUser( docId: string): Promise<any> {
+    return this.usrCollection.doc(docId).update({ id: docId })
+  }
+
+  public updateUser( data: User): Promise<any> {
+    return this.usrCollection.doc(data.id).set(data)
+  }
+
+  public updateUserStatus( docId: string, status: boolean): Promise<any> {
+    return this.usrCollection.doc(docId).update({ active: status })
+  }
 }
 
 export interface BusinessUnit { 
@@ -227,5 +252,14 @@ export interface UserRole {
   name: string,
   text: string,
   help_text: string,
+  active: boolean
+}
+
+export interface User {
+  id? : string,
+  name: string,
+  email: string,
+  phone: string,
+  role_id: string,
   active: boolean
 }

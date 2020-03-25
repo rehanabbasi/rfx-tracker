@@ -1,0 +1,33 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showUSRForm = true">Add User</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>User Email</th>
+                <th>User Phone</th>
+                <th>User Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ getRoleText(user.role_id) }}</td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editUSR(user)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !user.active }" (click)="updateUSRstatus(user)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-usr-form-modal *ngIf="showUSRForm" [selectedUSRData]="selectedUSR" [userRoles]="userRoles" (usrFormClosed)="formClosed()"></app-usr-form-modal>
+<app-usr-status-modal *ngIf="selectedUSRForStatus" [user]="selectedUSRForStatus" (modalClosed)="selectedUSRForStatus = null"></app-usr-status-modal>
