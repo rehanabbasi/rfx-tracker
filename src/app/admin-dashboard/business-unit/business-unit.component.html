@@ -19,7 +19,7 @@
                 <td>{{ businessUnit.date | date:'longDate' }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editBU(businessUnit)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteBU(businessUnit.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !businessUnit.active }" (click)="updateBUstatus(businessUnit)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -28,4 +28,4 @@
 </div>
 
 <app-bu-form-modal *ngIf="showBUForm" [selectedBUData]="selectedBU" (buFormClosed)="formClosed()"></app-bu-form-modal>
-<app-bu-delete-modal *ngIf="deleteBUid" [buID]="deleteBUid" (modalClosed)="deleteBUid = ''"></app-bu-delete-modal>
+<app-bu-status-modal *ngIf="selectedBUForStatus" [businessUnit]="selectedBUForStatus" (modalClosed)="selectedBUForStatus = null"></app-bu-status-modal>

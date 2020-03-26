@@ -18,7 +18,7 @@ export class BusinessUnitComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public businessUnits: BusinessUnit[] = []
   public selectedBU: BusinessUnit = null
-  public deleteBUid: string = ''
+  public selectedBUForStatus: BusinessUnit = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class BusinessUnitComponent implements OnInit, OnDestroy {
     this.showBUForm = true
   }
 
-  public deleteBU(buId: string): void {
-    this.deleteBUid = buId
+  public updateBUstatus(businessUnit: BusinessUnit): void {
+    this.selectedBUForStatus = businessUnit
   }
 
 }

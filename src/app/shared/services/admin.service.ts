@@ -88,6 +88,7 @@ export class AdminService {
 
   // CUD calls for Business Unit
   public createBusinessUnit( data: BusinessUnit ): Promise<any> {
+    data.active = true
     return this.buCollection.add(data)
   }
 
@@ -101,6 +102,10 @@ export class AdminService {
 
   public deleteBusinessUnit( docId: string): Promise<any> {
     return this.buCollection.doc(docId).delete()
+  }
+
+  public updateBusinessUnitStatus( docId: string, status: boolean): Promise<any> {
+    return this.buCollection.doc(docId).update({ active: status })
   }
 
   // CUD calls for Client Agency
@@ -280,7 +285,8 @@ export interface BusinessUnit {
   id?: string,
   name: string,
   description: string,
-  date: string
+  date: string,
+  active: boolean
 }
 
 export interface ClientAgency { 

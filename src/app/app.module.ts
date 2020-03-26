@@ -55,6 +55,7 @@ import { UbuDeleteModalComponent } from './admin-dashboard/user-bu/ubu-delete-mo
 import { UserCatComponent } from './admin-dashboard/user-cat/user-cat.component';
 import { UcFormModalComponent } from './admin-dashboard/user-cat/uc-form-modal/uc-form-modal.component';
 import { UcDeleteModalComponent } from './admin-dashboard/user-cat/uc-delete-modal/uc-delete-modal.component';
+import { BuStatusModalComponent } from './admin-dashboard/business-unit/bu-status-modal/bu-status-modal.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { UcDeleteModalComponent } from './admin-dashboard/user-cat/uc-delete-mod
     UbuDeleteModalComponent,
     UserCatComponent,
     UcFormModalComponent,
-    UcDeleteModalComponent
+    UcDeleteModalComponent,
+    BuStatusModalComponent
   ],
   imports: [
     BrowserModule,
