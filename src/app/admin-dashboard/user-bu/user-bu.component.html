@@ -1,0 +1,27 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showUBUForm = true">Add User - Business Unit</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Business Units</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let userBusinessUnit of userBusinessUnits">
+                <td>{{ getUserName(userBusinessUnit.user_id) }}</td>
+                <td><span *ngFor="let bu_id of userBusinessUnit.bu_ids; let last = last;">{{ last ? getBUName(bu_id) : getBUName(bu_id) + ', '  }}</span></td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editUBU(userBusinessUnit)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteUBU(userBusinessUnit)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-ubu-form-modal *ngIf="showUBUForm" [selectedUBUData]="selectedUBU" [users]="users" [businessUnits]="businessUnits" (ubuFormClosed)="formClosed()"></app-ubu-form-modal>
+<app-ubu-delete-modal *ngIf="selectedUBUForDelete" [userBusinessUnit]="selectedUBUForDelete" (modalClosed)="selectedUBUForDelete = null"></app-ubu-delete-modal>

@@ -49,6 +49,9 @@ import { UsrStatusModalComponent } from './admin-dashboard/user/usr-status-modal
 import { ViewRoleComponent } from './admin-dashboard/view-role/view-role.component';
 import { VrFormModalComponent } from './admin-dashboard/view-role/vr-form-modal/vr-form-modal.component';
 import { VrDeleteModalComponent } from './admin-dashboard/view-role/vr-delete-modal/vr-delete-modal.component';
+import { UserBuComponent } from './admin-dashboard/user-bu/user-bu.component';
+import { UbuFormModalComponent } from './admin-dashboard/user-bu/ubu-form-modal/ubu-form-modal.component';
+import { UbuDeleteModalComponent } from './admin-dashboard/user-bu/ubu-delete-modal/ubu-delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,10 @@ import { VrDeleteModalComponent } from './admin-dashboard/view-role/vr-delete-mo
     UsrStatusModalComponent,
     ViewRoleComponent,
     VrFormModalComponent,
-    VrDeleteModalComponent
+    VrDeleteModalComponent,
+    UserBuComponent,
+    UbuFormModalComponent,
+    UbuDeleteModalComponent
   ],
   imports: [
     BrowserModule,

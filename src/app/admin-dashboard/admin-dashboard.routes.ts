@@ -9,6 +9,7 @@ import { ProposalDocumentTypeComponent } from './proposal-document-type/proposal
 import { UserRoleComponent } from './user-role/user-role.component'
 import {  UserComponent } from './user/user.component'
 import { ViewRoleComponent } from './view-role/view-role.component'
+import { UserBuComponent } from './user-bu/user-bu.component'
 
 export const AdminDashboardRoutes: Routes = [
   { path: '', redirectTo: 'business-unit', pathMatch: 'full'},
@@ -20,5 +21,6 @@ export const AdminDashboardRoutes: Routes = [
   { path: 'proposal-doc-type', component: ProposalDocumentTypeComponent },
   { path: 'user-role', component: UserRoleComponent },
   { path: 'user', component: UserComponent },
-  { path: 'view-role', component: ViewRoleComponent }
+  { path: 'view-role', component: ViewRoleComponent },
+  { path: 'user-bu', component: UserBuComponent }
 ]

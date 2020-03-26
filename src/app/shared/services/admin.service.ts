@@ -43,6 +43,10 @@ export class AdminService {
   private vrCollection: AngularFirestoreCollection<ViewRole>
   public viewRoles: Observable<ViewRole[]>
 
+  //  Observables for User Business Units
+  private ubuCollection: AngularFirestoreCollection<UserBusinessUnit>
+  public userBusinessUnits: Observable<UserBusinessUnit[]>
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
@@ -70,6 +74,9 @@ export class AdminService {
 
     this.vrCollection = afs.collection<ViewRole>('view-roles')
     this.viewRoles = this.vrCollection.valueChanges()
+
+    this.ubuCollection = afs.collection<UserBusinessUnit>('user-business-units')
+    this.userBusinessUnits = this.ubuCollection.valueChanges()
   }
 
   // CUD calls for Business Unit
@@ -226,6 +233,23 @@ export class AdminService {
   public deleteViewRole( docId: string): Promise<any> {
     return this.vrCollection.doc(docId).delete()
   }
+
+  // CUD calls for User Business Units
+  public createUserBusinessUnit( data: UserBusinessUnit ): Promise<any> {
+    return this.ubuCollection.add(data)
+  }
+
+  public attachIdToUserBusinessUnit( docId: string): Promise<any> {
+    return this.ubuCollection.doc(docId).update({ id: docId })
+  }
+
+  public updateUserBusinessUnit( data: UserBusinessUnit): Promise<any> {
+    return this.ubuCollection.doc(data.id).set(data)
+  }
+
+  public deleteUserBusinessUnit( docId: string): Promise<any> {
+    return this.ubuCollection.doc(docId).delete()
+  }
 }
 
 export interface BusinessUnit { 
@@ -297,4 +321,10 @@ export interface ViewRole {
   contracts_manager: boolean,
   task_orders: boolean,
   all: boolean
+}
+
+export interface UserBusinessUnit {
+  id?: string,
+  user_id: string,
+  bu_ids: string[]
 }
