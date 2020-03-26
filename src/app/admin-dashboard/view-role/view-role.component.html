@@ -1,0 +1,37 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showVRForm = true">Add View Access by Role</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Pre-RFx Views</th>
+                <th>RFx Views</th>
+                <th>Proposer Views</th>
+                <th>Contracts Manager</th>
+                <th>Task Orders</th>
+                <th>All</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let viewRole of viewRoles">
+                <td>{{ getRoleText(viewRole.role_id) }}</td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.pre_rfx ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.pre_rfx ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.rfx ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.rfx ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.proposer ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.proposer ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.contracts_manager ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.contracts_manager ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.task_orders ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.task_orders ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.all ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.all ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editVR(viewRole)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteVR(viewRole)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-vr-form-modal *ngIf="showVRForm" [selectedVRData]="selectedVR" [userRoles]="userRoles" (vrFormClosed)="formClosed()"></app-vr-form-modal>
+<app-vr-delete-modal *ngIf="selectedVRForDelete" [viewRole]="selectedVRForDelete" (modalClosed)="selectedVRForDelete = null"></app-vr-delete-modal>
