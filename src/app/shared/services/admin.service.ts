@@ -47,6 +47,10 @@ export class AdminService {
   private ubuCollection: AngularFirestoreCollection<UserBusinessUnit>
   public userBusinessUnits: Observable<UserBusinessUnit[]>
 
+  //  Observables for User RFx Categories
+  private ucCollection: AngularFirestoreCollection<UserCategory>
+  public userCategories: Observable<UserCategory[]>
+
   constructor(private afs: AngularFirestore) {
     this.buCollection = afs.collection<BusinessUnit>('business-units')
     this.businessUnits = this.buCollection.valueChanges()
@@ -77,6 +81,9 @@ export class AdminService {
 
     this.ubuCollection = afs.collection<UserBusinessUnit>('user-business-units')
     this.userBusinessUnits = this.ubuCollection.valueChanges()
+
+    this.ucCollection = afs.collection<UserCategory>('user-categories')
+    this.userCategories = this.ucCollection.valueChanges()
   }
 
   // CUD calls for Business Unit
@@ -250,6 +257,23 @@ export class AdminService {
   public deleteUserBusinessUnit( docId: string): Promise<any> {
     return this.ubuCollection.doc(docId).delete()
   }
+
+  // CUD calls for User RFx Categories
+  public createUserCategory( data: UserCategory ): Promise<any> {
+    return this.ucCollection.add(data)
+  }
+
+  public attachIdToUserCategory( docId: string): Promise<any> {
+    return this.ucCollection.doc(docId).update({ id: docId })
+  }
+
+  public updateUserCategory( data: UserCategory): Promise<any> {
+    return this.ucCollection.doc(data.id).set(data)
+  }
+
+  public deleteUserCategory( docId: string): Promise<any> {
+    return this.ucCollection.doc(docId).delete()
+  }
 }
 
 export interface BusinessUnit { 
@@ -327,4 +351,10 @@ export interface UserBusinessUnit {
   id?: string,
   user_id: string,
   bu_ids: string[]
+}
+
+export interface UserCategory { 
+  id?: string,
+  user_id: string,
+  cat_ids: string
 }

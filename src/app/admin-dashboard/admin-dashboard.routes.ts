@@ -10,6 +10,7 @@ import { UserRoleComponent } from './user-role/user-role.component'
 import {  UserComponent } from './user/user.component'
 import { ViewRoleComponent } from './view-role/view-role.component'
 import { UserBuComponent } from './user-bu/user-bu.component'
+import { UserCatComponent } from './user-cat/user-cat.component'
 
 export const AdminDashboardRoutes: Routes = [
   { path: '', redirectTo: 'business-unit', pathMatch: 'full'},
@@ -22,5 +23,6 @@ export const AdminDashboardRoutes: Routes = [
   { path: 'user-role', component: UserRoleComponent },
   { path: 'user', component: UserComponent },
   { path: 'view-role', component: ViewRoleComponent },
-  { path: 'user-bu', component: UserBuComponent }
+  { path: 'user-bu', component: UserBuComponent },
+  { path: 'user-cat', component: UserCatComponent }
 ]

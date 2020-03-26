@@ -1,0 +1,27 @@
+<div class="main-content p-3">
+    <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn" data-toggle="modal" (click)="showUCForm = true">Add User - RFx Category</button></div>
+    <div class="table-container">
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>RFx Categories</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let userCategory of userCategories">
+                <td>{{ getUserName(userCategory.user_id) }}</td>
+                <td><span *ngFor="let cat_id of userCategory.cat_ids; let last = last;">{{ last ? getRFxCategoryName(cat_id) : getRFxCategoryName(cat_id) + ', '  }}</span></td>
+                <td>
+                    <fa-icon [icon]="editIcon" (click)="editUC(userCategory)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" (click)="deleteUC(userCategory)"></fa-icon>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>
+
+<app-uc-form-modal *ngIf="showUCForm" [selectedUCData]="selectedUC" [users]="users" [rfxCategories]="rfxCategories" (ucFormClosed)="formClosed()"></app-uc-form-modal>
+<app-uc-delete-modal *ngIf="selectedUCForDelete" [userCategory]="selectedUCForDelete" (modalClosed)="selectedUCForDelete = null"></app-uc-delete-modal>
