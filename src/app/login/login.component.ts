@@ -51,8 +51,4 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private showStatusMessage(): void {
-
-  }
-
 }

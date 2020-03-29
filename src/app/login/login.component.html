@@ -1,13 +1,13 @@
 <div>
-    <div class="page-heading pl-3">
-        <h2>RFx - Tracker: User Login</h2>
+    <div class="page-heading pl-3 my-3">
+        <h3>User Login</h3>
     </div>
     <div class="login-contianer mt-4 p-3">
         <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
             <div class="row mb-4 form-status-container">
                 <div class="alert alert-danger alert-dismissible fade" [ngClass]="[ formStatusMessage ? 'show' : 'hide' ]" role="alert">
                     {{ formStatusMessage }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="formStatusMessage = ''">
+                    <button type="button" class="close" aria-label="Close" (click)="formStatusMessage = ''">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
