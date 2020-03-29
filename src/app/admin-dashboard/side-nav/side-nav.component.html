@@ -5,14 +5,14 @@
             <fa-icon [icon]="navSecHeaderIcon"></fa-icon>
         </div>
         <div class="collapse links" id="organizationalNavLinks">
-            <a [routerLink]="['/admin-dashboard/business-unit']">Business Unit</a>
-            <a [routerLink]="['/admin-dashboard/client-agency']">Client Agency</a>
-            <a [routerLink]="['/admin-dashboard/rfx-category']">RFx Categories</a>
-            <a [routerLink]="['/admin-dashboard/rfx-type']" class="selected">RFx Types</a>
-            <a [routerLink]="['/admin-dashboard/rfx-doc-type']">RFx Document Types</a>
-            <a [routerLink]="['/admin-dashboard/proposal-doc-type']">Proposal Document Types</a>
-            <a [routerLink]="['/admin-dashboard/user']">Users</a>
-            <a [routerLink]="['/admin-dashboard/user-role']">Roles</a>
+            <a [routerLink]="['/admin-dashboard/business-unit']" [ngClass]="{ 'selected': currentRoute === 'business-unit' }">Business Unit</a>
+            <a [routerLink]="['/admin-dashboard/client-agency']" [ngClass]="{ 'selected': currentRoute === 'client-agency' }">Client Agency</a>
+            <a [routerLink]="['/admin-dashboard/rfx-category']" [ngClass]="{ 'selected': currentRoute === 'rfx-category' }">RFx Categories</a>
+            <a [routerLink]="['/admin-dashboard/rfx-type']" [ngClass]="{ 'selected': currentRoute === 'rfx-type' }">RFx Types</a>
+            <a [routerLink]="['/admin-dashboard/rfx-doc-type']" [ngClass]="{ 'selected': currentRoute === 'rfx-doc-type' }">RFx Document Types</a>
+            <a [routerLink]="['/admin-dashboard/proposal-doc-type']" [ngClass]="{ 'selected': currentRoute === 'proposal-doc-type' }">Proposal Document Types</a>
+            <a [routerLink]="['/admin-dashboard/user']" [ngClass]="{ 'selected': currentRoute === 'user' }">Users</a>
+            <a [routerLink]="['/admin-dashboard/user-role']" [ngClass]="{ 'selected': currentRoute === 'user-role' }">Roles</a>
         </div>
     </div>
     <div class="sec mb-2">
@@ -21,9 +21,9 @@
             <fa-icon [icon]="navSecHeaderIcon"></fa-icon>
         </div>
         <div class="collapse links" id="securityNavLinks">
-            <a [routerLink]="['/admin-dashboard/view-role']">View Access by Roles</a>
-            <a [routerLink]="['/admin-dashboard/user-bu']">User - BU Setup</a>
-            <a [routerLink]="['/admin-dashboard/user-cat']">User - Category Setup</a>
+            <a [routerLink]="['/admin-dashboard/view-role']" [ngClass]="{ 'selected': currentRoute === 'view-role' }">View Access by Roles</a>
+            <a [routerLink]="['/admin-dashboard/user-bu']" [ngClass]="{ 'selected': currentRoute === 'user-bu' }">User - BU Setup</a>
+            <a [routerLink]="['/admin-dashboard/user-cat']" [ngClass]="{ 'selected': currentRoute === 'user-cat' }">User - Category Setup</a>
         </div>
     </div>
 </div>
