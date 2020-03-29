@@ -18,7 +18,7 @@ export class RfxDocumentTypeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public rfxDocumentTypes: RfxDocumentType[] = []
   public selectedRDT: RfxDocumentType = null
-  public deleteRDTid: string = ''
+  public selectedRDTForStatus: RfxDocumentType = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class RfxDocumentTypeComponent implements OnInit, OnDestroy {
     this.showRDTForm = true
   }
 
-  public deleteRDT(rdtId: string): void {
-    this.deleteRDTid = rdtId
+  public updateRDTstatus(rfxDocumentType: RfxDocumentType): void {
+    this.selectedRDTForStatus = rfxDocumentType
   }
 
 }

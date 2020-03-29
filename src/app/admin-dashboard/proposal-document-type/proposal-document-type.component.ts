@@ -18,7 +18,7 @@ export class ProposalDocumentTypeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public proposalDocumentTypes: ProposalDocumentType[] = []
   public selectedPDT: ProposalDocumentType = null
-  public deletePDTid: string = ''
+  public selectedPDTForStatus: ProposalDocumentType = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class ProposalDocumentTypeComponent implements OnInit, OnDestroy {
     this.showPDTForm = true
   }
 
-  public deletePDT(pdtId: string): void {
-    this.deletePDTid = pdtId
+  public updatePDTstatus(proposalDocumentType: ProposalDocumentType): void {
+    this.selectedPDTForStatus = proposalDocumentType
   }
 
 }

@@ -19,7 +19,7 @@
                 <td>{{ rfxType.help_text }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editRT(rfxType)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteRT(rfxType.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !rfxType.active }" (click)="updateRTstatus(rfxType)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -28,4 +28,4 @@
 </div>
 
 <app-rt-form-modal *ngIf="showRTForm" [selectedRTData]="selectedRT" (rtFormClosed)="formClosed()"></app-rt-form-modal>
-<app-rt-delete-modal *ngIf="deleteRTid" [rtID]="deleteRTid" (modalClosed)="deleteRTid = ''"></app-rt-delete-modal>
+<app-rt-status-modal *ngIf="selectedRTForStatus" [rfxType]="selectedRTForStatus" (modalClosed)="selectedRTForStatus = null"></app-rt-status-modal>

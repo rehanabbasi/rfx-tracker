@@ -110,6 +110,7 @@ export class AdminService {
 
   // CUD calls for Client Agency
   public createClientAgency( data: ClientAgency ): Promise<any> {
+    data.active = true
     return this.caCollection.add(data)
   }
 
@@ -125,8 +126,13 @@ export class AdminService {
     return this.caCollection.doc(docId).delete()
   }
 
+  public updateClientAgencyStatus( docId: string, status: boolean): Promise<any> {
+    return this.caCollection.doc(docId).update({ active: status })
+  }
+
   // CUD calls for RFx Category
   public createRfxCategory( data: RfxCategory ): Promise<any> {
+    data.active = true
     return this.rcCollection.add(data)
   }
 
@@ -142,8 +148,13 @@ export class AdminService {
     return this.rcCollection.doc(docId).delete()
   }
 
+  public updateRfxCategoryStatus( docId: string, status: boolean): Promise<any> {
+    return this.rcCollection.doc(docId).update({ active: status })
+  }
+
   // CUD calls for RFx Type
   public createRfxType( data: RfxType ): Promise<any> {
+    data.active = true
     return this.rtCollection.add(data)
   }
 
@@ -159,8 +170,13 @@ export class AdminService {
     return this.rtCollection.doc(docId).delete()
   }
 
+  public updateRfxTypeStatus( docId: string, status: boolean): Promise<any> {
+    return this.rtCollection.doc(docId).update({ active: status })
+  }
+
   // CUD calls for RFx Document Type
   public createRfxDocumentType( data: RfxDocumentType ): Promise<any> {
+    data.active = true
     return this.rdtCollection.add(data)
   }
 
@@ -176,8 +192,13 @@ export class AdminService {
     return this.rdtCollection.doc(docId).delete()
   }
 
+  public updateRfxDocumentTypeStatus( docId: string, status: boolean): Promise<any> {
+    return this.rdtCollection.doc(docId).update({ active: status })
+  }
+
   // CUD calls for Proposal Document Type
   public createProposalDocumentType( data: ProposalDocumentType ): Promise<any> {
+    data.active = true
     return this.pdtCollection.add(data)
   }
 
@@ -191,6 +212,10 @@ export class AdminService {
 
   public deleteProposalDocumentType( docId: string): Promise<any> {
     return this.pdtCollection.doc(docId).delete()
+  }
+
+  public updateProposalDocumentTypeStatus( docId: string, status: boolean): Promise<any> {
+    return this.pdtCollection.doc(docId).update({ active: status })
   }
 
   // CUD calls for User Roles
@@ -294,35 +319,40 @@ export interface ClientAgency {
   type: string,
   name: string,
   description: string,
-  state: string
+  state: string,
+  active: boolean
 }
 
 export interface RfxCategory {
   id?: string,
   code: string,
   display_text: string,
-  help_text: string
+  help_text: string,
+  active: boolean
 }
 
 export interface RfxType {
   id?: string,
   code: string,
   display_text: string,
-  help_text: string
+  help_text: string,
+  active: boolean
 }
 
 export interface RfxDocumentType {
   id?: string,
   type: string,
   description: string,
-  help_text: string
+  help_text: string,
+  active: boolean
 }
 
 export interface ProposalDocumentType {
   id?: string,
   type: string,
   description: string,
-  help_text: string
+  help_text: string,
+  active: boolean
 }
 
 export interface UserRole {

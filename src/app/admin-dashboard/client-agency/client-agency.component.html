@@ -21,7 +21,7 @@
                 <td>{{ clientAgency.state }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editCA(clientAgency)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteCA(clientAgency.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !clientAgency.active }" (click)="updateCAstatus(clientAgency)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -30,4 +30,4 @@
 </div>
 
 <app-ca-form-modal *ngIf="showCAForm" [selectedCAData]="selectedCA" (caFormClosed)="formClosed()"></app-ca-form-modal>
-<app-ca-delete-modal *ngIf="deleteCAid" [caID]="deleteCAid" (modalClosed)="deleteCAid = ''"></app-ca-delete-modal>
+<app-ca-status-modal *ngIf="selectedCAForStatus" [clientAgency]="selectedCAForStatus" (modalClosed)="selectedCAForStatus = null"></app-ca-status-modal>

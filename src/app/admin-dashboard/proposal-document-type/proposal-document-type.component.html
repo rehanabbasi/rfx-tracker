@@ -19,7 +19,7 @@
                 <td>{{ proposalDocumentType.help_text }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editPDT(proposalDocumentType)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deletePDT(proposalDocumentType.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !proposalDocumentType.active }" (click)="updatePDTstatus(proposalDocumentType)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -28,4 +28,4 @@
 </div>
 
 <app-pdt-form-modal *ngIf="showPDTForm" [selectedPDTData]="selectedPDT" (pdtFormClosed)="formClosed()"></app-pdt-form-modal>
-<app-pdt-delete-modal *ngIf="deletePDTid" [pdtID]="deletePDTid" (modalClosed)="deletePDTid = ''"></app-pdt-delete-modal>
+<app-pdt-status-modal *ngIf="selectedPDTForStatus" [proposalDocumentType]="selectedPDTForStatus" (modalClosed)="selectedPDTForStatus = null"></app-pdt-status-modal>

@@ -14,7 +14,8 @@ export class BuFormModalComponent implements OnInit, AfterViewInit {
   public buForm = this._fb.group({
     name: ['', [ Validators.required ]],
     description: [''],
-    date: ['', [ Validators.required ]]
+    date: ['', [ Validators.required ]],
+    active: [true]
   })
 
   public formStatusMessage: string = ''
@@ -41,6 +42,7 @@ export class BuFormModalComponent implements OnInit, AfterViewInit {
         this.buForm.controls['name'].setValue(this.selectedBUData.name)
         this.buForm.controls['description'].setValue(this.selectedBUData.description)
         this.buForm.controls['date'].setValue(this.selectedBUData.date)
+        this.buForm.controls['active'].setValue(this.selectedBUData.active)
       }, 250)
     }
   }

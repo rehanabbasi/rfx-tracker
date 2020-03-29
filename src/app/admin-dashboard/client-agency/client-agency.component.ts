@@ -18,7 +18,7 @@ export class ClientAgencyComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public clientAgencies: ClientAgency[] = []
   public selectedCA: ClientAgency = null
-  public deleteCAid: string = ''
+  public selectedCAForStatus: ClientAgency = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class ClientAgencyComponent implements OnInit, OnDestroy {
     this.showCAForm = true
   }
 
-  public deleteCA(caId: string): void {
-    this.deleteCAid = caId
+  public updateCAstatus(clientAgency: ClientAgency): void {
+    this.selectedCAForStatus = clientAgency
   }
 
 }

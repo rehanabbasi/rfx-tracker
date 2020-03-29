@@ -14,7 +14,8 @@ export class RdtFormModalComponent implements OnInit, AfterViewInit {
   public rdtForm = this._fb.group({
     type: ['', [ Validators.required ]],
     description: [''],
-    help_text: ['']
+    help_text: [''],
+    active: [true]
   })
 
   public formStatusMessage: string = ''
@@ -41,6 +42,7 @@ export class RdtFormModalComponent implements OnInit, AfterViewInit {
         this.rdtForm.controls['type'].setValue(this.selectedRDTData.type)
         this.rdtForm.controls['description'].setValue(this.selectedRDTData.description)
         this.rdtForm.controls['help_text'].setValue(this.selectedRDTData.help_text)
+        this.rdtForm.controls['active'].setValue(this.selectedRDTData.active)
       }, 250)
     }
   }

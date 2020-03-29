@@ -56,6 +56,11 @@ import { UserCatComponent } from './admin-dashboard/user-cat/user-cat.component'
 import { UcFormModalComponent } from './admin-dashboard/user-cat/uc-form-modal/uc-form-modal.component';
 import { UcDeleteModalComponent } from './admin-dashboard/user-cat/uc-delete-modal/uc-delete-modal.component';
 import { BuStatusModalComponent } from './admin-dashboard/business-unit/bu-status-modal/bu-status-modal.component';
+import { CaStatusModalComponent } from './admin-dashboard/client-agency/ca-status-modal/ca-status-modal.component';
+import { RcStatusModalComponent } from './admin-dashboard/rfx-category/rc-status-modal/rc-status-modal.component';
+import { RtStatusModalComponent } from './admin-dashboard/rfx-type/rt-status-modal/rt-status-modal.component';
+import { RdtStatusModalComponent } from './admin-dashboard/rfx-document-type/rdt-status-modal/rdt-status-modal.component';
+import { PdtStatusModalComponent } from './admin-dashboard/proposal-document-type/pdt-status-modal/pdt-status-modal.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +104,12 @@ import { BuStatusModalComponent } from './admin-dashboard/business-unit/bu-statu
     UserCatComponent,
     UcFormModalComponent,
     UcDeleteModalComponent,
-    BuStatusModalComponent
+    BuStatusModalComponent,
+    CaStatusModalComponent,
+    RcStatusModalComponent,
+    RtStatusModalComponent,
+    RdtStatusModalComponent,
+    PdtStatusModalComponent
   ],
   imports: [
     BrowserModule,

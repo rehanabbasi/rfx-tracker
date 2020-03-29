@@ -18,7 +18,7 @@ export class RfxCategoryComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public rfxCategories: RfxCategory[] = []
   public selectedRC: RfxCategory = null
-  public deleteRCid: string = ''
+  public selectedRCForStatus: RfxCategory = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class RfxCategoryComponent implements OnInit, OnDestroy {
     this.showRCForm = true
   }
 
-  public deleteRC(rcId: string): void {
-    this.deleteRCid = rcId
+  public updateRCstatus(rfxCategory: RfxCategory): void {
+    this.selectedRCForStatus = rfxCategory
   }
 
 }

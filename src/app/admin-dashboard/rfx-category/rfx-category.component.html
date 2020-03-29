@@ -19,7 +19,7 @@
                 <td>{{ rfxCategory.help_text }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editRC(rfxCategory)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteRC(rfxCategory.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !rfxCategory.active }" (click)="updateRCstatus(rfxCategory)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -28,4 +28,4 @@
 </div>
 
 <app-rc-form-modal *ngIf="showRCForm" [selectedRCData]="selectedRC" (rcFormClosed)="formClosed()"></app-rc-form-modal>
-<app-rc-delete-modal *ngIf="deleteRCid" [rcID]="deleteRCid" (modalClosed)="deleteRCid = ''"></app-rc-delete-modal>
+<app-rc-status-modal *ngIf="selectedRCForStatus" [rfxCategory]="selectedRCForStatus" (modalClosed)="selectedRCForStatus = null"></app-rc-status-modal>

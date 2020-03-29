@@ -15,7 +15,8 @@ export class RtFormModalComponent implements OnInit, AfterViewInit {
   public rtForm = this._fb.group({
     code: ['', [ Validators.required ]],
     display_text: ['', [ Validators.required ]],
-    help_text: ['']
+    help_text: [''],
+    active: [true]
   })
 
   public formStatusMessage: string = ''
@@ -42,6 +43,7 @@ export class RtFormModalComponent implements OnInit, AfterViewInit {
         this.rtForm.controls['code'].setValue(this.selectedRTData.code)
         this.rtForm.controls['display_text'].setValue(this.selectedRTData.display_text)
         this.rtForm.controls['help_text'].setValue(this.selectedRTData.help_text)
+        this.rtForm.controls['active'].setValue(this.selectedRTData.active)
       }, 250)
     }
   }

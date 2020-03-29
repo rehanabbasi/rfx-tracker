@@ -19,7 +19,7 @@
                 <td>{{ rfxDocumentType.help_text }}</td>
                 <td>
                     <fa-icon [icon]="editIcon" (click)="editRDT(rfxDocumentType)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteRDT(rfxDocumentType.id)"></fa-icon>
+                    <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !rfxDocumentType.active }"  (click)="updateRDTstatus(rfxDocumentType)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -28,4 +28,4 @@
 </div>
 
 <app-rdt-form-modal *ngIf="showRDTForm" [selectedRDTData]="selectedRDT" (rdtFormClosed)="formClosed()"></app-rdt-form-modal>
-<app-rdt-delete-modal *ngIf="deleteRDTid" [rdtID]="deleteRDTid" (modalClosed)="deleteRDTid = ''"></app-rdt-delete-modal>
+<app-rdt-status-modal *ngIf="selectedRDTForStatus" [rfxDocumentType]="selectedRDTForStatus" (modalClosed)="selectedRDTForStatus = null"></app-rdt-status-modal>

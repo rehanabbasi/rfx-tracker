@@ -15,7 +15,8 @@ export class CaFormModalComponent implements OnInit, AfterViewInit {
     type: ['', [ Validators.required ]],
     name: ['', [ Validators.required ]],
     description: [''],
-    state: ['', [ Validators.required ]]
+    state: ['', [ Validators.required ]],
+    active: [true]
   })
 
   public formStatusMessage: string = ''
@@ -43,6 +44,7 @@ export class CaFormModalComponent implements OnInit, AfterViewInit {
         this.caForm.controls['name'].setValue(this.selectedCAData.name)
         this.caForm.controls['description'].setValue(this.selectedCAData.description)
         this.caForm.controls['state'].setValue(this.selectedCAData.state)
+        this.caForm.controls['active'].setValue(this.selectedCAData.active)
       }, 250)
     } else {
       setTimeout(()=> {

@@ -18,7 +18,7 @@ export class RfxTypeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public rfxTypes: RfxType[] = []
   public selectedRT: RfxType = null
-  public deleteRTid: string = ''
+  public selectedRTForStatus: RfxType = null
 
   constructor(
     private _admin: AdminService
@@ -48,8 +48,8 @@ export class RfxTypeComponent implements OnInit, OnDestroy {
     this.showRTForm = true
   }
 
-  public deleteRT(rtId: string): void {
-    this.deleteRTid = rtId
+  public updateRTstatus(rfxType: RfxType): void {
+    this.selectedRTForStatus = rfxType
   }
 
 }

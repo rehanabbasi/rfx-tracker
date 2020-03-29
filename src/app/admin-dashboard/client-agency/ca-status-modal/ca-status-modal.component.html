@@ -1,0 +1,30 @@
+<div class="modal fade" id="caStatusModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{ clientAgency.active ? 'Archive' : 'Unarchive' }} Client Agency</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeStatusUpdateModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row status-container">
+                    <div class="alert alert-dismissible fade" [ngClass]="{ 'show': updateStatusErrorMessage || updateStatusSuccessMessage, 'hide': !updateStatusErrorMessage && !updateStatusSuccessMessage, 'alert-danger': updateStatusErrorMessage, 'alert-success': updateStatusSuccessMessage }" role="alert">
+                        {{ updateStatusErrorMessage || updateStatusSuccessMessage }}
+                        <button type="button" class="close" aria-label="Close" (click)="updateStatusErrorMessage = ''; updateStatusSuccessMessage = '';">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="info-text mb-2">Are you sure you want to {{ clientAgency.active ? 'archive' : 'unarchive' }} this Client Agency?</div>
+
+                <div class="action-buttons text-right">
+                    <button type="button" class="btn btn-secondary" (click)="closeStatusUpdateModal()">Cancel</button>
+                    <button type="submit" [disabled]="statusUpdated" class="btn btn-primary" (click)="updateStatus()">{{ clientAgency.active ? 'Archive' : 'Unarchive' }}</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

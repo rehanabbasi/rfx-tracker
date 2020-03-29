@@ -14,7 +14,8 @@ export class PdtFormModalComponent implements OnInit, AfterViewInit {
   public pdtForm = this._fb.group({
     type: ['', [ Validators.required ]],
     description: [''],
-    help_text: ['']
+    help_text: [''],
+    active: [true]
   })
 
   public formStatusMessage: string = ''
@@ -41,6 +42,7 @@ export class PdtFormModalComponent implements OnInit, AfterViewInit {
         this.pdtForm.controls['type'].setValue(this.selectedPDTData.type)
         this.pdtForm.controls['description'].setValue(this.selectedPDTData.description)
         this.pdtForm.controls['help_text'].setValue(this.selectedPDTData.help_text)
+        this.pdtForm.controls['active'].setValue(this.selectedPDTData.active)
       }, 250)
     }
   }
