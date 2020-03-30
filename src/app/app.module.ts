@@ -57,6 +57,7 @@ import { RcStatusModalComponent } from './admin-dashboard/rfx-category/rc-status
 import { RtStatusModalComponent } from './admin-dashboard/rfx-type/rt-status-modal/rt-status-modal.component';
 import { RdtStatusModalComponent } from './admin-dashboard/rfx-document-type/rdt-status-modal/rdt-status-modal.component';
 import { PdtStatusModalComponent } from './admin-dashboard/proposal-document-type/pdt-status-modal/pdt-status-modal.component';
+import { PreRfxSearchComponent } from './pre-rfx-search/pre-rfx-search.component';
 
 import { AuthService } from './shared/services/auth.service';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
@@ -110,7 +111,8 @@ import { AdminGuard } from './shared/guards/admin.guard';
     RcStatusModalComponent,
     RtStatusModalComponent,
     RdtStatusModalComponent,
-    PdtStatusModalComponent
+    PdtStatusModalComponent,
+    PreRfxSearchComponent
   ],
   imports: [
     BrowserModule,

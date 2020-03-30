@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SearchComponent } from './search/search.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { PreRfxSearchComponent } from './pre-rfx-search/pre-rfx-search.component';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
@@ -14,27 +15,10 @@ import { AdminGuard } from './shared/guards/admin.guard';
 import { AdminDashboardRoutes } from './admin-dashboard/admin-dashboard.routes'
 
 
-// const adminOnly = () => hasCustomClaim('admin');
-// const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-// const redirectLoggedInToSearch = () => redirectLoggedInTo(['search']);
-// const belongsToAccount = (next) => hasCustomClaim(`account-${next.params.id}`);
-
-// const routes: Routes = [
-//   { path: 'login', component: LoginComponent },
-//   { path: 'search', component: SearchComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin } },
-//   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectUnauthorizedToLogin } }
-// ];
-
-
-// export const routes: Routes = [
-//     { path: 'login',        component: LoginComponent,    ...canActivate(redirectLoggedInToSearch) },
-//     { path: 'search',        component: SearchComponent, ...canActivate(loggedIn) },
-//     { path: 'admin-dashboard',        component: AdminDashboardComponent,    ...canActivate(loggedIn) }
-// ];
-
 const routes: Routes = [
+  { path: '', redirectTo: 'pre-rfx-search', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
-  { path: 'search', component: SearchComponent, canActivate: [LoggedInGuard] },
+  { path: 'pre-rfx-search', component: PreRfxSearchComponent, canActivate: [LoggedInGuard] },
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard], children: AdminDashboardRoutes }
 ];
 

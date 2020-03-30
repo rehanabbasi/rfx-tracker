@@ -18,7 +18,7 @@ export class LoggedOutGuard implements CanActivate {
     return this._auth.isLoggedIn.pipe(
       map((loggedIn: boolean)=>{
         if(loggedIn) {
-          this.router.navigate(['/search'])
+          this.router.navigate(['/pre-rfx-search'])
         }
         return !loggedIn;
       })

@@ -1,9 +1,13 @@
 @import 'src/sass/_variables.sass'
-// Common styles for Admin Dashboard screens
+
+.page-heading
+    font-family: 'Cabin Condensed', sans-serif
+
 .main-content
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
     background-color: #fff
-    margin-left: 40px
+    margin: 0px 40px
+    flex: 1
 
     .add-btn
         font-family: "Roboto", sans-serif
@@ -15,7 +19,6 @@
         &:hover
             background-color: $primary-color
             color: $white-color
-            
     .table-container
         font-family: 'Roboto Condensed', sans-serif
 
@@ -32,17 +35,3 @@
 
                 &:hover
                     color: $primary-color
-
-                &.archived
-                    color: #adb5bc
-
-                &.access-icon
-                    padding: 0px
-                    cursor: auto
-                    // font-size: 20px
-
-                    &.checked-icon
-                        color: #04a904
-
-                    &.unchecked-icon
-                        color: #ea5757
