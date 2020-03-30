@@ -8,6 +8,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { from } from 'rxjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,11 +24,6 @@ import { BuDeleteModalComponent } from './admin-dashboard/business-unit/bu-delet
 import { ClientAgencyComponent } from './admin-dashboard/client-agency/client-agency.component';
 import { CaDeleteModalComponent } from './admin-dashboard/client-agency/ca-delete-modal/ca-delete-modal.component';
 import { CaFormModalComponent } from './admin-dashboard/client-agency/ca-form-modal/ca-form-modal.component';
-
-import { AuthService } from './shared/services/auth.service';
-import { LoggedInGuard } from './shared/guards/logged-in.guard';
-import { LoggedOutGuard } from './shared/guards/logged-out.guard';
-import { from } from 'rxjs';
 import { RfxCategoryComponent } from './admin-dashboard/rfx-category/rfx-category.component';
 import { RcFormModalComponent } from './admin-dashboard/rfx-category/rc-form-modal/rc-form-modal.component';
 import { RcDeleteModalComponent } from './admin-dashboard/rfx-category/rc-delete-modal/rc-delete-modal.component';
@@ -61,6 +57,11 @@ import { RcStatusModalComponent } from './admin-dashboard/rfx-category/rc-status
 import { RtStatusModalComponent } from './admin-dashboard/rfx-type/rt-status-modal/rt-status-modal.component';
 import { RdtStatusModalComponent } from './admin-dashboard/rfx-document-type/rdt-status-modal/rdt-status-modal.component';
 import { PdtStatusModalComponent } from './admin-dashboard/proposal-document-type/pdt-status-modal/pdt-status-modal.component';
+
+import { AuthService } from './shared/services/auth.service';
+import { LoggedInGuard } from './shared/guards/logged-in.guard';
+import { LoggedOutGuard } from './shared/guards/logged-out.guard';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { PdtStatusModalComponent } from './admin-dashboard/proposal-document-typ
   providers: [
     AuthService,
     LoggedInGuard,
-    LoggedOutGuard
+    LoggedOutGuard,
+    AdminGuard
   ],
   bootstrap: [AppComponent]
 })

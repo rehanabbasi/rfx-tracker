@@ -1,29 +1,36 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-// import { Observable } from 'rxjs';
-// import { map } from 'rxjs/Operator';
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { AdminService, User } from './admin.service'
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  public currentUser: any = {}
+  public currentUser$: Observable<any>
   public isLoggedIn: Observable<boolean>
 
+  public  ADMIN_ROLE_ID: string = 'kq7fQ8pUoPcA2k7wqAMb'
+
   constructor(
-    private _afAuth: AngularFireAuth
+    private _afAuth: AngularFireAuth,
+    private _admin: AdminService
   ) { 
-    this._afAuth.authState.subscribe( user => {
-      if(user){
-        this.currentUser = user.providerData[0]
-        console.log("Current logged-in user: ", this.currentUser)
-      } else {
-        this.currentUser = null
-      }
-    })
+
+    this.currentUser$ = this._afAuth.authState.pipe(
+      switchMap( (user) => {
+        if(user){
+          return this._admin.getUsersByEmail(user.email).valueChanges()
+        } else {
+          return of(null)
+        }
+      })
+    )
+    
     this.isLoggedIn = this._afAuth.authState.pipe(
       map((user: firebase.User)=>{
         return user !== null

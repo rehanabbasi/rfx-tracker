@@ -9,6 +9,7 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 import { AdminDashboardRoutes } from './admin-dashboard/admin-dashboard.routes'
 
@@ -34,8 +35,7 @@ import { AdminDashboardRoutes } from './admin-dashboard/admin-dashboard.routes'
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
   { path: 'search', component: SearchComponent, canActivate: [LoggedInGuard] },
-  // { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [LoggedInGuard] }
-  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [LoggedInGuard], children: AdminDashboardRoutes }
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard], children: AdminDashboardRoutes }
 ];
 
 @NgModule({

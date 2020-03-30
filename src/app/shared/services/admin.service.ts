@@ -304,6 +304,11 @@ export class AdminService {
   public deleteUserCategory( docId: string): Promise<any> {
     return this.ucCollection.doc(docId).delete()
   }
+
+  // Get user details by email
+  public getUsersByEmail( email: string): AngularFirestoreCollection<User> {
+    return this.afs.collection<User>('users', ref => ref.where('email', '==', email))
+  }
 }
 
 export interface BusinessUnit { 

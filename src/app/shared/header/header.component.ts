@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service'
 
@@ -9,13 +9,19 @@ import { AuthService } from '../services/auth.service'
   styleUrls: ['./header.component.sass']
 })
 export class HeaderComponent implements OnInit {
-  abc = 'search'
+  public currentUser: any
   constructor(
     public _auth: AuthService,
     public router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._auth.currentUser$.subscribe( users => {
+      if (users && users.length > 0){
+        this.currentUser = users[0]
+      }
+    })
+  }
 
   public logout(): void {
     this._auth.logout()

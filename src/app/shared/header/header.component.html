@@ -7,7 +7,7 @@
     <div class="col-9 px-4">
         <div class="nav-container text-right">
             <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/search']" class="mx-3 link" [ngClass]="{ 'active': router.url == '/search' }">Search</a>
-            <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/admin-dashboard']" class="mx-3 link" [ngClass]="{ 'active': router.url == '/admin-dashboard' }">Admin Dashboard</a>
+            <a *ngIf="currentUser && currentUser.role_id === _auth.ADMIN_ROLE_ID" [routerLink]="['/admin-dashboard']" class="mx-3 link" [ngClass]="{ 'active': router.url.indexOf('/admin-dashboard') > -1 }">Admin Dashboard</a>
             <a *ngIf="_auth.isLoggedIn | async" class="mx-3 link" (click)="logout()">Logout</a>
         </div>
     </div>
