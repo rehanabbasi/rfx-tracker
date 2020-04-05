@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
         .then( res => {
           console.log('loging response: ', res)
           if (res.user) {
-            this.router.navigateByUrl('/search')
+            this.router.navigateByUrl('/')
           }
         })
         .catch( error => {

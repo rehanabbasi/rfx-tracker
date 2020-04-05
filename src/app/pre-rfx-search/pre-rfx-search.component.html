@@ -1,37 +1,42 @@
 <div>
-    <div class="page-heading pl-3 my-3">
-        <h3>Pre-RFx Search</h3>
+  <div class="page-heading pl-3 my-3">
+    <h3>Pre-RFx Search</h3>
+  </div>
+
+  <div class="inner-wrapper">
+    <div class="main-content p-3">
+      <div class="mb-2 text-right"><a type="button" class="btn btn-outline-primary add-btn" [routerLink]="['/pre-rfx-add']">Add Pre-RFx</a></div>
+      <div class="table-container">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Business Unit</th>
+              <th>RFx Title</th>
+              <th>Pre-RFx Status</th>
+              <th>RFx Category</th>
+              <th>RFx Client Agency</th>
+              <th>Source</th>
+              <th>RFx Attachment</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let preRFx of preRFxs">
+              <td>{{ getBusinessUnitText( preRFx.bu_id ) }}</td>
+              <td>{{ preRFx.title }}</td>
+              <td>{{ getRFxStatusText( preRFx.status ) }}</td>
+              <td>{{ getRFxCategoryText( preRFx.rfx_category_id ) }}</td>
+              <td>{{ getClientAgencyText( preRFx.client_agency_id ) }}</td>
+              <td>{{ getRFxSourceText( preRFx.source ) }}</td>
+              <td><a class="download-link" *ngIf="preRFx.attachment && preRFx.attachment.name" [href]="preRFx.attachment.download_url" download>{{ preRFx.attachment.name }}</a></td>
+              <td>
+                <fa-icon [icon]="editIcon"></fa-icon>
+                <fa-icon [icon]="viewIcon"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="inner-wrapper">
-        <div class="main-content p-3">
-            <div class="mb-2 text-right"><button type="button" class="btn btn-outline-primary add-btn">Add Pre-RFx</button></div>
-            <div class="table-container">
-                <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Business Unit</th>
-                        <th>RFx ID</th>
-                        <th>RFx Title</th>
-                        <th>Status</th>
-                        <th>Due Date & Time</th>
-                        <th>Source</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <!-- <tr *ngFor="let businessUnit of businessUnits">
-                        <td>{{ businessUnit.id }}</td>
-                        <td>{{ businessUnit.name }}</td>
-                        <td>{{ businessUnit.description }}</td>
-                        <td>{{ businessUnit.date | date:'longDate' }}</td>
-                        <td>
-                            <fa-icon [icon]="editIcon" (click)="editBU(businessUnit)"></fa-icon>
-                            <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !businessUnit.active }" (click)="updateBUstatus(businessUnit)"></fa-icon>
-                        </td>
-                      </tr> -->
-                    </tbody>
-                  </table>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

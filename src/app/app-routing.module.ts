@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { SearchComponent } from './search/search.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { PreRfxSearchComponent } from './pre-rfx-search/pre-rfx-search.component';
+import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
 
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'pre-rfx-search', pathMatch: 'full'},
   { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
   { path: 'pre-rfx-search', component: PreRfxSearchComponent, canActivate: [LoggedInGuard] },
+  { path: 'pre-rfx-add', component: PreRfxAddComponent, canActivate: [LoggedInGuard]},
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard], children: AdminDashboardRoutes }
 ];
 

@@ -1,0 +1,290 @@
+<div>
+    <div class="page-heading pl-3 my-3">
+        <h3>Add Pre-RFx</h3>
+    </div>
+    <div class="inner-wrapper">
+        <div class="main-content p-3 mb-5">
+            <div class="form-contianer p-3">
+                <form [formGroup]="preRFxForm" (ngSubmit)="preRFxFormSubmit()">
+                    <div class="row form-status-container">
+                        <div class="alert alert-dismissible fade" [ngClass]="{ 'show': formStatusMessage || formSuccessMessage, 'hide': !formStatusMessage && !formSuccessMessage, 'alert-danger': formStatusMessage, 'alert-success': formSuccessMessage }" role="alert">
+                            {{ formStatusMessage || formSuccessMessage }}
+                            <button type="button" class="close" aria-label="Close" (click)="formStatusMessage = ''; formSuccessMessage = '';">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sec">
+                        <div class="row mx-4 mb-4 flex-column">
+                            <h3 class="sec-header m-0">Basic Information</h3>
+                            <div class="sec-info">All fields marked with an asterisk (*) are required.</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">Business Unit *</label>
+                                <select class="custom-select" formControlName="bu_id">
+                                    <option *ngFor="let businessUnit of businessUnits" [value]="businessUnit.id">{{ businessUnit.name }}</option>
+                                </select>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Number *</label>
+                                <input type="text" formControlName="rfx_number">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Title *</label>
+                                <input type="text" formControlName="title">
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">Pre-RFx Status *</label>
+                                <select class="custom-select" formControlName="status">
+                                    <option *ngFor="let status of preRFxStatus" [value]="status.value">{{ status.label }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Type *</label>
+                                <select class="custom-select" formControlName="rfx_type_id">
+                                    <option *ngFor="let type of rfxTypes" [value]="type.id">{{ type.code + ' - ' + type.display_text }}</option>
+                                </select>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Category *</label>
+                                <select class="custom-select" formControlName="rfx_category_id">
+                                    <option *ngFor="let category of rfxCategories" [value]="category.id">{{ category.code + ' - ' + category.display_text }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Published Date</label>
+                                <input type="date" class="date-input" [ngClass]="{ 'has-value': preRFxForm.value.rfx_pub_date }" formControlName="rfx_pub_date">
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Due Date & Time *</label>
+                                <input type="datetime-local" class="date-input" [ngClass]="{ 'has-value': preRFxForm.value.rfx_due_date_time }" formControlName="rfx_due_date_time">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sec pt-4">
+                        <div class="row mx-4 mb-4 flex-column">
+                            <h3 class="sec-header m-0">Detailed Information</h3>
+                            <div class="sec-info">All fields marked with an asterisk (*) are required.</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Scope *</label>
+                                <textarea rows="4" formControlName="rfx_scope"></textarea>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Minimum Qualifications</label>
+                                <textarea rows="4" formControlName="rfx_min_qualifications"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">Pre-RFx Comments</label>
+                                <textarea rows="4" formControlName="rfx_comments"></textarea>
+                            </div>
+                            <div class="col mx-4">
+                                <div class="mb-2">
+                                    <label class="input-label">RFx Client Agency/Company Name *</label>
+                                    <select class="custom-select" formControlName="client_agency_id">
+                                        <option *ngFor="let agency of clientAgencies" [value]="agency.id">{{ agency.name + ' (' + agency.type + ')' }}</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="input-label">State/Province *</label>
+                                    <input type="text" formControlName="state_province">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-8 mx-4">
+                                <label class="input-label">RFx Constraints: *</label>
+                                <div formGroupName="rfx_constraints">
+                                    <div class="mb-2" formGroupName="local_vendors">
+                                        <div class="d-flex">
+                                            <div class="mr-4 input-group-label d-inline">a. Only local vendors eligible?</div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="local_vendors_value_true" [value]="true">
+                                                <label class="form-check-label" for="local_vendors_value_true">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="local_vendors_value_false" [value]="false">
+                                                <label class="form-check-label" for="local_vendors_value_false">No</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="preRFxForm.value.rfx_constraints.local_vendors.value" class="mt-2">
+                                            <textarea rows="4" formControlName="text" placeholder="Related Text From RFP"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2" formGroupName="certification_license">
+                                        <div class="d-flex">
+                                            <div class="mr-4 input-group-label d-inline">b. Any Certification/Licenses Needed?</div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="certification_license_value_true" [value]="true">
+                                                <label class="form-check-label" for="certification_license_value_true">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="certification_license_value_false" [value]="false">
+                                                <label class="form-check-label" for="certification_license_value_false">No</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="preRFxForm.value.rfx_constraints.certification_license.value" class="mt-2">
+                                            <textarea rows="4" formControlName="text" placeholder="Related Text From RFP"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2" formGroupName="financial_conditions">
+                                        <div class="d-flex">
+                                            <div class="mr-4 input-group-label d-inline">c. Any Financial Conditions?</div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="financial_conditions_value_true" [value]="true">
+                                                <label class="form-check-label" for="financial_conditions_value_true">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="financial_conditions_value_false" [value]="false">
+                                                <label class="form-check-label" for="financial_conditions_value_false">No</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="preRFxForm.value.rfx_constraints.financial_conditions.value" class="mt-2">
+                                            <textarea rows="4" formControlName="text" placeholder="Related Text From RFP"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2" formGroupName="minority_certified">
+                                        <div class="d-flex">
+                                            <div class="mr-4 input-group-label d-inline">d. Is it only for Minority/8(a) certified companies?</div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="minority_certified_value_true" [value]="true">
+                                                <label class="form-check-label" for="minority_certified_value_true">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="minority_certified_value_false" [value]="false">
+                                                <label class="form-check-label" for="minority_certified_value_false">No</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="preRFxForm.value.rfx_constraints.minority_certified.value" class="mt-2">
+                                            <textarea rows="4" formControlName="text" placeholder="Related Text From RFP"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2" formGroupName="other_constraints">
+                                        <div class="d-flex">
+                                            <div class="mr-4 input-group-label d-inline">e. Any Other Constraints?</div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="other_constraints_value_true" [value]="true">
+                                                <label class="form-check-label" for="other_constraints_value_true">Yes</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" formControlName="value" id="other_constraints_value_false" [value]="false">
+                                                <label class="form-check-label" for="other_constraints_value_false">No</label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="preRFxForm.value.rfx_constraints.other_constraints.value" class="mt-2">
+                                            <textarea rows="4" formControlName="text" placeholder="Related Text From RFP"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col mx-4"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">Pre-Proposal Conference *</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="pre_proposal_conf" id="pre_proposal_conf_true" [value]="true">
+                                        <label class="form-check-label" for="pre_proposal_conf_true">Yes</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="pre_proposal_conf" id="pre_proposal_conf_false" [value]="false">
+                                        <label class="form-check-label" for="pre_proposal_conf_false">No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mx-4">
+                                <div *ngIf="preRFxForm.value.pre_proposal_conf">
+                                    <label class="input-label">Pre-Proposal Conference Date</label>
+                                    <input type="date" class="date-input" [ngClass]="{ 'has-value': preRFxForm.value.pre_proposal_conf_date }"  formControlName="pre_proposal_conf_date">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">Submission Format *</label>
+                                <select class="custom-select" formControlName="submission_format">
+                                    <option *ngFor="let format of submissionFormats" [value]="format">{{ format }}</option>
+                                </select>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">Source *</label>
+                                <select class="custom-select" formControlName="source">
+                                    <option *ngFor="let source of sources" [value]="source.value">{{ source.label }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">Source URL</label>
+                                <input type="text" formControlName="source_url">
+                            </div>
+                            <div class="col mx-4">
+                                <label class="input-label">RFx 3rd Party Source URL</label>
+                                <input type="text" formControlName="rfx_third_party_src_url">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="input-label">RFx Attachment</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="rfxFileInput"  (change)="rfxAttachmentUpdated($event)">
+                                    <label class="custom-file-label" for="rfxFileInput">{{ selectedAttachmentFile && selectedAttachmentFile.name ? selectedAttachmentFile.name : 'Choose file...' }}</label>
+                                </div>
+                            </div>
+                            <div class="col mx-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="sec pt-4">
+                        <div class="row mx-4">
+                            <h3 class="sec-header">Buyer Information</h3>
+                        </div>
+                        <div formGroupName="buyer">
+                            <div class="row mb-3">
+                                <div class="col mx-4">
+                                    <label class="input-label">Buyer Name</label>
+                                    <input type="text" formControlName="name">
+                                </div>
+                                <div class="col mx-4">
+                                    <label class="input-label">Buyer Title</label>
+                                    <input type="text" formControlName="title">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col mx-4">
+                                    <label class="input-label">Buyer Contact</label>
+                                    <input type="text" formControlName="contact">
+                                </div>
+                                <div class="col mx-4">
+                                    <label class="input-label">Buyer Email</label>
+                                    <input type="text" formControlName="email">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons text-right mx-4">
+                        <button type="button" class="btn btn-secondary">Cancel</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="savingForm">
+                            <span *ngIf="savingForm" class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>
+                            {{ savingForm ? 'Saving...' : 'Save' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
