@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 import { PreRfxService, PreRFx, Upload } from '../shared/services/pre-rfx.service';
 import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory } from '../shared/services/admin.service';
@@ -11,6 +12,7 @@ import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory } from '
   styleUrls: ['./pre-rfx-add.component.sass']
 })
 export class PreRfxAddComponent implements OnInit, AfterViewInit {
+  public secHeaderIcon = faChevronRight
   
   public preRFxForm = this._fb.group({
     bu_id: ['', [ Validators.required ]],
@@ -96,6 +98,11 @@ export class PreRfxAddComponent implements OnInit, AfterViewInit {
   public fileUpload: Upload
 
   public savingForm: boolean = false
+
+  // For section expand/collapse
+  public showBasicInfoSec: boolean = true
+  public showDetailedInfoSec: boolean = true
+  public showBuyerInfoSec: boolean = true
   
   constructor(
     private _pre_rfx: PreRfxService,

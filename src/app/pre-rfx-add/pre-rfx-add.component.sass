@@ -31,13 +31,35 @@
             font-family: "Roboto", sans-serif
 
         .sec-header
-            font-family: 'Roboto', sans-serif
-            color: #666
+            min-width: 828px
+            display: grid
+            grid-template-columns: 20px auto
+            grid-column-gap: 10px
+            background-color: $primary-color
+            color: $white-color
+            border-radius: 2px
+            cursor: pointer
 
-        .sec-info
-            font-family: "Nunito", sans-serif
-            font-size: 14px
-            color: $label-color
+            &.sec-expanded
+                fa-icon
+                    transform: rotate(90deg)
+
+            .icon-cntnr
+                text-align: center
+                margin-top: 5px
+
+                fa-icon
+                    display: block
+                    transition: all 0.2s ease
+
+            h4
+                font-family: 'Roboto', sans-serif
+                color: $white-color
+
+            .sec-info
+                font-family: "Nunito", sans-serif
+                font-size: 14px
+                color: $white-color
 
         .form-check
             label
