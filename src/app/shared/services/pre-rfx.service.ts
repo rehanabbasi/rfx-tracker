@@ -30,6 +30,10 @@ export class PreRfxService {
     return this.preRfxCollection.doc(docId).update({ id: docId })
   }
 
+  public updatePreRFx( data: PreRFx): Promise<any> {
+    return this.preRfxCollection.doc(data.id).set(data)
+  }
+
   public pushRFxAttachmentUpload( upload: Upload ): Promise<any> {
     let storageRef = firebase.storage().ref()
     this.uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file, { contentDisposition: `attachment; filename="${upload.file.name}"; filename*="${upload.file.name}"` } )
@@ -55,6 +59,20 @@ export class PreRfxService {
           }
         )
     })
+  }
+
+  public deleteRFxAttachment(fileName: string): Promise<any> {
+    let storageRef = firebase.storage().ref()
+    if(fileName) {
+      return storageRef.child(`${this.basePath}/${fileName}`).delete()
+    } else {
+      return new Promise( resolve => { resolve() })
+    }
+    
+  }
+
+  public getPreRFxById(id: string): Observable<PreRFx> {
+    return this.afs.doc<PreRFx>(`pre-rfx/${id}`).valueChanges()
   }
 }
 

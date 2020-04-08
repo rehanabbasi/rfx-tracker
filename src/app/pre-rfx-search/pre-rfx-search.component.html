@@ -30,7 +30,7 @@
               <td>{{ getRFxSourceText( preRFx.source ) }}</td>
               <td><a class="download-link" *ngIf="preRFx.attachment && preRFx.attachment.name" [href]="preRFx.attachment.download_url" download>{{ preRFx.attachment.name }}</a></td>
               <td>
-                <fa-icon [icon]="editIcon"></fa-icon>
+                <fa-icon [icon]="editIcon" [routerLink]="['/pre-rfx-edit/' + preRFx.id]"></fa-icon>
                 <fa-icon [icon]="viewIcon"></fa-icon>
               </td>
             </tr>

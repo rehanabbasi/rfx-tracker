@@ -21,6 +21,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
   { path: 'pre-rfx-search', component: PreRfxSearchComponent, canActivate: [LoggedInGuard] },
   { path: 'pre-rfx-add', component: PreRfxAddComponent, canActivate: [LoggedInGuard]},
+  { path: 'pre-rfx-edit/:id', component: PreRfxAddComponent, canActivate: [LoggedInGuard]},
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard], children: AdminDashboardRoutes }
 ];
 
