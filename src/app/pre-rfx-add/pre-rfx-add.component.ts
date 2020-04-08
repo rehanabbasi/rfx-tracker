@@ -186,7 +186,9 @@ export class PreRfxAddComponent implements OnInit, AfterViewInit {
         this.preRFxForm.controls['buyer']['controls'].contact.setValue(this.preRFxEdit.buyer ? this.preRFxEdit.buyer.contact : '')
         this.preRFxForm.controls['buyer']['controls'].email.setValue(this.preRFxEdit.buyer ? this.preRFxEdit.buyer.email : '')
 
-        this.selectedAttachmentFile = new File([], this.preRFxEdit.attachment.name)
+        if( this.preRFxEdit.attachment ) {
+          this.selectedAttachmentFile = new File([], this.preRFxEdit.attachment.name)
+        }
       }, 250)
     })
   }
@@ -201,7 +203,7 @@ export class PreRfxAddComponent implements OnInit, AfterViewInit {
       if(this.preRFxEdit && this.preRFxEdit.id) {
         let data = this.preRFxForm.value
         data.id = this.preRFxEdit.id
-        if( this.selectedAttachmentFile.size > 0 ) { // Attachment updated
+        if( this.selectedAttachmentFile && this.selectedAttachmentFile.size > 0 ) { // Attachment updated
           this._pre_rfx.deleteRFxAttachment(this.preRFxEdit.attachment ? this.preRFxEdit.attachment.name : '')
             .then( res => {
               console.log('delete attachment res: ', res)
@@ -224,6 +226,9 @@ export class PreRfxAddComponent implements OnInit, AfterViewInit {
               console.error('Error while deleting Pre-RFx Attachment', error)
             })
         } else { // Attachment remains the same
+          if(this.preRFxEdit.attachment) {
+            data.attachment = this.preRFxEdit.attachment
+          }
           this.saveEditPreRFxData(data)
         }
       } else {
