@@ -64,6 +64,7 @@ import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
+import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
     RdtStatusModalComponent,
     PdtStatusModalComponent,
     PreRfxSearchComponent,
-    PreRfxAddComponent
+    PreRfxAddComponent,
+    PreRfxViewComponent
   ],
   imports: [
     BrowserModule,

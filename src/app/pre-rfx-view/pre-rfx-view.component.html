@@ -1,0 +1,229 @@
+<div>
+    <div class="page-heading pl-3 my-3">
+        <h3>View Pre-RFx</h3>
+    </div>
+    <div class="inner-wrapper">
+        <div *ngIf="preRFxData && preRFxData.id" class="main-content p-3 mb-5">
+            <div class="content-contianer p-3">
+                <div class="mb-2 text-right mx-4"><a type="button" class="btn btn-outline-primary edit-btn" [routerLink]="['/pre-rfx-edit/' + preRFxId]">Edit Pre-RFx</a></div>
+                <div class="sec">
+                    <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showBasicInfoSec }" data-toggle="collapse" data-target="#basic-info-sec" aria-expanded="true" aria-controls="basic-info-sec" (click)="showBasicInfoSec = !showBasicInfoSec">
+                        <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
+                        <div>
+                            <h4 class="m-0">Basic Information</h4>
+                            <!-- <div class="sec-info">All fields marked with an asterisk (*) are required.</div> -->
+                        </div>
+                    </div>
+                    <div id="basic-info-sec" class="collapse show">
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">Business Unit</label>
+                                <div class="data-value">{{ getBusinessUnitText( preRFxData.bu_id ) }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Number</label>
+                                <div class="data-value">{{ preRFxData.rfx_number }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Title</label>
+                                <div class="data-value">{{ preRFxData.title }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="data-label">Pre-RFx Status</label>
+                                <div class="data-value">{{ getRFxStatusText( preRFxData.status ) }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Type</label>
+                                <div class="data-value">{{ getRFxTypeText( preRFxData.rfx_type_id ) }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Category</label>
+                                <div class="data-value">{{ getRFxCategoryText( preRFxData.rfx_category_id ) }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div *ngIf="preRFxData.rfx_pub_date" class="col mx-4">
+                                <label class="data-label">RFx Published Date</label>
+                                <div class="data-value">{{ preRFxData.rfx_pub_date | date:'longDate' }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Due Date & Time</label>
+                                <div class="data-value">{{ preRFxData.rfx_due_date_time | date:'longDate' }} @ {{ preRFxData.rfx_due_date_time | date:'shortTime' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sec pt-4">
+                    <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showDetailedInfoSec }" data-toggle="collapse" data-target="#detailed-info-sec" aria-expanded="true" aria-controls="detailed-info-sec" (click)="showDetailedInfoSec = !showDetailedInfoSec">
+                        <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
+                        <div>
+                            <h4 class="m-0">Detailed Information</h4>
+                            <!-- <div class="sec-info">All fields marked with an asterisk (*) are required.</div> -->
+                        </div>
+                    </div>
+                    <div id="detailed-info-sec" class="collapse show">
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Scope</label>
+                                <div class="data-value">{{ preRFxData.rfx_scope }}</div>
+                            </div>
+                            <div *ngIf="preRFxData.rfx_min_qualifications" class="col mx-4">
+                                <label class="data-label">RFx Minimum Qualifications</label>
+                                <div class="data-value">{{ preRFxData.rfx_min_qualifications }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div *ngIf="preRFxData.rfx_comments" class="col mx-4">
+                                <label class="data-label">Pre-RFx Comments</label>
+                                <div class="data-value">{{ preRFxData.rfx_comments }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <div class="mb-2">
+                                    <label class="data-label">RFx Client Agency/Company Name</label>
+                                    <div class="data-value">{{ getClientAgencyText( preRFxData.client_agency_id ) }}</div>
+                                </div>
+                                <div>
+                                    <label class="data-label">State/Province</label>
+                                    <div class="data-value">{{ preRFxData.state_province }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-8 mx-4">
+                                <label class="data-label">RFx Constraints:</label>
+                                <div>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <div class="mr-4 group-label">a. Only local vendors eligible?</div>
+                                            <div class="constraint-value">{{ preRFxData.rfx_constraints.local_vendors.value ? 'Yes' : 'No' }}</div>
+                                        </div>
+                                        <div *ngIf="preRFxData.rfx_constraints.local_vendors.value" class="mt-1 pl-4">
+                                            <div class="data-label">Related Text from RFP:</div>
+                                            <div class="data-value related-text">{{ preRFxData.rfx_constraints.local_vendors.text }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <div class="mr-4 group-label">b. Any Certification/Licenses Needed?</div>
+                                            <div class="constraint-value">{{ preRFxData.rfx_constraints.certification_license.value ? 'Yes' : 'No' }}</div>
+                                        </div>
+                                        <div *ngIf="preRFxData.rfx_constraints.certification_license.value" class="mt-1 pl-4">
+                                            <div class="data-label">Related Text from RFP:</div>
+                                            <div class="data-value related-text">{{ preRFxData.rfx_constraints.certification_license.text }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <div class="mr-4 group-label">c. Any Financial Conditions?</div>
+                                            <div class="constraint-value">{{ preRFxData.rfx_constraints.financial_conditions.value ? 'Yes' : 'No' }}</div>
+                                        </div>
+                                        <div *ngIf="preRFxData.rfx_constraints.financial_conditions.value" class="mt-1 pl-4">
+                                            <div class="data-label">Related Text from RFP:</div>
+                                            <div class="data-value related-text">{{ preRFxData.rfx_constraints.financial_conditions.text }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <div class="mr-4 group-label">d. Is it only for Minority/8(a) certified companies?</div>
+                                            <div class="constraint-value">{{ preRFxData.rfx_constraints.minority_certified.value ? 'Yes' : 'No' }}</div>
+                                        </div>
+                                        <div *ngIf="preRFxData.rfx_constraints.minority_certified.value" class="mt-1 pl-4">
+                                            <div class="data-label">Related Text from RFP:</div>
+                                            <div class="data-value related-text">{{ preRFxData.rfx_constraints.minority_certified.text }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="d-flex">
+                                            <div class="mr-4 group-label">e. Any Other Constraints?</div>
+                                            <div class="constraint-value">{{ preRFxData.rfx_constraints.other_constraints.value ? 'Yes' : 'No' }}</div>
+                                        </div>
+                                        <div *ngIf="preRFxData.rfx_constraints.other_constraints.value" class="mt-1 pl-4">
+                                            <div class="data-label">Related Text from RFP:</div>
+                                            <div class="data-value related-text">{{ preRFxData.rfx_constraints.other_constraints.text }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="col mx-4"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">Pre-Proposal Conference</label>
+                                <div class="data-value">{{ preRFxData.pre_proposal_conf }}</div>
+                            </div>
+                            <div *ngIf="preRFxData.pre_proposal_conf_date" class="col mx-4">
+                                <label class="data-label">Pre-Proposal Conference Date</label>
+                                <div class="data-value">{{ preRFxData.pre_proposal_conf_date | date:'longDate' }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">Submission Format</label>
+                                <div class="data-value">{{ preRFxData.submission_format }}</div>
+                            </div>
+                            <div class="col mx-4">
+                                <label class="data-label">Source</label>
+                                <div class="data-value">{{ getRFxSourceText( preRFxData.source ) }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div *ngIf="preRFxData.source_url" class="col mx-4">
+                                <label class="data-label">Source URL</label>
+                                <div class="data-value"><a [href]="preRFxData.source_url" class="data-link" target="_blank">{{ preRFxData.source_url }}</a></div>
+                            </div>
+                            <div *ngIf="preRFxData.rfx_third_party_src_url" class="col mx-4">
+                                <label class="data-label">RFx 3rd Party Source URL</label>
+                                <div class="data-value"><a [href]="preRFxData.rfx_third_party_src_url" class="data-link" target="_blank">{{ preRFxData.rfx_third_party_src_url }}</a></div>
+                            </div>
+                        </div>
+                        <div *ngIf="preRFxData.attachment && preRFxData.attachment.name" class="row mb-3">
+                            <div class="col mx-4">
+                                <label class="data-label">RFx Attachment</label>
+                                <div class="data-value"><a class="data-link" [href]="preRFxData.attachment.download_url" download>{{ preRFxData.attachment.name }}</a></div>
+                            </div>
+                            <div class="col mx-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sec pt-4">
+                    <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showBuyerInfoSec }" data-toggle="collapse" data-target="#buyer-info-sec" aria-expanded="true" aria-controls="buyer-info-sec" (click)="showBuyerInfoSec = !showBuyerInfoSec">
+                        <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
+                        <div>
+                            <h4 class="m-0">Buyer Information</h4>
+                        </div>
+                    </div>
+                    <div id="buyer-info-sec" class="collapse show">
+                        <div class="row mb-3">
+                            <div *ngIf="preRFxData.buyer && preRFxData.buyer.name" class="col mx-4">
+                                <label class="data-label">Buyer Name</label>
+                                <div class="data-value">{{ preRFxData.buyer.name }}</div>
+                            </div>
+                            <div *ngIf="preRFxData.buyer && preRFxData.buyer.title" class="col mx-4">
+                                <label class="data-label">Buyer Title</label>
+                                <div class="data-value">{{ preRFxData.buyer.title }}</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div *ngIf="preRFxData.buyer && preRFxData.buyer.contact" class="col mx-4">
+                                <label class="data-label">Buyer Contact</label>
+                                <div class="data-value">{{ preRFxData.buyer.contact }}</div>
+                            </div>
+                            <div *ngIf="preRFxData.buyer && preRFxData.buyer.email" class="col mx-4">
+                                <label class="data-label">Buyer Email</label>
+                                <div class="data-value">{{ preRFxData.buyer.email }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</div>

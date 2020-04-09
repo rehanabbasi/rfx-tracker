@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory } from '
   templateUrl: './pre-rfx-add.component.html',
   styleUrls: ['./pre-rfx-add.component.sass']
 })
-export class PreRfxAddComponent implements OnInit, AfterViewInit {
+export class PreRfxAddComponent implements OnInit {
   public secHeaderIcon = faChevronRight
   
   public preRFxForm = this._fb.group({
@@ -136,9 +136,6 @@ export class PreRfxAddComponent implements OnInit, AfterViewInit {
         }
       })
     )
-  }
-
-  ngAfterViewInit(): void {
   }
 
   private loadRFxData(): void {

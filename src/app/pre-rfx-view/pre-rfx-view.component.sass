@@ -1,0 +1,84 @@
+@import 'src/sass/_variables.sass'
+
+.page-heading
+    font-family: 'Cabin Condensed', sans-serif
+
+.main-content
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
+    background-color: #fff
+    margin: auto
+
+    .content-contianer
+        display: flex
+        flex-direction: column
+        justify-content: center
+
+        .edit-btn
+            font-family: "Roboto", sans-serif
+            font-size: 14px
+            letter-spacing: 0.25px
+            color: $primary-color
+            border-color: $primary-color
+
+            &:hover
+                background-color: $primary-color
+                color: $white-color
+
+        .sec-header
+            min-width: 828px
+            display: grid
+            grid-template-columns: 20px auto
+            grid-column-gap: 10px
+            background-color: $primary-color
+            color: $white-color
+            border-radius: 2px
+            cursor: pointer
+
+            &.sec-expanded
+                fa-icon
+                    transform: rotate(90deg)
+
+            .icon-cntnr
+                text-align: center
+                margin-top: 5px
+
+                fa-icon
+                    display: block
+                    transition: all 0.2s ease
+
+            h4
+                font-family: 'Roboto', sans-serif
+                color: $white-color
+
+        .group-label
+            font-size: 15px
+            letter-spacing: 0.5px
+            color: $nav-link-color
+            font-family: "Roboto", sans-serif
+
+        .constraint-value
+            font-family: "Roboto", sans-serif
+            color: $nav-link-color
+            font-weight: 600
+
+        .data-label
+            font-size: 15px
+            font-family: "Nunito", sans-serif
+            font-weight: 600
+            letter-spacing: 0.5px
+            display: block
+            color: $label-color
+            margin-bottom: 0px
+
+        .data-value
+            width: 375px
+            font-family: 'Roboto', sans-serif
+            color: $nav-link-color
+
+            .data-link
+                font-family: 'Roboto', sans-serif
+                color: $nav-link-color
+                text-decoration: underline
+
+        .related-text
+            font-size: 14px

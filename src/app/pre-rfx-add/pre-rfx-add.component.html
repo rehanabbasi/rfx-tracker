@@ -290,7 +290,7 @@
                     </div>
                     
                     <div class="action-buttons text-right mx-4">
-                        <button type="button" class="btn btn-secondary">Cancel</button>
+                        <button type="button" class="btn btn-secondary" [routerLink]="['/pre-rfx-search/']">Cancel</button>
                         <button type="submit" class="btn btn-primary" [disabled]="savingForm">
                             <span *ngIf="savingForm" class="spinner-border spinner-border-sm mr-1" role="status" aria-hidden="true"></span>
                             {{ savingForm ? 'Saving...' : 'Save' }}
