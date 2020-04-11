@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { faEdit,  faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { PreRfxService, PreRFx } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxCategory, ClientAgency } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxCategory, ClientAgency, User } from '../shared/services/admin.service';
 
 @Component({
   selector: 'app-pre-rfx-search',
@@ -15,11 +16,12 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public preRFxs: PreRFx[] = []
   
-  private businessUnits: BusinessUnit[] = []
-  private rfxCategories: RfxCategory[] = []
-  private clientAgencies: ClientAgency[] = []
+  public businessUnits: BusinessUnit[] = []
+  public rfxCategories: RfxCategory[] = []
+  public clientAgencies: ClientAgency[] = []
+  public users: User[] = []
 
-  private preRFxStatus: {
+  public preRFxStatus: {
     value: string,
     label: string
   }[] = [
@@ -41,18 +43,23 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
 
   public editIcon = faEdit
   public viewIcon = faEye
+  public searchIcon = faSearch
+
+  public searchTerm: string = ''
+  private currentParams: any = {}
+  private preRFxResultsSubscription: Subscription
+
+  public showPreRFxAdvSearch: boolean = false
 
   constructor(
     private _pre_rfx: PreRfxService,
-    private _admin: AdminService
+    private _admin: AdminService,
+    private _router: Router, 
+    private _route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this._pre_rfx.preRfxs.subscribe( preRFxs => {
-        this.preRFxs = preRFxs
-      }),
-
       this._admin.businessUnits.subscribe( businessUnits => {
         this.businessUnits = businessUnits
       }),
@@ -63,6 +70,16 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
 
       this._admin.clientAgencies.subscribe( clientAgencies => {
         this.clientAgencies = clientAgencies
+      }),
+
+      this._admin.users.subscribe ( users => {
+        this.users = users
+      }),
+
+      this._route.queryParams.subscribe( params => {
+        this.searchTerm = params['query'] ? params['query'] : ''
+        this.currentParams = params
+        this.loadPreRFxResults()
       })
     )
   }
@@ -70,6 +87,17 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(sub => {
       sub.unsubscribe()
+    })
+    this.preRFxResultsSubscription.unsubscribe()
+  }
+
+  public loadPreRFxResults(): void {
+    if(this.preRFxResultsSubscription) {
+      this.preRFxResultsSubscription.unsubscribe()
+    }
+    this.preRFxResultsSubscription = this._pre_rfx.searchPreRFx(this.currentParams).subscribe( preRFxs => {
+      console.log('preRfxs are: ', preRFxs)
+      this.preRFxs = preRFxs
     })
   }
 
@@ -106,5 +134,13 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
       return rFxSource.value === source
     })
     return sourceObjs.length > 0 ? sourceObjs[0].label : ''
+  }
+
+  public searchPreRFx(): void {
+    let queryParams = { query: this.searchTerm }
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams: queryParams,
+    })
   }
 }

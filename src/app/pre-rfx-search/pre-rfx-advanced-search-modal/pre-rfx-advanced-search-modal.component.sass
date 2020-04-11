@@ -1,0 +1,26 @@
+@import 'src/sass/_modals.sass'
+
+.modal-dialog
+    margin-top: 6rem
+    
+    .query-container
+        display: block !important
+
+        .query-row
+            display: grid
+            grid-template-columns: 3fr 1fr
+            align-items: center
+
+            .query-fields
+                display: flex
+
+                input, select
+                    width: 250px !important
+
+            fa-icon
+                cursor: pointer
+                color: $primary-color
+                font-size: 20px
+
+                &:hover
+                    color: $primary-color-hover

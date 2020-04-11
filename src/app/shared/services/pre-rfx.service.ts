@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction, Query, QueryFn } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
 
@@ -74,6 +74,21 @@ export class PreRfxService {
   public getPreRFxById(id: string): Observable<PreRFx> {
     return this.afs.doc<PreRFx>(`pre-rfx/${id}`).valueChanges()
   }
+
+  public searchPreRFx( params: any ): Observable<PreRFx[]> {
+    if( params['query']) {
+      let termArray = params['query'].toLowerCase().split(' ')
+      return this.afs.collection<PreRFx>('pre-rfx', ref => ref.where('title_search_array', 'array-contains-any', termArray)).valueChanges()
+    } else {
+      return this.afs.collection<PreRFx>('pre-rfx', ref => {
+        let query: Query = ref
+        for (let key in params) {
+          query = query.where(key, '==', params[key])
+        }
+        return query
+      }).valueChanges()
+    }
+  }
 }
 
 export class Upload {
@@ -94,6 +109,7 @@ export interface PreRFx {
   bu_id: string,
   rfx_number: string,
   title: string,
+  title_search_array?: string[]
   status: string,
   rfx_type_id: string,
   rfx_category_id: string,
@@ -126,7 +142,9 @@ export interface PreRFx {
     title?: string,
     contact?: string,
     email?: string
-  } 
+  },
+  created_by_user_id?: string
+  created_on_date?: string
 }
 
 export interface RfxConstraint {

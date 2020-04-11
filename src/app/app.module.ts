@@ -9,6 +9,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { from } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -65,6 +66,7 @@ import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
 import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
+import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-advanced-search-modal/pre-rfx-advanced-search-modal.component';
 
 @NgModule({
   declarations: [
@@ -116,12 +118,14 @@ import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
     PdtStatusModalComponent,
     PreRfxSearchComponent,
     PreRfxAddComponent,
-    PreRfxViewComponent
+    PreRfxViewComponent,
+    PreRfxAdvancedSearchModalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,

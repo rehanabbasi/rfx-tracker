@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 import { PreRfxService, PreRFx, Upload } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User } from '../shared/services/admin.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-pre-rfx-add',
   templateUrl: './pre-rfx-add.component.html',
   styleUrls: ['./pre-rfx-add.component.sass']
 })
-export class PreRfxAddComponent implements OnInit {
+export class PreRfxAddComponent implements OnInit, OnDestroy {
   public secHeaderIcon = faChevronRight
   
   public preRFxForm = this._fb.group({
@@ -107,10 +109,13 @@ export class PreRfxAddComponent implements OnInit {
 
   public preRFxId: string
   private preRFxEdit: PreRFx
+
+  private currentUser: User
   
   constructor(
     private _pre_rfx: PreRfxService,
     private _admin: AdminService,
+    private _auth: AuthService,
     private _fb: FormBuilder,
     private route: ActivatedRoute
   ) { }
@@ -134,8 +139,19 @@ export class PreRfxAddComponent implements OnInit {
           this.preRFxId = params['id']
           this.loadRFxData()
         }
+      }),
+      this._auth.currentUser$.subscribe( currentUserArray => {
+        if( currentUserArray.length > 0) {
+          this.currentUser = currentUserArray[0]
+        }
       })
     )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => {
+      sub.unsubscribe()
+    })
   }
 
   private loadRFxData(): void {
@@ -200,6 +216,8 @@ export class PreRfxAddComponent implements OnInit {
       if(this.preRFxEdit && this.preRFxEdit.id) {
         let data = this.preRFxForm.value
         data.id = this.preRFxEdit.id
+        data.created_by_user_id = this.preRFxEdit.created_by_user_id ? this.preRFxEdit.created_by_user_id : this.currentUser.id
+        data.created_on_date = this.preRFxEdit.created_on_date ? this.preRFxEdit.created_on_date : formatDate(new Date(), 'yyyy-MM-dd', 'en')
         if( this.selectedAttachmentFile && this.selectedAttachmentFile.size > 0 ) { // Attachment updated
           this._pre_rfx.deleteRFxAttachment(this.preRFxEdit.attachment ? this.preRFxEdit.attachment.name : '')
             .then( res => {
@@ -230,6 +248,8 @@ export class PreRfxAddComponent implements OnInit {
         }
       } else {
         let data: PreRFx = this.preRFxForm.value
+        data.created_by_user_id = this.currentUser.id
+        data.created_on_date = formatDate(new Date(), 'yyyy-MM-dd', 'en')
         if(this.selectedAttachmentFile && this.selectedAttachmentFile.name) {
           this.fileUpload = new Upload(this.selectedAttachmentFile)
           this._pre_rfx.pushRFxAttachmentUpload(this.fileUpload)
@@ -256,6 +276,7 @@ export class PreRfxAddComponent implements OnInit {
   }
 
   private saveNewPreRFxData(data: PreRFx): void {
+    data.title_search_array = data.title.toLowerCase().split(' ')
     this._pre_rfx.createPreRFx(data)
       .then( res => {
         if(res.id) {
@@ -280,6 +301,7 @@ export class PreRfxAddComponent implements OnInit {
   }
 
   private saveEditPreRFxData(data: PreRFx): void {
+    data.title_search_array = data.title.toLowerCase().split(' ')
     this._pre_rfx.updatePreRFx(data)
       .then( res => {
         this.formSuccessMessage = "Your Pre-RFx has been updated."
