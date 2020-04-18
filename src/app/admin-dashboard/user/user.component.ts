@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
 import { AdminService, User, UserRole } from '../../shared/services/admin.service';
-import { Subscription } from 'rxjs'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user',

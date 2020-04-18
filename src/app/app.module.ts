@@ -68,6 +68,7 @@ import { AdminGuard } from './shared/guards/admin.guard';
 import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
 import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
 import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-advanced-search-modal/pre-rfx-advanced-search-modal.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-adv
     PreRfxSearchComponent,
     PreRfxAddComponent,
     PreRfxViewComponent,
-    PreRfxAdvancedSearchModalComponent
+    PreRfxAdvancedSearchModalComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -13,15 +13,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let user of users">
+              <tr *ngFor="let user of users" [ngClass]="{'half-opaque': !user.name }">
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone }}</td>
                 <td>{{ getRoleText(user.role_id) }}</td>
                 <td>
+                  <span *ngIf="user.name">
                     <fa-icon [icon]="editIcon" (click)="editUSR(user)"></fa-icon>
                     <fa-icon [icon]="archiveIcon" [ngClass]="{'archived': !user.active }" (click)="updateUSRstatus(user)"></fa-icon>
+                  </span>
+                  <span *ngIf="!user.name">Invite Sent</span>
                 </td>
               </tr>
             </tbody>

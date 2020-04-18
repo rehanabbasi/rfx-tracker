@@ -3,9 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { AdminService, User } from './admin.service'
-
-
+import { AdminService, User } from './admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +38,10 @@ export class AuthService {
 
   public login( data: { email: string, pwd: string } ): Promise<any> {
     return this._afAuth.auth.signInWithEmailAndPassword(data.email, data.pwd)
+  }
+
+  public createUserAuth(email: string, pwd: string): Promise<firebase.auth.UserCredential>{
+    return this._afAuth.auth.createUserWithEmailAndPassword(email, pwd)
   }
 
   public logout(): Promise<any> {

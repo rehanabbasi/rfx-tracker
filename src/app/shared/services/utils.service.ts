@@ -12,19 +12,14 @@ export class UtilsService {
     private _http: HttpClient
   ) { }
 
-  public sendEmail(emailAddress: string, email_type: string, data: any): any{
+  public sendEmail(emailAddress: string, email_type: string, data: any): Promise<firebase.functions.HttpsCallableResult>{
     let params = {
       to: emailAddress,
       type: email_type,
       content: data
     }
 
-    this.htmlEmail(params).then( (res) => {
-      console.log('res from email now is: ', res)
-    }).catch( (error) => {
-      console.error('email cannot be sent at this time: ', error)
-    })
-      
+    return this.htmlEmail(params)
   }
 }
 
