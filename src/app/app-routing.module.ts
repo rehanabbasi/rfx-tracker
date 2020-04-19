@@ -13,6 +13,8 @@ import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { PreRfxReadGuard } from './shared/guards/pre-rfx-read.guard';
+import { PreRfxWriteGuard } from './shared/guards/pre-rfx-write.guard';
 
 import { AdminDashboardRoutes } from './admin-dashboard/admin-dashboard.routes';
 
@@ -22,9 +24,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [LoggedOutGuard] },
   { path: 'user-registration/:id', component: RegisterComponent, canActivate: [LoggedOutGuard]},
   { path: 'pre-rfx-search', component: PreRfxSearchComponent, canActivate: [LoggedInGuard] },
-  { path: 'pre-rfx-add', component: PreRfxAddComponent, canActivate: [LoggedInGuard]},
-  { path: 'pre-rfx-edit/:id', component: PreRfxAddComponent, canActivate: [LoggedInGuard]},
-  { path: 'pre-rfx-view/:id', component: PreRfxViewComponent, canActivate: [LoggedInGuard]},
+  { path: 'pre-rfx-add', component: PreRfxAddComponent, canActivate: [PreRfxWriteGuard]},
+  { path: 'pre-rfx-edit/:id', component: PreRfxAddComponent, canActivate: [PreRfxWriteGuard]},
+  { path: 'pre-rfx-view/:id', component: PreRfxViewComponent, canActivate: [PreRfxReadGuard]},
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AdminGuard], children: AdminDashboardRoutes }
 ];
 

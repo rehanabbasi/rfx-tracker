@@ -65,6 +65,8 @@ import { AuthService } from './shared/services/auth.service';
 import { LoggedInGuard } from './shared/guards/logged-in.guard';
 import { LoggedOutGuard } from './shared/guards/logged-out.guard';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { PreRfxReadGuard } from './shared/guards/pre-rfx-read.guard';
+import { PreRfxWriteGuard } from './shared/guards/pre-rfx-write.guard';
 import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
 import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
 import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-advanced-search-modal/pre-rfx-advanced-search-modal.component';
@@ -141,7 +143,9 @@ import { RegisterComponent } from './register/register.component';
     AuthService,
     LoggedInGuard,
     LoggedOutGuard,
-    AdminGuard
+    AdminGuard,
+    PreRfxReadGuard,
+    PreRfxWriteGuard
   ],
   bootstrap: [AppComponent]
 })

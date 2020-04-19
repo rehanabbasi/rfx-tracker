@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, merge } from 'rxjs';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 
 import { AdminService, User } from './admin.service';
+import { getLocaleDateFormat } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,21 @@ export class AuthService {
   ) { 
 
     this.currentUser$ = this._afAuth.authState.pipe(
-      switchMap( (user) => {
-        if(user){
-          return this._admin.getUsersByEmail(user.email).valueChanges()
+      switchMap( user => {
+        if(user) {
+          return this._admin.getUsersByEmail(user.email).valueChanges().pipe(
+            switchMap( userArray => {
+              if(userArray) {
+                return this._admin.getRoleById(userArray[0].role_id).valueChanges().pipe(
+                  map( role => { 
+                    let userData = userArray[0]
+                    userData['view_access'] = role.view_access
+                    return [ userData ]
+                  })
+                )
+              } else { return of(null) }
+            })
+          )
         } else {
           return of(null)
         }

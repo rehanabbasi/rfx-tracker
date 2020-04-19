@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentChangeAction, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -293,6 +293,10 @@ export class AdminService {
   // Get user details by email
   public getUsersByEmail( email: string): AngularFirestoreCollection<User> {
     return this.afs.collection<User>('users', ref => ref.where('email', '==', email))
+  }
+
+  public getRoleById(role_id: string): AngularFirestoreDocument<UserRole> {
+    return this.urCollection.doc(role_id)
   }
 }
 
