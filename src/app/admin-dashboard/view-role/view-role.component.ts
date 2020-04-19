@@ -18,10 +18,10 @@ export class ViewRoleComponent implements OnInit, OnDestroy {
   public showVRForm: boolean = false
 
   private subscriptions: Subscription[] = []
-  public viewRoles: ViewRole[] = []
   public userRoles: UserRole[] = []
-  public selectedVR: ViewRole = null
-  public selectedVRForDelete: ViewRole = null
+  public userRolesWithAccess: UserRole[] = []
+  public selectedRole: UserRole = null
+  public selectedVRForDelete: UserRole = null
 
   constructor(
     private _admin: AdminService
@@ -29,11 +29,11 @@ export class ViewRoleComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.push(
-      this._admin.viewRoles.subscribe( viewRoles => {
-        this.viewRoles = viewRoles
-      }),
       this._admin.userRoles.subscribe( roles => {
         this.userRoles = roles
+        this.userRolesWithAccess = roles.filter(role => {
+          return role.view_access && role.view_access.length > 0
+        })
       })
     )
   }
@@ -46,15 +46,15 @@ export class ViewRoleComponent implements OnInit, OnDestroy {
 
   public formClosed(): void {
     this.showVRForm = false
-    this.selectedVR = null
+    this.selectedRole = null
   }
 
-  public editVR(viewRole: ViewRole): void {
-    this.selectedVR = viewRole
+  public editVR(role: UserRole): void {
+    this.selectedRole = role
     this.showVRForm = true
   }
 
-  public deleteVR(viewRole: ViewRole): void {
+  public deleteVR(viewRole: UserRole): void {
     this.selectedVRForDelete = viewRole
   }
 

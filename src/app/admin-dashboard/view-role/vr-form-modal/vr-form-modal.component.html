@@ -22,86 +22,20 @@
                         <div class="row mb-4">
                             <div class="col-12 text-center">
                                 <select class="custom-select" formControlName="role_id">
+                                    <option value="">Select Role</option>
                                     <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
                                 </select>
                             </div>
                         </div>
                         
                         <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">Pre-Rfx Views:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="pre_rfx" id="pre_rfx_true" [value]="true">
-                                    <label class="form-check-label" for="pre_rfx_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="pre_rfx" id="pre_rfx_false" [value]="false">
-                                    <label class="form-check-label" for="pre_rfx_false">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">Rfx Views:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="rfx" id="rfx_true" [value]="true">
-                                    <label class="form-check-label" for="rfx_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="rfx" id="rfx_false" [value]="false">
-                                    <label class="form-check-label" for="rfx_false">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">Proposer Views:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="proposer" id="proposer_true" [value]="true">
-                                    <label class="form-check-label" for="proposer_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="proposer" id="proposer_false" [value]="false">
-                                    <label class="form-check-label" for="proposer_false">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">Contracts Manager:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="contracts_manager" id="contracts_manager_true" [value]="true">
-                                    <label class="form-check-label" for="contracts_manager_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="contracts_manager" id="contracts_manager_false" [value]="false">
-                                    <label class="form-check-label" for="contracts_manager_false">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">Task Orders:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="task_orders" id="task_orders_true" [value]="true">
-                                    <label class="form-check-label" for="task_orders_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="task_orders" id="task_orders_false" [value]="false">
-                                    <label class="form-check-label" for="task_orders_false">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-left d-flex">
-                                <div class="mr-4 input-group-label">All:</div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="all" id="all_true" [value]="true">
-                                    <label class="form-check-label" for="all_true">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" formControlName="all" id="all_false" [value]="false">
-                                    <label class="form-check-label" for="all_false">No</label>
+                            <div class="col-12 text-left d-block">
+                                <div class="input-group-label w-100 mb-2">Choose Role Access:</div>
+                                <div class="access-checkboxes">
+                                    <div *ngFor="let roleAccess of rolesAccessArray; let i = index" class="form-check mb-2" formArrayName="view_access">
+                                        <input class="form-check-input" type="checkbox" [formControlName]="i" id="view_access_{{ roleAccess.name }}" [value]="roleAccess.name">
+                                        <label class="form-check-label" for="view_access_{{ roleAccess.name }}">{{ roleAccess.label }}</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

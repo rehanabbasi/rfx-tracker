@@ -15,17 +15,52 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let viewRole of viewRoles">
-                <td>{{ getRoleText(viewRole.role_id) }}</td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.pre_rfx ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.pre_rfx ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.rfx ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.rfx ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.proposer ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.proposer ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.contracts_manager ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.contracts_manager ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.task_orders ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.task_orders ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
-                <td><fa-icon class="access-icon" [ngClass]="[ viewRole.all ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="viewRole.all ? viewAccessIcon : viewNoAccessIcon"></fa-icon></td>
+              <tr *ngFor="let role of userRolesWithAccess">
+                <td>{{ getRoleText(role.id) }}</td>
                 <td>
-                    <fa-icon [icon]="editIcon" (click)="editVR(viewRole)"></fa-icon>
-                    <fa-icon [icon]="archiveIcon" (click)="deleteVR(viewRole)"></fa-icon>
+                  <div class="access-labels"><span>Read</span><span>Write</span></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('pre_rfx_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('pre_rfx_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('pre_rfx_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('pre_rfx_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="access-labels"><span>Read</span><span>Write</span></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('rfx_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('rfx_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('rfx_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('rfx_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="access-labels"><span>Read</span><span>Write</span></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('proposal_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('proposal_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('proposal_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('proposal_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="access-labels"><span>Read</span><span>Write</span></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('contract_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('contract_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('contract_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('contract_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td>
+                  <div class="access-labels"><span>Read</span><span>Write</span></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('task_order_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('task_order_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('task_order_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('task_order_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td class="all-column">
+                  <div class="access-labels"></div>
+                  <div class="access-icons">
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('all') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('all') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                  </div>
+                </td>
+                <td>
+                  <fa-icon [icon]="editIcon" (click)="editVR(role)"></fa-icon>
+                  <fa-icon [icon]="archiveIcon" (click)="deleteVR(role)"></fa-icon>
                 </td>
               </tr>
             </tbody>
@@ -33,5 +68,5 @@
     </div>
 </div>
 
-<app-vr-form-modal *ngIf="showVRForm" [selectedVRData]="selectedVR" [userRoles]="userRoles" (vrFormClosed)="formClosed()"></app-vr-form-modal>
+<app-vr-form-modal *ngIf="showVRForm" [selectedRoleData]="selectedRole" [userRoles]="userRoles" (vrFormClosed)="formClosed()"></app-vr-form-modal>
 <app-vr-delete-modal *ngIf="selectedVRForDelete" [viewRole]="selectedVRForDelete" (modalClosed)="selectedVRForDelete = null"></app-vr-delete-modal>

@@ -39,10 +39,6 @@ export class AdminService {
   private usrCollection: AngularFirestoreCollection<User>
   public users: Observable<User[]>
 
-  //  Observables for View Roles
-  private vrCollection: AngularFirestoreCollection<ViewRole>
-  public viewRoles: Observable<ViewRole[]>
-
   //  Observables for User Business Units
   private ubuCollection: AngularFirestoreCollection<UserBusinessUnit>
   public userBusinessUnits: Observable<UserBusinessUnit[]>
@@ -75,9 +71,6 @@ export class AdminService {
 
     this.usrCollection = afs.collection<User>('users')
     this.users = this.usrCollection.valueChanges()
-
-    this.vrCollection = afs.collection<ViewRole>('view-roles')
-    this.viewRoles = this.vrCollection.valueChanges()
 
     this.ubuCollection = afs.collection<UserBusinessUnit>('user-business-units')
     this.userBusinessUnits = this.ubuCollection.valueChanges()
@@ -255,20 +248,12 @@ export class AdminService {
   }
 
   // CUD calls for View Roles
-  public createViewRole( data: ViewRole ): Promise<any> {
-    return this.vrCollection.add(data)
+  public updateViewRole(data: ViewRole): Promise<any> {
+    return this.urCollection.doc(data.role_id).update({ view_access: data.view_access })
   }
 
-  public attachIdToViewRole( docId: string): Promise<any> {
-    return this.vrCollection.doc(docId).update({ id: docId })
-  }
-
-  public updateViewRole( data: ViewRole): Promise<any> {
-    return this.vrCollection.doc(data.id).set(data)
-  }
-
-  public deleteViewRole( docId: string): Promise<any> {
-    return this.vrCollection.doc(docId).delete()
+  public deleteViewRole(roleId: string): Promise<any> {
+    return this.urCollection.doc(roleId).update({ view_access: [] })
   }
 
   // CUD calls for User Business Units
@@ -365,6 +350,7 @@ export interface UserRole {
   name: string,
   text: string,
   help_text: string,
+  view_access?: string[],
   active: boolean
 }
 
@@ -378,14 +364,8 @@ export interface User {
 }
 
 export interface ViewRole {
-  id?: string,
   role_id: string,
-  pre_rfx: boolean,
-  rfx: boolean,
-  proposer: boolean,
-  contracts_manager: boolean,
-  task_orders: boolean,
-  all: boolean
+  view_access: string[]
 }
 
 export interface UserBusinessUnit {

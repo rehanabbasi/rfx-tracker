@@ -12,20 +12,31 @@ declare var $: any;
 export class VrFormModalComponent implements OnInit, AfterViewInit {
 
   public vrForm = this._fb.group({
-    role_id: ['', [ Validators.required ]],
-    pre_rfx: [false, [ Validators.required ]],
-    rfx: [false, [ Validators.required ]],
-    proposer: [false, [ Validators.required ]],
-    contracts_manager: [false, [ Validators.required ]],
-    task_orders: [false, [ Validators.required ]],
-    all: [false, [ Validators.required ]]
+    role_id: ['', [ Validators.required ]]
   })
 
   public formStatusMessage: string = ''
   public formSuccessMessage: string = ''
 
+  public rolesAccessArray: {
+    label: string,
+    name: string
+  }[] =[
+    { label: 'Pre-RFx Read', name: 'pre_rfx_read'},
+    { label: 'Pre-RFx Write', name: 'pre_rfx_write'},
+    { label: 'RFx Read', name: 'rfx_read'},
+    { label: 'RFx Write', name: 'rfx_write'},
+    { label: 'Proposals Read', name: 'proposal_read'},
+    { label: 'Proposals Write', name: 'proposal_write'},
+    { label: 'Contracts Read', name: 'contract_read'},
+    { label: 'Contracts Write', name: 'contract_write'},
+    { label: 'Task Orders Read', name: 'task_order_read'},
+    { label: 'Task Orders Write', name: 'task_order_write'},
+    { label: 'All', name: 'all'}
+  ] 
+
   @Input()
-  public selectedVRData: ViewRole
+  public selectedRoleData: UserRole
 
   @Input()
   public userRoles: UserRole[]
@@ -39,40 +50,34 @@ export class VrFormModalComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
+    this.vrForm.addControl('view_access', this._fb.array(this.rolesAccessArray.map(x => !1)))
     this.showVRForm()
   }
 
   ngAfterViewInit(): void {
-    if(this.selectedVRData && this.selectedVRData.id) {
+    if(this.selectedRoleData && this.selectedRoleData.id) {
       setTimeout(() => {
-        this.vrForm.controls['role_id'].setValue(this.selectedVRData.role_id)
-        this.vrForm.controls['pre_rfx'].setValue(this.selectedVRData.pre_rfx)
-        this.vrForm.controls['rfx'].setValue(this.selectedVRData.rfx)
-        this.vrForm.controls['proposer'].setValue(this.selectedVRData.proposer)
-        this.vrForm.controls['contracts_manager'].setValue(this.selectedVRData.contracts_manager)
-        this.vrForm.controls['task_orders'].setValue(this.selectedVRData.task_orders)
-        this.vrForm.controls['all'].setValue(this.selectedVRData.all)
+        this.vrForm.controls['role_id'].setValue(this.selectedRoleData.id)        
+        this.vrForm.setControl('view_access', this._fb.array(this.rolesAccessArray.map(x => this.selectedRoleData.view_access.indexOf(x.name) > -1)))
       }, 250)
     } else {
       setTimeout(() => {
-        this.vrForm.controls['role_id'].setValue(this.userRoles[0].id)
-        this.vrForm.controls['pre_rfx'].setValue(false)
-        this.vrForm.controls['rfx'].setValue(false)
-        this.vrForm.controls['proposer'].setValue(false)
-        this.vrForm.controls['contracts_manager'].setValue(false)
-        this.vrForm.controls['task_orders'].setValue(false)
-        this.vrForm.controls['all'].setValue(false)
+        this.vrForm.controls['role_id'].setValue('')
       }, 250)
     }
+  }
+
+  private convertCheckBoxesValueToViewAcess(key: string): string {
+    return this.vrForm.value[key].map((x, i) => x && this.rolesAccessArray[i].name).filter(x => !!x)
   }
 
   public vrFormSubmit(): void {
     if(this.vrForm.valid){
       this.formStatusMessage = ''
       this.formSuccessMessage = ''
-      if(this.selectedVRData && this.selectedVRData.id) {
+      if(this.selectedRoleData && this.selectedRoleData.id) {
         let data = this.vrForm.value
-        data.id = this.selectedVRData.id
+        data.view_access = this.convertCheckBoxesValueToViewAcess('view_access')
         this._admin.updateViewRole(data)
           .then( res => {
             this.formSuccessMessage = "View Access by Role has been updated."
@@ -81,25 +86,13 @@ export class VrFormModalComponent implements OnInit, AfterViewInit {
             console.error('Error while updating View Access by Role: ', error)
           })
       } else {
-        this._admin.createViewRole(this.vrForm.value)
+        let data = this.vrForm.value
+        data.view_access = this.convertCheckBoxesValueToViewAcess('view_access')
+        this._admin.updateViewRole(data)
           .then( res => {
-            if(res.id) {
-              this._admin.attachIdToViewRole(res.id)
-                .then( result => {
-                  this.formSuccessMessage = "Your new View Access by Role has been added."
-                  this.vrForm.reset()
-                  this.vrForm.controls['role_id'].setValue(this.userRoles[0].id)
-                  this.vrForm.controls['pre_rfx'].setValue(false)
-                  this.vrForm.controls['rfx'].setValue(false)
-                  this.vrForm.controls['proposer'].setValue(false)
-                  this.vrForm.controls['contracts_manager'].setValue(false)
-                  this.vrForm.controls['task_orders'].setValue(false)
-                  this.vrForm.controls['all'].setValue(false)
-                })
-                .catch( error => {
-                  console.error('Error while attaching View Access by Role id: ', error)
-                })
-            }
+            this.formSuccessMessage = "Your new View Access by Role has been added."
+            this.vrForm.reset()
+            this.vrForm.controls['role_id'].setValue('')
           })
           .catch( error => {
             console.error('Error while adding new View Access by Role: ', error)

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { AdminService, ViewRole } from '../../../shared/services/admin.service';
+import { AdminService, ViewRole, UserRole } from '../../../shared/services/admin.service';
 
 declare var $: any;
 
@@ -15,7 +15,7 @@ export class VrDeleteModalComponent implements OnInit {
   public deleteSuccessMessage: string = ''
 
   @Input()
-  public viewRole: ViewRole
+  public viewRole: UserRole
   
   @Output() 
   modalClosed: EventEmitter<any> = new EventEmitter()
