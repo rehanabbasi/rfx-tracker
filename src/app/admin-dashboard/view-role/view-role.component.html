@@ -18,10 +18,11 @@
               <tr *ngFor="let role of userRolesWithAccess">
                 <td>{{ getRoleText(role.id) }}</td>
                 <td>
-                  <div class="access-labels"><span>Read</span><span>Write</span></div>
-                  <div class="access-icons">
+                  <div class="access-labels three-col-layout"><span>Read</span><span>Write</span><span>Approve</span></div>
+                  <div class="access-icons three-col-layout">
                     <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('pre_rfx_read') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('pre_rfx_read') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
                     <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('pre_rfx_write') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('pre_rfx_write') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
+                    <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('pre_rfx_approve') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('pre_rfx_approve') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
                   </div>
                 </td>
                 <td>
@@ -53,7 +54,7 @@
                   </div>
                 </td>
                 <td class="all-column">
-                  <div class="access-labels"></div>
+                  <div class="access-labels"><span>All</span></div>
                   <div class="access-icons">
                     <fa-icon class="access-icon" [ngClass]="[ role.view_access.indexOf('all') > -1 ? 'checked-icon' : 'unchecked-icon'  ]" [icon]="role.view_access.indexOf('all') > -1 ? viewAccessIcon : viewNoAccessIcon"></fa-icon>
                   </div>

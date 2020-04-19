@@ -24,6 +24,7 @@ export class VrFormModalComponent implements OnInit, AfterViewInit {
   }[] =[
     { label: 'Pre-RFx Read', name: 'pre_rfx_read'},
     { label: 'Pre-RFx Write', name: 'pre_rfx_write'},
+    { label: 'Pre-RFx Approve', name: 'pre_rfx_approve'},
     { label: 'RFx Read', name: 'rfx_read'},
     { label: 'RFx Write', name: 'rfx_write'},
     { label: 'Proposals Read', name: 'proposal_read'},

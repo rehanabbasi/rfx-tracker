@@ -2,4 +2,8 @@
 
 .access-checkboxes
     display: grid !important
-    grid-template-columns: repeat(2, 1fr)
+    grid-template-columns: repeat(3, 1fr)
+    grid-column-gap: 1rem
+
+    .form-check:nth-child(2n+5)
+        grid-column-end: span 2
