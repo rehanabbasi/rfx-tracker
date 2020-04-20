@@ -312,6 +312,14 @@ export class AdminService {
   public getPreRFxApprovalRoles(): Observable<UserRole[]> {
     return this.afs.collection<UserRole>('user-roles', ref => ref.where('view_access', 'array-contains', 'pre_rfx_approve')).valueChanges()
   }
+
+  public getUserBusinessUnit(userId: string): Observable<UserBusinessUnit[]> {
+    return this.afs.collection<UserBusinessUnit>('user-business-units', ref => ref.where('user_id', '==', userId)).valueChanges()
+  }
+
+  public getUserCategories(userId: string): Observable<UserCategory[]> {
+    return this.afs.collection<UserCategory>('user-categories', ref => ref.where('user_id', '==', userId)).valueChanges()
+  }
 }
 
 export interface BusinessUnit { 

@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 
 import { PreRfxService, PreRFx, Upload, RFxComment } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User, UserBusinessUnit } from '../shared/services/admin.service';
 import { AuthService } from '../shared/services/auth.service';
 import { UtilsService, EmailTypes } from '../shared/services/utils.service';
 import { switchMap } from 'rxjs/operators';
@@ -122,6 +122,9 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   public editDisabledMessage: string = ''
 
   private approverEmails: string[] = []
+
+  private currentUserBusinessUnitId: string = ''
+  private currentUserCategoryId: string = ''
   
   constructor(
     private _pre_rfx: PreRfxService,
@@ -155,6 +158,8 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       this._auth.currentUser$.subscribe( currentUserArray => {
         if( currentUserArray.length > 0) {
           this.currentUser = currentUserArray[0]
+          this.loadUserBusinessUnit()
+          this.loadUserCategory()
         }
       }),
       this._admin.getPreRFxApprovalRoles().pipe(
@@ -167,6 +172,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       ).subscribe( (users) => {
         this.approverEmails = users.map( user => user.email)
       })
+      
     )
   }
 
@@ -174,6 +180,32 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => {
       sub.unsubscribe()
     })
+  }
+  
+  private loadUserBusinessUnit(): void{
+    this.subscriptions.push(
+      this._admin.getUserBusinessUnit(this.currentUser.id).subscribe( (userBusinessUnits) => {
+        if(userBusinessUnits && userBusinessUnits.length > 0) {
+          this.currentUserBusinessUnitId = userBusinessUnits[0].bu_ids && userBusinessUnits[0].bu_ids.length > 0 ? userBusinessUnits[0].bu_ids[0] : ''
+          if(!this.preRFxId) {
+            this.preRFxForm.controls['bu_id'].setValue(this.currentUserBusinessUnitId)
+          }
+        } 
+      })
+    )
+  }
+
+  private loadUserCategory(): void {
+    this.subscriptions.push(
+      this._admin.getUserCategories(this.currentUser.id).subscribe( (userCategories) => {
+        if(userCategories && userCategories.length > 0) {
+          this.currentUserCategoryId = userCategories[0].cat_ids && userCategories[0].cat_ids.length > 0 ? userCategories[0].cat_ids[0] : ''
+          if(!this.preRFxId) {
+            this.preRFxForm.controls['rfx_category_id'].setValue(this.currentUserCategoryId)
+          }
+        }
+      })
+    )
   }
 
   private loadRFxData(): void {
