@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 
 import { PreRfxService, PreRFx } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User } from '../shared/services/admin.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-pre-rfx-view',
   templateUrl: './pre-rfx-view.component.html',
   styleUrls: ['./pre-rfx-view.component.sass']
 })
-export class PreRfxViewComponent implements OnInit {
+export class PreRfxViewComponent implements OnInit, OnDestroy {
   public secHeaderIcon = faChevronRight
 
   private subscriptions: Subscription[] = []
@@ -27,7 +28,8 @@ export class PreRfxViewComponent implements OnInit {
     { value: 'pending', label: 'Pending' },
     { value: 'push-back', label: 'Push Back' },
     { value: 'no-go', label: 'No Go' },
-    { value: 'go', label: 'Go' }
+    { value: 'go', label: 'Go' },
+    { value: 'draft', label: 'Draft' }
   ]
 
   public sources: {
@@ -44,13 +46,19 @@ export class PreRfxViewComponent implements OnInit {
   public showBasicInfoSec: boolean = true
   public showDetailedInfoSec: boolean = true
   public showBuyerInfoSec: boolean = true
+  public showRFxCommentSec: boolean = true
 
   public preRFxId: string
   public preRFxData: PreRFx
 
+  public currentUser: User
+  public preRFxStatusUpdateData: any
+  private authorObj: User
+
   constructor(
     private _pre_rfx: PreRfxService,
     private _admin: AdminService,
+    private _auth: AuthService,
     private route: ActivatedRoute
   ) { }
 
@@ -73,14 +81,35 @@ export class PreRfxViewComponent implements OnInit {
           this.preRFxId = params['id']
           this.loadRFxData()
         }
+      }),
+      this._auth.currentUser$.subscribe( currentUserArray => {
+        if( currentUserArray.length > 0) {
+          this.currentUser = currentUserArray[0]
+        }
       })
     )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(sub => {
+      sub.unsubscribe()
+    })
   }
 
   private loadRFxData(): void {
     this._pre_rfx.getPreRFxById(this.preRFxId).subscribe( preRFx => {
       this.preRFxData = preRFx
+      console.log('pre RFx data: ', this.preRFxData)
+      this.loadAuthorData()
     })
+  }
+
+  private loadAuthorData(): void {
+    if(this.preRFxData.created_by_user_id) {
+      this._admin.getUsersById(this.preRFxData.created_by_user_id).subscribe( (userObj) => {
+        this.authorObj = userObj
+      })
+    }
   }
 
   public getBusinessUnitText(bu_id: string): string {
@@ -123,6 +152,36 @@ export class PreRfxViewComponent implements OnInit {
       return rFxSource.value === source
     })
     return sourceObjs.length > 0 ? sourceObjs[0].label : ''
+  }
+
+  public updatePreRFxStatus(status: string): void {
+    let statusUpdateData = {
+      id: this.preRFxData.id,
+      author_id: this.preRFxData.created_by_user_id,
+      rfx_number: this.preRFxData.rfx_number,
+      title: this.preRFxData.title,
+      pre_rfx_author_name: this.authorObj.name,
+      pre_rfx_author_email: this.authorObj.email,
+      status: status,
+      commentsArray: this.preRFxData.rfx_status_comments && this.preRFxData.rfx_status_comments.length > 0 ? this.preRFxData.rfx_status_comments : []
+    }
+    this.preRFxStatusUpdateData = statusUpdateData
+  }
+
+  public hasApproveAccess(): boolean {
+    if(this.currentUser){
+      return this.currentUser['view_access'].indexOf('pre_rfx_approve') > -1
+    } else {
+      return false
+    }
+  }
+
+  public hasWriteAccess(): boolean {
+    if(this.currentUser){
+      return this.currentUser['view_access'].indexOf('pre_rfx_write') > -1
+    } else {
+      return false
+    }
   }
 
 }

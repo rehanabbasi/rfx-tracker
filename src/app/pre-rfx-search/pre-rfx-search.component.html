@@ -13,7 +13,7 @@
           </div>
           <a class="adv-search-link" (click)="showPreRFxAdvSearch = true">Advanced Search</a>
         </div>
-        <div class="text-right"><a type="button" class="btn btn-outline-primary add-btn" [routerLink]="['/pre-rfx-add']">Add Pre-RFx</a></div>
+        <div class="text-right"><a *ngIf="hasWriteAccess()" type="button" class="btn btn-outline-primary add-btn" [routerLink]="['/pre-rfx-add']">Add Pre-RFx</a></div>
       </div>
       
       
@@ -41,8 +41,8 @@
               <td>{{ getRFxSourceText( preRFx.source ) }}</td>
               <td><a class="download-link" *ngIf="preRFx.attachment && preRFx.attachment.name" [href]="preRFx.attachment.download_url" download>{{ preRFx.attachment.name }}</a></td>
               <td>
-                <fa-icon [icon]="editIcon" [routerLink]="['/pre-rfx-edit/' + preRFx.id]" title="Edit Pre-RFx"></fa-icon>
-                <fa-icon [icon]="viewIcon" [routerLink]="['/pre-rfx-view/' + preRFx.id]" title="View Pre-RFx"></fa-icon>
+                <fa-icon *ngIf="hasWriteAccess()" [icon]="editIcon" [routerLink]="['/pre-rfx-edit/' + preRFx.id]" title="Edit Pre-RFx"></fa-icon>
+                <fa-icon *ngIf="hasReadAccess()" [icon]="viewIcon" [routerLink]="['/pre-rfx-view/' + preRFx.id]" title="View Pre-RFx"></fa-icon>
               </td>
             </tr>
           </tbody>

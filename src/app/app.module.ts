@@ -71,6 +71,8 @@ import { PreRfxAddComponent } from './pre-rfx-add/pre-rfx-add.component';
 import { PreRfxViewComponent } from './pre-rfx-view/pre-rfx-view.component';
 import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-advanced-search-modal/pre-rfx-advanced-search-modal.component';
 import { RegisterComponent } from './register/register.component';
+import { RfxCommentsModalComponent } from './pre-rfx-view/rfx-comments-modal/rfx-comments-modal.component';
+import { PreRfxAddCommentsModalComponent } from './pre-rfx-add/pre-rfx-add-comments-modal/pre-rfx-add-comments-modal.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +126,9 @@ import { RegisterComponent } from './register/register.component';
     PreRfxAddComponent,
     PreRfxViewComponent,
     PreRfxAdvancedSearchModalComponent,
-    RegisterComponent
+    RegisterComponent,
+    RfxCommentsModalComponent,
+    PreRfxAddCommentsModalComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ export class UtilsService {
     private _http: HttpClient
   ) { }
 
-  public sendEmail(emailAddress: string, email_type: string, data: any): Promise<firebase.functions.HttpsCallableResult>{
+  public sendEmail(emailAddress: any, email_type: string, data: any): Promise<firebase.functions.HttpsCallableResult>{
     let params = {
       to: emailAddress,
       type: email_type,

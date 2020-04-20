@@ -1,0 +1,20 @@
+<div class="modal fade" id="preRFxAddCommentsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Submit Pre-RFx for another review</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="info-text mb-2">You are about to mark this Pre-RFx as <strong>{{ getStatusLabel(pre_rfx_data.status) }}</strong>. Do you want to leave a comment before you proceed?</div>
+                <div class="my-3"><textarea rows="5" placeholder="Leave Comments for the Approver" [(ngModel)]="commentText"></textarea></div>
+                <div class="action-buttons text-right">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" (click)="proceedWithSave()">Proceed</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

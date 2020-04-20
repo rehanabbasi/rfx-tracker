@@ -89,6 +89,14 @@ export class PreRfxService {
       }).valueChanges()
     }
   }
+
+  public updatePreRFxStatus( preRFxId: string, newstatus: string, preRFxComments: RFxComment[] ): Promise<any> {
+    let updateData = {
+      rfx_status_comments: preRFxComments,
+      status: newstatus
+    }
+    return this.preRfxCollection.doc(preRFxId).update(updateData)
+  }
 }
 
 export class Upload {
@@ -136,18 +144,27 @@ export interface PreRFx {
   attachment?: {
     download_url: string,
     name: string
-  }
+  },
   buyer?: {
     name?: string,
     title?: string,
     contact?: string,
     email?: string
   },
-  created_by_user_id?: string
-  created_on_date?: string
+  created_by_user_id?: string,
+  created_on_date?: string,
+  rfx_status_comments?: RFxComment[]
 }
 
 export interface RfxConstraint {
   value: boolean,
   text?: string
+}
+
+export interface RFxComment {
+  date_time: string,
+  sender_id: string,
+  sender_name: string,
+  comment_text: string,
+  status: string
 }

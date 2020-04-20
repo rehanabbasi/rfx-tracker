@@ -295,8 +295,22 @@ export class AdminService {
     return this.afs.collection<User>('users', ref => ref.where('email', '==', email))
   }
 
+  // Get user details by id
+  public getUsersById( userId: string): Observable<User> {
+    return this.afs.doc<User>(`/users/${userId}`).valueChanges()
+  }
+  
+  // Get users details by ids
+  public getUsersByIds( userIds: string[]): Observable<User[]> {
+    return this.afs.collection<User>('users', ref => ref.where('role_id', 'in', userIds)).valueChanges()
+  }
+
   public getRoleById(role_id: string): AngularFirestoreDocument<UserRole> {
     return this.urCollection.doc(role_id)
+  }
+
+  public getPreRFxApprovalRoles(): Observable<UserRole[]> {
+    return this.afs.collection<UserRole>('user-roles', ref => ref.where('view_access', 'array-contains', 'pre_rfx_approve')).valueChanges()
   }
 }
 

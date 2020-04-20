@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { PreRfxService, PreRFx } from '../shared/services/pre-rfx.service';
 import { AdminService, BusinessUnit, RfxCategory, ClientAgency, User } from '../shared/services/admin.service';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-pre-rfx-search',
@@ -20,6 +21,7 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   public rfxCategories: RfxCategory[] = []
   public clientAgencies: ClientAgency[] = []
   public users: User[] = []
+  public currentUser: any
 
   public preRFxStatus: {
     value: string,
@@ -28,7 +30,8 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
     { value: 'pending', label: 'Pending' },
     { value: 'push-back', label: 'Push Back' },
     { value: 'no-go', label: 'No Go' },
-    { value: 'go', label: 'Go' }
+    { value: 'go', label: 'Go' },
+    { value: 'draft', label: 'Draft' }
   ]
 
   private sources: {
@@ -54,6 +57,7 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   constructor(
     private _pre_rfx: PreRfxService,
     private _admin: AdminService,
+    private _auth: AuthService,
     private _router: Router, 
     private _route: ActivatedRoute
   ) { }
@@ -80,6 +84,12 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
         this.searchTerm = params['query'] ? params['query'] : ''
         this.currentParams = params
         this.loadPreRFxResults()
+      }),
+
+      this._auth.currentUser$.subscribe( userArray => {
+        if( userArray ){
+          this.currentUser = userArray[0]
+        }
       })
     )
   }
@@ -142,5 +152,21 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
       relativeTo: this._route,
       queryParams: queryParams,
     })
+  }
+
+  public hasReadAccess(): boolean {
+    if(this.currentUser){
+      return this.currentUser.view_access.indexOf('pre_rfx_read') > -1
+    } else {
+      return false
+    }
+  }
+
+  public hasWriteAccess(): boolean {
+    if(this.currentUser){
+      return this.currentUser.view_access.indexOf('pre_rfx_write') > -1
+    } else {
+      return false
+    }
   }
 }

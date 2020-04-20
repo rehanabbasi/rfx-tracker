@@ -13,7 +13,7 @@
         justify-content: center
 
         .form-status-container
-            display: flex
+            display: grid
             justify-content: center
 
             .alert
@@ -69,6 +69,9 @@
                 cursor: pointer
                 padding: 0px 5px
 
+                &.control-disabled
+                    pointer-events: none
+
         input[type='text'],input[type='date'],input[type='datetime-local']
             width: 375px
             height: 40px
@@ -85,6 +88,10 @@
                 &.has-value
                     color: $input-color !important
 
+            &.control-disabled
+                pointer-events: none
+                background-color: $input-disabled-background-color
+
         textarea
             width: 375px
             padding: 10px
@@ -93,6 +100,10 @@
             font-family: "Roboto", sans-serif
             font-size: 15px
             resize: none
+
+            &.control-disabled
+                pointer-events: none
+                background-color: $input-disabled-background-color
 
         select
             width: 375px
@@ -103,8 +114,16 @@
             font-size: 15px
             border-radius: 0px
 
+            &.control-disabled
+                pointer-events: none
+                background-color: $input-disabled-background-color
+
         input[type='radio']
             cursor: pointer
+
+            &.control-disabled
+                pointer-events: none
+
             &:after
                 width: 20px
                 height: 20px
@@ -137,6 +156,10 @@
                 height: 40px
                 cursor: pointer
 
+                &.control-disabled
+                    pointer-events: none
+                    background-color: $input-disabled-background-color
+
             .custom-file-label
                 height: 40px
                 line-height: 40px
@@ -146,6 +169,12 @@
                 color: #333333 !important
                 font-family: "Roboto", sans-serif
                 font-size: 15px
+
+                &.control-disabled
+                    pointer-events: none
+
+                    &::after
+                        background-color: $input-disabled-background-color
 
                 &::after
                     top: -1px
@@ -164,6 +193,49 @@
             letter-spacing: 0.5px
             display: block
             color: $label-color
+
+        .rfx-comment
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            grid-column-gap: 1em
+
+            .comment-content
+                padding: 10px
+                background-color: #e9ecef
+                border-radius: 2px
+                
+                &.invert
+                    grid-column-start: 2
+
+                .name
+                    font-family: 'Roboto', sans-serif
+                    font-weight: bold
+
+                .date-time
+                    font-family: 'Nunito', sans-serif
+                    font-size: 14px
+                    font-style: italic
+                    color: $label-color
+
+                .badge
+                    font-family: "Roboto", sans-serif
+                    
+                    &.go
+                        background-color: $primary-color
+                        color: $white-color
+
+                    &.no-go
+                        background-color: $error-color
+                        color: $white-color
+
+                    &.push-back, &.pending
+                        background-color: $warn-color
+                        color: $input-color
+
+                .comment-text
+                    max-width: 400px
+                    font-family: 'Roboto', sans-serif
+                    font-size: 15px
 
     .action-buttons
         padding: 10px 0px
@@ -192,3 +264,6 @@
                 &:hover
                     background-color: $primary-color
                     color: $white-color
+
+            &:disabled
+                pointer-events: none

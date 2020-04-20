@@ -13,7 +13,7 @@
         flex-direction: column
         justify-content: center
 
-        .edit-btn
+        .edit-btn, .status-btn
             font-family: "Roboto", sans-serif
             font-size: 14px
             letter-spacing: 0.25px
@@ -23,6 +23,21 @@
             &:hover
                 background-color: $primary-color
                 color: $white-color
+
+            &.no-go
+                color: $error-color
+                border-color: $error-color
+
+                &:hover
+                    background-color: $error-color
+                    color: $white-color
+            &.push-back
+                color: $warn-color
+                border-color: $warn-color
+
+                &:hover
+                    background-color: $warn-color
+                    color: $white-color
 
         .sec-header
             min-width: 828px
@@ -82,3 +97,46 @@
 
         .related-text
             font-size: 14px
+
+        .rfx-comment
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            grid-column-gap: 1em
+
+            .comment-content
+                padding: 10px
+                background-color: #e9ecef
+                border-radius: 2px
+                
+                &.invert
+                    grid-column-start: 2
+
+                .name
+                    font-family: 'Roboto', sans-serif
+                    font-weight: bold
+
+                .date-time
+                    font-family: 'Nunito', sans-serif
+                    font-size: 14px
+                    font-style: italic
+                    color: $label-color
+
+                .badge
+                    font-family: "Roboto", sans-serif
+                    
+                    &.go
+                        background-color: $primary-color
+                        color: $white-color
+
+                    &.no-go
+                        background-color: $error-color
+                        color: $white-color
+
+                    &.push-back, &.pending
+                        background-color: $warn-color
+                        color: $input-color
+
+                .comment-text
+                    max-width: 400px
+                    font-family: 'Roboto', sans-serif
+                    font-size: 15px

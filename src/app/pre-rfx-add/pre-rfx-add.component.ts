@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 
-import { PreRfxService, PreRFx, Upload } from '../shared/services/pre-rfx.service';
+import { PreRfxService, PreRFx, Upload, RFxComment } from '../shared/services/pre-rfx.service';
 import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User } from '../shared/services/admin.service';
 import { AuthService } from '../shared/services/auth.service';
+import { UtilsService, EmailTypes } from '../shared/services/utils.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pre-rfx-add',
@@ -21,7 +23,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     bu_id: ['', [ Validators.required ]],
     rfx_number: ['', [ Validators.required ]],
     title: ['', [ Validators.required ]],
-    status: ['', [ Validators.required ]],
+    // status: ['', [ Validators.required ]],
     rfx_type_id: ['', [ Validators.required ]],
     rfx_category_id: ['', [ Validators.required ]],
     rfx_pub_date: [''],
@@ -83,7 +85,8 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     { value: 'pending', label: 'Pending' },
     { value: 'push-back', label: 'Push Back' },
     { value: 'no-go', label: 'No Go' },
-    { value: 'go', label: 'Go' }
+    { value: 'go', label: 'Go' },
+    { value: 'draft', label: 'Draft' }
   ]
 
   public submissionFormats: string[] = [ 'Online', 'Email', 'Mail' ]
@@ -101,21 +104,30 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   public fileUpload: Upload
 
   public savingForm: boolean = false
+  public savingDraft: boolean = false
 
   // For section expand/collapse
   public showBasicInfoSec: boolean = true
   public showDetailedInfoSec: boolean = true
   public showBuyerInfoSec: boolean = true
+  public showRFxCommentSec: boolean = true
 
   public preRFxId: string
-  private preRFxEdit: PreRFx
+  public preRFxEdit: PreRFx
+  public preRFxPendingStatusData: PreRFx
 
-  private currentUser: User
+  public currentUser: User
+
+  public editDisabled: boolean = false
+  public editDisabledMessage: string = ''
+
+  private approverEmails: string[] = []
   
   constructor(
     private _pre_rfx: PreRfxService,
     private _admin: AdminService,
     private _auth: AuthService,
+    private _utils: UtilsService,
     private _fb: FormBuilder,
     private route: ActivatedRoute
   ) { }
@@ -144,6 +156,16 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         if( currentUserArray.length > 0) {
           this.currentUser = currentUserArray[0]
         }
+      }),
+      this._admin.getPreRFxApprovalRoles().pipe(
+        switchMap( roles => {
+          if (roles) {
+            let role_ids = roles.map( role => role.id)
+            return this._admin.getUsersByIds(role_ids)
+          }
+        })
+      ).subscribe( (users) => {
+        this.approverEmails = users.map( user => user.email)
       })
     )
   }
@@ -161,7 +183,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         this.preRFxForm.controls['bu_id'].setValue(this.preRFxEdit.bu_id)
         this.preRFxForm.controls['rfx_number'].setValue(this.preRFxEdit.rfx_number)
         this.preRFxForm.controls['title'].setValue(this.preRFxEdit.title)
-        this.preRFxForm.controls['status'].setValue(this.preRFxEdit.status)
+        // this.preRFxForm.controls['status'].setValue(this.preRFxEdit.status)
 
         this.preRFxForm.controls['rfx_type_id'].setValue(this.preRFxEdit.rfx_type_id)
         this.preRFxForm.controls['rfx_category_id'].setValue(this.preRFxEdit.rfx_category_id)
@@ -202,26 +224,44 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         if( this.preRFxEdit.attachment ) {
           this.selectedAttachmentFile = new File([], this.preRFxEdit.attachment.name)
         }
+
+        this.editDisabled = this.preRFxEdit.status !== 'draft' && this.preRFxEdit.status !== 'push-back'
+        if(this.editDisabled) {
+          this.editDisabledMessage = `This Pre-RFx is currently in <strong>${this.getRFxStatusText( this.preRFxEdit.status )}</strong> status, and cannot be modified.`
+        }
       }, 250)
     })
   }
 
-  public preRFxFormSubmit(): void {
+  public getRFxStatusText(status: string): string {
+    let statusObjs: { value: string, label: string }[] = this.preRFxStatus.filter( preRFxStatus => {
+      return preRFxStatus.value === status
+    })
+    return statusObjs.length > 0 ? statusObjs[0].label : ''
+  }
+
+  public preRFxFormSubmit(saveAsDraft?: boolean): void {
     this.formStatusMessage = ''
     this.formSuccessMessage = ''
 
-    if(this.preRFxForm.valid){
-      this.savingForm = true
+    if(this.preRFxForm.valid || saveAsDraft){
+      if(saveAsDraft) {
+        this.savingDraft = true
+      } else {
+        this.savingForm = true
+      }
       
       if(this.preRFxEdit && this.preRFxEdit.id) {
-        let data = this.preRFxForm.value
+        let data: PreRFx = this.preRFxForm.value
         data.id = this.preRFxEdit.id
         data.created_by_user_id = this.preRFxEdit.created_by_user_id ? this.preRFxEdit.created_by_user_id : this.currentUser.id
         data.created_on_date = this.preRFxEdit.created_on_date ? this.preRFxEdit.created_on_date : formatDate(new Date(), 'yyyy-MM-dd', 'en')
+        data.status = saveAsDraft ? 'draft' : 'pending'
+        data.rfx_status_comments = this.preRFxEdit.rfx_status_comments && this.preRFxEdit.rfx_status_comments.length > 0 ? this.preRFxEdit.rfx_status_comments : []
+
         if( this.selectedAttachmentFile && this.selectedAttachmentFile.size > 0 ) { // Attachment updated
           this._pre_rfx.deleteRFxAttachment(this.preRFxEdit.attachment ? this.preRFxEdit.attachment.name : '')
             .then( res => {
-              console.log('delete attachment res: ', res)
               this.fileUpload = new Upload(this.selectedAttachmentFile)
               this._pre_rfx.pushRFxAttachmentUpload(this.fileUpload)
                 .then( upload => {
@@ -233,11 +273,13 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
                 })
                 .catch( error => {
                   this.savingForm = false
+                  this.savingDraft = false
                   console.error('Error while uploading Pre-RFx Attachment', error)
                 })
             })
             .catch( error => {
               this.savingForm = false
+              this.savingDraft = false
               console.error('Error while deleting Pre-RFx Attachment', error)
             })
         } else { // Attachment remains the same
@@ -250,6 +292,8 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         let data: PreRFx = this.preRFxForm.value
         data.created_by_user_id = this.currentUser.id
         data.created_on_date = formatDate(new Date(), 'yyyy-MM-dd', 'en')
+        data.status = saveAsDraft ? 'draft' : 'pending'
+        
         if(this.selectedAttachmentFile && this.selectedAttachmentFile.name) {
           this.fileUpload = new Upload(this.selectedAttachmentFile)
           this._pre_rfx.pushRFxAttachmentUpload(this.fileUpload)
@@ -262,6 +306,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
             })
             .catch( error => {
               this.savingForm = false
+              this.savingDraft = false
               console.error('Error while uploading Pre-RFx Attachment', error)
             })
         } else {
@@ -281,36 +326,110 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       .then( res => {
         if(res.id) {
           this._pre_rfx.attachIdToPreRFx(res.id)
-            .then( res => {
-              this.preRFxForm.reset()
-              this.resetCustomControls()
-              this.formSuccessMessage = "Your new Pre-RFx has been added."
-              this.savingForm = false
-              window.scrollTo(0, 0)
+            .then( response => {
+              if(data.status === 'pending') {
+                let emailData: any = {
+                  "searcher_name": this.currentUser.name,
+                  "pre_rfx_id": res.id,
+                  "rfx_number": data.rfx_number,
+                  "rfx_title": data.title,
+                  "client_agency": this.getClientAgencyText( data.client_agency_id ),
+                  "state_province": data.state_province,
+                  "pre_rfx_notes": data.rfx_comments
+                }
+                this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxCreated, emailData)
+                  .then( (emailResponse) => {
+                    this.preRFxForm.reset()
+                    this.resetCustomControls()
+                    this.formSuccessMessage = "Your new Pre-RFx has been added."
+                    this.savingForm = false
+                    window.scrollTo(0, 0)
+                  })
+                  .catch( (error) => {
+                    console.error('Error while sending email notifications to approvers: ', error)
+                  })
+              } else {
+                this.preRFxForm.reset()
+                this.resetCustomControls()
+                this.formSuccessMessage = "Your new Pre-RFx has been added."
+                this.savingDraft = false
+                window.scrollTo(0, 0)
+              }
             })
             .catch( error => {
               this.savingForm = false
+              this.savingDraft = false
               console.error('Error while attaching Pre-RFx id: ', error)
             })
         }
       })
       .catch( error => {
         this.savingForm = false
+        this.savingDraft = false
         console.error('Error while creating Pre-RFx: ', error)
       })
   }
 
   private saveEditPreRFxData(data: PreRFx): void {
-    data.title_search_array = data.title.toLowerCase().split(' ')
-    this._pre_rfx.updatePreRFx(data)
-      .then( res => {
-        this.formSuccessMessage = "Your Pre-RFx has been updated."
-        this.savingForm = false
-        window.scrollTo(0, 0)
-      })
-      .catch( error => {
-        console.error('Error while updating Pre-RFx: ', error)
-      })
+    if(data.status === 'pending') {
+      this.preRFxPendingStatusData = data
+    } else {
+      data.title_search_array = data.title.toLowerCase().split(' ')
+      this._pre_rfx.updatePreRFx(data)
+        .then( res => {
+          this.formSuccessMessage = "Your Pre-RFx has been updated."
+          this.savingForm = false
+          this.savingDraft = false
+          window.scrollTo(0, 0)
+        })
+        .catch( error => {
+          console.error('Error while updating Pre-RFx: ', error)
+        })
+    }
+  }
+
+  public preRFxAddCommentModalClosed(event): void {
+    this.preRFxPendingStatusData = null
+    if(event.proceed) {
+      if(event.comment_text) {
+        let commentObj: RFxComment = {
+          date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
+          sender_id: this.currentUser.id,
+          sender_name: this.currentUser.name,
+          comment_text: event.comment_text,
+          status: event.pre_rfx_data.status
+        }
+        event.pre_rfx_data.rfx_status_comments.push(commentObj)
+      }
+      event.pre_rfx_data.title_search_array = event.pre_rfx_data.title.toLowerCase().split(' ')
+      this._pre_rfx.updatePreRFx(event.pre_rfx_data)
+        .then( res => {
+          let emailData: any = {
+            "searcher_name": this.currentUser.name,
+            "pre_rfx_id": event.pre_rfx_data.id,
+            "rfx_number": event.pre_rfx_data.rfx_number,
+            "rfx_title": event.pre_rfx_data.title,
+            "client_agency": this.getClientAgencyText( event.pre_rfx_data.client_agency_id ),
+            "state_province": event.pre_rfx_data.state_province,
+            "searcher_comments": event.comment_text
+          }
+
+          this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxUpdatedBySearcher, emailData)
+            .then( (emailResponse) => {
+              this.formSuccessMessage = "Your Pre-RFx has been updated."
+              this.savingForm = false
+              window.scrollTo(0, 0)
+            })
+            .catch( (error) => {
+              console.error('Error while sending email notifications to approvers: ', error)
+            })
+        })
+        .catch( error => {
+          console.error('Error while updating Pre-RFx: ', error)
+        })
+    } else {
+      this.savingForm = false
+    }
   }
 
   private resetCustomControls(): void {
@@ -325,6 +444,32 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
 
   public rfxAttachmentUpdated(event: any): void {
     this.selectedAttachmentFile = event.target.files[0]
+  }
+
+  public getEditDisabledMessageClass(): string {
+    let className = 'alert-warning'
+    if(this.preRFxEdit){
+      switch(this.preRFxEdit.status){
+        case 'go':
+          className = 'alert-success'
+          break
+        case 'no-go':
+          className = 'alert-danger'
+          break
+        default:
+          className = 'alert-warning'
+          break
+      }
+    }
+    className += this.editDisabledMessage ? ' show' : ' hide'
+    return className
+  }
+
+  public getClientAgencyText(ca_id: string): string {
+    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
+      return clientAgency.id === ca_id
+    })
+    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
   }
 
 }

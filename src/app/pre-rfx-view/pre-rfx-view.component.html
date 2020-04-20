@@ -5,7 +5,12 @@
     <div class="inner-wrapper">
         <div *ngIf="preRFxData && preRFxData.id" class="main-content p-3 mb-5">
             <div class="content-contianer p-3">
-                <div class="mb-2 text-right mx-4"><a type="button" class="btn btn-outline-primary edit-btn" [routerLink]="['/pre-rfx-edit/' + preRFxId]">Edit Pre-RFx</a></div>
+                <div *ngIf="hasWriteAccess()" class="mb-2 text-right mx-4"><a type="button" class="btn btn-outline-primary edit-btn" [routerLink]="['/pre-rfx-edit/' + preRFxId]">Edit Pre-RFx</a></div>
+                <div *ngIf="hasApproveAccess() && preRFxData.status === 'pending'" class="mb-2 text-right mx-4">
+                    <a type="button" class="btn btn-outline-primary status-btn push-back" (click)="updatePreRFxStatus('push-back')">Push Back</a>
+                    <a type="button" class="btn btn-outline-primary status-btn mx-2 no-go" (click)="updatePreRFxStatus('no-go')">No Go</a>
+                    <a type="button" class="btn btn-outline-primary status-btn" (click)="updatePreRFxStatus('go')">Go</a>
+                </div>
                 <div class="sec">
                     <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showBasicInfoSec }" data-toggle="collapse" data-target="#basic-info-sec" aria-expanded="true" aria-controls="basic-info-sec" (click)="showBasicInfoSec = !showBasicInfoSec">
                         <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
@@ -222,8 +227,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div *ngIf="preRFxData && preRFxData.rfx_status_comments && preRFxData.rfx_status_comments.length > 0" class="sec pt-4">
+                    <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showRFxCommentSec }" data-toggle="collapse" data-target="#rfx-comment-sec" aria-expanded="true" aria-controls="rfx-comment-sec" (click)="showRFxCommentSec = !showRFxCommentSec">
+                        <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
+                        <div>
+                            <h4 class="m-0">Pre-RFx Comments</h4>
+                        </div>
+                    </div>
+                    <div id="rfx-comment-sec" class="mx-4 collapse show">
+                        <div *ngFor="let comment of preRFxData.rfx_status_comments" class="mx-0 mb-2 rfx-comment">
+                            <div class="col comment-content" [ngClass]="{ 'invert': currentUser && comment.sender_id !== currentUser.id }">
+                                <div class="col-12">
+                                    <span class="name">{{ comment.sender_name }}</span>
+                                    <span class="date-time mx-3">{{ comment.date_time }}</span>
+                                    <span class="badge" [ngClass]="comment.status">{{ getRFxStatusText(comment.status) }}</span>
+                                </div>
+                                <div class="col-12 comment-text">{{ comment.comment_text}} </div>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+                    </div>
+                </div>
                     
             </div>
         </div>
     </div>
 </div>
+
+<app-rfx-comments-modal *ngIf="preRFxStatusUpdateData" [pre_rfx_data]="preRFxStatusUpdateData" [currentUser]="currentUser" (modalClosed)="preRFxStatusUpdateData = null"></app-rfx-comments-modal>
