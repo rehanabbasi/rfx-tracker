@@ -404,7 +404,35 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
 
   private saveEditPreRFxData(data: PreRFx): void {
     if(data.status === 'pending') {
-      this.preRFxPendingStatusData = data
+      if(data.rfx_status_comments.length > 0) { // Re-submitting for review
+        this.preRFxPendingStatusData = data
+      } else { // Submitting for review for the first time
+        data.title_search_array = data.title.toLowerCase().split(' ')
+        this._pre_rfx.updatePreRFx(data)
+          .then( res => {
+            let emailData: any = {
+              "searcher_name": this.currentUser.name,
+              "pre_rfx_id": data.id,
+              "rfx_number": data.rfx_number,
+              "rfx_title": data.title,
+              "client_agency": this.getClientAgencyText( data.client_agency_id ),
+              "state_province": data.state_province,
+              "pre_rfx_notes": data.rfx_comments
+            }
+            this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxCreated, emailData)
+              .then( (emailResponse) => {
+                this.formSuccessMessage = "Your Pre-RFx has been updated."
+                this.savingForm = false
+                window.scrollTo(0, 0)
+              })
+              .catch( (error) => {
+                console.error('Error while sending email notifications to approvers: ', error)
+              })
+          })
+          .catch( error => {
+            console.error('Error while updating Pre-RFx: ', error)
+          })
+      }
     } else {
       data.title_search_array = data.title.toLowerCase().split(' ')
       this._pre_rfx.updatePreRFx(data)
@@ -423,16 +451,16 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   public preRFxAddCommentModalClosed(event): void {
     this.preRFxPendingStatusData = null
     if(event.proceed) {
-      if(event.comment_text) {
-        let commentObj: RFxComment = {
-          date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
-          sender_id: this.currentUser.id,
-          sender_name: this.currentUser.name,
-          comment_text: event.comment_text,
-          status: event.pre_rfx_data.status
-        }
-        event.pre_rfx_data.rfx_status_comments.push(commentObj)
+      let commentText: string = event.comment_text ? event.comment_text : ''
+      let commentObj: RFxComment = {
+        date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
+        sender_id: this.currentUser.id,
+        sender_name: this.currentUser.name,
+        comment_text: commentText,
+        status: event.pre_rfx_data.status
       }
+      event.pre_rfx_data.rfx_status_comments.push(commentObj)
+      
       event.pre_rfx_data.title_search_array = event.pre_rfx_data.title.toLowerCase().split(' ')
       this._pre_rfx.updatePreRFx(event.pre_rfx_data)
         .then( res => {

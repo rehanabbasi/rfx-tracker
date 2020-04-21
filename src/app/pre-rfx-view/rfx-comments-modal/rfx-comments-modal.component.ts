@@ -41,16 +41,15 @@ export class RfxCommentsModalComponent implements OnInit {
   public updateStatus(): void {
     let commentsArray: any[] = this.pre_rfx_data.commentsArray
 
-    if(this.commentText) {
-      let commentObj: RFxComment = {
-        date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
-        sender_id: this.currentUser.id,
-        sender_name: this.currentUser.name,
-        comment_text: this.commentText,
-        status: this.pre_rfx_data.status
-      }
-      commentsArray.push(commentObj)
+    let commentText: string = this.commentText ? this.commentText : ''
+    let commentObj: RFxComment = {
+      date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
+      sender_id: this.currentUser.id,
+      sender_name: this.currentUser.name,
+      comment_text: commentText,
+      status: this.pre_rfx_data.status
     }
+    commentsArray.push(commentObj)
 
     this._pre_rfx.updatePreRFxStatus(this.pre_rfx_data.id, this.pre_rfx_data.status, commentsArray)
       .then( res => {
