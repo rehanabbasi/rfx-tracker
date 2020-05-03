@@ -4,7 +4,6 @@
         <table class="table table-striped">
             <thead>
               <tr>
-                <th>Client Agency ID</th>
                 <th>Client Type</th>
                 <th>Client Name</th>
                 <th>Client Description</th>
@@ -14,7 +13,6 @@
             </thead>
             <tbody>
               <tr *ngFor="let clientAgency of clientAgencies">
-                <td>{{ clientAgency.id }}</td>
                 <td>{{ clientAgency.type }}</td>
                 <td>{{ clientAgency.name }}</td>
                 <td>{{ clientAgency.description }}</td>

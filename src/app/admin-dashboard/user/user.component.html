@@ -4,7 +4,6 @@
         <table class="table table-striped">
             <thead>
               <tr>
-                <th>User ID</th>
                 <th>User Name</th>
                 <th>User Email</th>
                 <th>User Phone</th>
@@ -14,7 +13,6 @@
             </thead>
             <tbody>
               <tr *ngFor="let user of users" [ngClass]="{'half-opaque': !user.name }">
-                <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.phone }}</td>

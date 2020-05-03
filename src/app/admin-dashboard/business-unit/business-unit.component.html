@@ -4,8 +4,7 @@
         <table class="table table-striped">
             <thead>
               <tr>
-                <th>Business Unit ID</th>
-                <th>Business Unit Name</th>
+                <th>Business Unit Code</th>
                 <th>Business Unit Description</th>
                 <th>Business Unit Effective Date</th>
                 <th>Actions</th>
@@ -13,7 +12,6 @@
             </thead>
             <tbody>
               <tr *ngFor="let businessUnit of businessUnits">
-                <td>{{ businessUnit.id }}</td>
                 <td>{{ businessUnit.name }}</td>
                 <td>{{ businessUnit.description }}</td>
                 <td>{{ businessUnit.date | date:'longDate' }}</td>

@@ -4,7 +4,6 @@
         <table class="table table-striped">
             <thead>
               <tr>
-                <th>RFx Document ID</th>
                 <th>RFx Document Type</th>
                 <th>RFx Description</th>
                 <th>RFx Document Type Help Text</th>
@@ -13,7 +12,6 @@
             </thead>
             <tbody>
               <tr *ngFor="let rfxDocumentType of rfxDocumentTypes">
-                <td>{{ rfxDocumentType.id }}</td>
                 <td>{{ rfxDocumentType.type }}</td>
                 <td>{{ rfxDocumentType.description }}</td>
                 <td>{{ rfxDocumentType.help_text }}</td>

@@ -4,7 +4,6 @@
         <table class="table table-striped">
             <thead>
               <tr>
-                <th>RFx Category ID</th>
                 <th>RFx Category Code</th>
                 <th>RFx Category Text</th>
                 <th>RFx Category Help Text</th>
@@ -13,7 +12,6 @@
             </thead>
             <tbody>
               <tr *ngFor="let rfxCategory of rfxCategories">
-                <td>{{ rfxCategory.id }}</td>
                 <td>{{ rfxCategory.code }}</td>
                 <td>{{ rfxCategory.display_text }}</td>
                 <td>{{ rfxCategory.help_text }}</td>
