@@ -21,7 +21,8 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-12 text-center">
-                                <select class="custom-select" formControlName="role_id">
+                                <label class="text-left input-label role-dropdown-label">User Role</label>
+                                <select class="custom-select mt-2" formControlName="role_id">
                                     <option value="">Select Role</option>
                                     <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
                                 </select>
@@ -30,7 +31,7 @@
                         
                         <div class="row mb-2">
                             <div class="col-12 text-left d-block">
-                                <div class="input-group-label w-100 mb-2">Choose Role Access:</div>
+                                <label class="text-left input-label mb-2">Choose Role Access:</label>
                                 <div class="access-checkboxes">
                                     <div *ngFor="let roleAccess of rolesAccessArray; let i = index" class="form-check mb-2" formArrayName="view_access">
                                         <input class="form-check-input" type="checkbox" [formControlName]="i" id="view_access_{{ roleAccess.name }}" [value]="roleAccess.name">

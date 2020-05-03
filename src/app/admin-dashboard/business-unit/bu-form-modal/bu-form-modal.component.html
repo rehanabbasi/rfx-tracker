@@ -20,14 +20,23 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center"><input type="text" formControlName="name" placeholder="Business Unit Name"></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">Business Unit Name</label>
+                                <input type="text" formControlName="name">
+                            </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center d-flex"><textarea rows="3" formControlName="description" placeholder="Business Unit Description"></textarea></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center d-flex flex-column">
+                                <label class="text-left input-label">Business Unit Description</label>
+                                <textarea rows="3" formControlName="description"></textarea>
+                            </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center"><input type="date" class="date-input" [ngClass]="{ 'has-value': buForm.value.date }" formControlName="date" placeholder="Business Unit Effective Date"></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">Business Unit Effective Date</label>
+                                <input type="date" class="date-input" [ngClass]="{ 'has-value': buForm.value.date }" formControlName="date">
+                            </div>
                         </div>
                         
                         <div class="action-buttons text-right">

@@ -19,14 +19,23 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center"><input type="text" formControlName="name" placeholder="Role Name"></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">Role Name</label>
+                                <input type="text" formControlName="name">
+                            </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center"><textarea rows="3" formControlName="text" placeholder="Role Text"></textarea></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">Role Text</label>
+                                <textarea rows="3" formControlName="text"></textarea>
+                            </div>
                         </div>
-                        <div class="row mb-2">
-                            <div class="col-12 text-center d-flex"><textarea rows="3" formControlName="help_text" placeholder="Role Help Text"></textarea></div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center d-flex flex-column">
+                                <label class="text-left input-label">Role Help Text</label>
+                                <textarea rows="3" formControlName="help_text"></textarea>
+                            </div>
                         </div>
                         
                         <div class="action-buttons text-right">

@@ -21,6 +21,7 @@
                         </div>
                         <div class="row mb-4">
                             <div class="col-12 text-center">
+                                <label class="text-left input-label">Select User</label>
                                 <select class="custom-select" formControlName="user_id">
                                     <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
                                 </select>
@@ -29,7 +30,7 @@
                         
                         <div class="row mb-2">
                             <div class="col-12 text-left d-block">
-                                <div class="input-group-label w-100 mb-2">Select RFx Categories:</div>
+                                <label class="text-left input-label mb-2">Select RFx Categories:</label>
                                 <div *ngFor="let rfxCategory of rfxCategories; let i = index" class="form-check mb-2" formArrayName="cat_ids">
                                     <input class="form-check-input" type="checkbox" [formControlName]="i" id="cat_checkbox_{{ rfxCategory.id }}" [value]="rfxCategory.id">
                                     <label class="form-check-label" for="cat_checkbox_{{ rfxCategory.id }}">{{ rfxCategory.code + ' - ' + rfxCategory.display_text }}</label>

@@ -19,20 +19,28 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-2" *ngIf="selectedUSRData">
-                            <div class="col-12 text-center"><input type="text" formControlName="name" placeholder="User Name"></div>
-                        </div>
-                        <div class="row mb-2">
+                        <div class="row mb-3" *ngIf="selectedUSRData">
                             <div class="col-12 text-center">
-                                <input *ngIf="selectedUSRData" type="text" formControlName="email" placeholder="User Email" disabled>
-                                <input *ngIf="!selectedUSRData" type="text" formControlName="email" placeholder="User Email">
+                                <label class="text-left input-label">User Name</label>
+                                <input type="text" formControlName="name">
                             </div>
                         </div>
-                        <div class="row mb-2" *ngIf="selectedUSRData">
-                            <div class="col-12 text-center"><input type="text" formControlName="phone" placeholder="User Phone"></div>
-                        </div>
-                        <div class="row mb-2">
+                        <div class="row mb-3">
                             <div class="col-12 text-center">
+                                <label class="text-left input-label">User Email</label>
+                                <input *ngIf="selectedUSRData" type="text" formControlName="email" disabled>
+                                <input *ngIf="!selectedUSRData" type="text" formControlName="email">
+                            </div>
+                        </div>
+                        <div class="row mb-3" *ngIf="selectedUSRData">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">User Phone</label>
+                                <input type="text" formControlName="phone">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 text-center">
+                                <label class="text-left input-label">User Role</label>
                                 <select class="custom-select" formControlName="role_id">
                                     <option value="">Select a User Role</option>
                                     <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
