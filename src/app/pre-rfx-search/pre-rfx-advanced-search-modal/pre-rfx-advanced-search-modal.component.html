@@ -25,11 +25,9 @@
                         </div>
                         <div><fa-icon *ngIf="advSearchQueries.length > 1" [icon]="removeIcon" title="Remove this row" class="ml-2" (click)="removeAdvSearchQuery(queryIndex)"></fa-icon></div>
                     </div>
-                    <div class="action-buttons px-4 py-0 mt-4">
-                        <button type="button" class="btn btn-secondary m-0" (click)="addNewAdvSearchQuery()">Add Query</button>
-                    </div>
                     
                     <div class="action-buttons text-right">
+                        <button type="button" class="btn btn-secondary m-0 ml-4 float-left" (click)="addNewAdvSearchQuery()">Add Query</button>
                         <button type="button" class="btn btn-secondary" (click)="resetAdvSearchQueries()">Clear</button>
                         <button type="submit" class="btn btn-primary" (click)="executeAdvSearch()">Search</button>
                     </div>
