@@ -255,4 +255,4 @@
     </div>
 </div>
 
-<app-rfx-comments-modal *ngIf="preRFxStatusUpdateData" [pre_rfx_data]="preRFxStatusUpdateData" [currentUser]="currentUser" (modalClosed)="preRFxStatusUpdateData = null"></app-rfx-comments-modal>
+<app-rfx-comments-modal *ngIf="preRFxStatusUpdateData" [businessUnit]="getBusinessUnitText(preRFxData.bu_id)" [pre_rfx_data]="preRFxStatusUpdateData" [currentUser]="currentUser" (modalClosed)="preRFxStatusUpdateData = null"></app-rfx-comments-modal>

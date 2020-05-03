@@ -360,22 +360,30 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
           this._pre_rfx.attachIdToPreRFx(res.id)
             .then( response => {
               if(data.status === 'pending') {
+                let clientAgencyName: string = this.getClientAgencyText( data.client_agency_id )
                 let emailData: any = {
                   "searcher_name": this.currentUser.name,
                   "pre_rfx_id": res.id,
                   "rfx_number": data.rfx_number,
                   "rfx_title": data.title,
-                  "client_agency": this.getClientAgencyText( data.client_agency_id ),
+                  "client_agency": clientAgencyName,
                   "state_province": data.state_province,
                   "pre_rfx_notes": data.rfx_comments
                 }
                 this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxCreated, emailData)
                   .then( (emailResponse) => {
-                    this.preRFxForm.reset()
-                    this.resetCustomControls()
-                    this.formSuccessMessage = "Your new Pre-RFx has been added."
-                    this.savingForm = false
-                    window.scrollTo(0, 0)
+                    let notificaitonText: string = this.preRfxCreateNotificationMsg(data.title, clientAgencyName, res.id)
+                    this._utils.sendSkypeNotification(notificaitonText, this.getBusinessUnitText(data.bu_id))
+                      .then( (notificationResponse) => {
+                        this.preRFxForm.reset()
+                        this.resetCustomControls()
+                        this.formSuccessMessage = "Your new Pre-RFx has been added."
+                        this.savingForm = false
+                        window.scrollTo(0, 0)
+                      })
+                      .catch( (error) => {
+                        console.error('Error while sending Skype Notificaiton: ', error)
+                      })
                   })
                   .catch( (error) => {
                     console.error('Error while sending email notifications to approvers: ', error)
@@ -383,7 +391,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
               } else {
                 this.preRFxForm.reset()
                 this.resetCustomControls()
-                this.formSuccessMessage = "Your new Pre-RFx has been added."
+                this.formSuccessMessage = "Your Pre-RFx draft has been saved."
                 this.savingDraft = false
                 window.scrollTo(0, 0)
               }
@@ -410,20 +418,28 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         data.title_search_array = data.title.toLowerCase().split(' ')
         this._pre_rfx.updatePreRFx(data)
           .then( res => {
+            let clientAgencyName: string = this.getClientAgencyText( data.client_agency_id )
             let emailData: any = {
               "searcher_name": this.currentUser.name,
               "pre_rfx_id": data.id,
               "rfx_number": data.rfx_number,
               "rfx_title": data.title,
-              "client_agency": this.getClientAgencyText( data.client_agency_id ),
+              "client_agency": clientAgencyName,
               "state_province": data.state_province,
               "pre_rfx_notes": data.rfx_comments
             }
             this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxCreated, emailData)
               .then( (emailResponse) => {
-                this.formSuccessMessage = "Your Pre-RFx has been updated."
-                this.savingForm = false
-                window.scrollTo(0, 0)
+                let notificaitonText: string = this.preRfxCreateNotificationMsg(data.title, clientAgencyName, data.id)
+                this._utils.sendSkypeNotification(notificaitonText, this.getBusinessUnitText(data.bu_id))
+                  .then( (notificationResponse) => {
+                    this.formSuccessMessage = "Your Pre-RFx has been updated."
+                    this.savingForm = false
+                    window.scrollTo(0, 0)
+                  })
+                  .catch( (error) => {
+                    console.error('Error while sending Skype Notificaiton: ', error)
+                  })
               })
               .catch( (error) => {
                 console.error('Error while sending email notifications to approvers: ', error)
@@ -464,21 +480,28 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       event.pre_rfx_data.title_search_array = event.pre_rfx_data.title.toLowerCase().split(' ')
       this._pre_rfx.updatePreRFx(event.pre_rfx_data)
         .then( res => {
+          let clientAgencyName: string = this.getClientAgencyText( event.pre_rfx_data.client_agency_id )
           let emailData: any = {
             "searcher_name": this.currentUser.name,
             "pre_rfx_id": event.pre_rfx_data.id,
             "rfx_number": event.pre_rfx_data.rfx_number,
             "rfx_title": event.pre_rfx_data.title,
-            "client_agency": this.getClientAgencyText( event.pre_rfx_data.client_agency_id ),
+            "client_agency": clientAgencyName,
             "state_province": event.pre_rfx_data.state_province,
             "searcher_comments": event.comment_text
           }
-
           this._utils.sendEmail(this.approverEmails, EmailTypes.PreRFxUpdatedBySearcher, emailData)
             .then( (emailResponse) => {
-              this.formSuccessMessage = "Your Pre-RFx has been updated."
-              this.savingForm = false
-              window.scrollTo(0, 0)
+              let notificaitonText: string = this.preRfxUpdateNotificationMsg(event.pre_rfx_data.title, clientAgencyName, event.pre_rfx_data.id)
+              this._utils.sendSkypeNotification(notificaitonText, this.getBusinessUnitText(event.pre_rfx_data.bu_id))
+                .then( (notificationResponse) => {
+                  this.formSuccessMessage = "Your Pre-RFx has been updated."
+                  this.savingForm = false
+                  window.scrollTo(0, 0)
+                })
+                .catch( (error) => {
+                  console.error('Error while sending Skype Notificaiton: ', error)
+                })
             })
             .catch( (error) => {
               console.error('Error while sending email notifications to approvers: ', error)
@@ -530,6 +553,21 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       return clientAgency.id === ca_id
     })
     return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
+  }
+
+  public getBusinessUnitText(bu_id: string): string {
+    let buObjs: BusinessUnit[] = this.businessUnits.filter( businessUnit => {
+      return businessUnit.id === bu_id
+    })
+    return buObjs.length > 0 ? buObjs[0].name : ''
+  }
+
+  private preRfxCreateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
+    return `There’s a new RFX, titled *${title}* from _${clientAgency}_, posted. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+  }
+
+  private preRfxUpdateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
+    return `The RFX, titled *${title}* from _${clientAgency}_, has been updated and is available for another review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
   }
 
 }

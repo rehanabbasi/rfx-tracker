@@ -17,6 +17,9 @@ export class RfxCommentsModalComponent implements OnInit {
   public successMessage: string = ''
 
   @Input()
+  public businessUnit: string
+  
+  @Input()
   public pre_rfx_data: any
 
   @Input()
@@ -65,8 +68,15 @@ export class RfxCommentsModalComponent implements OnInit {
         }
         this._utils.sendEmail(this.pre_rfx_data.pre_rfx_author_email, EmailTypes.PreRFxUpdatedByApprover, emailData)
           .then( (emailResponse) => {
-            this.successMessage = 'The Pre-RFx Status has been updated.'
-            this.statusUpdated = true
+            let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(this.pre_rfx_data.title, this.getStatusLabel(this.pre_rfx_data.status), this.pre_rfx_data.id)
+            this._utils.sendSkypeNotification(notificaitonText, this.businessUnit)
+              .then( (notificationResponse) => {
+                this.successMessage = 'The Pre-RFx Status has been updated.'
+                this.statusUpdated = true
+              })
+              .catch( (error) => {
+                console.error('Error while sending Skype Notificaiton: ', error)
+              })
           })
           .catch( (error) => {
             console.error('Error while sending email notification to the searcher: ', error)
@@ -129,6 +139,10 @@ export class RfxCommentsModalComponent implements OnInit {
         break
     }
     return subject
+  }
+
+  private preRfxStatusUpdateNotificationMsg(title: string, status: string, preRFxId: string):string {
+    return `The RFX titled *${title}* is a _${status}_. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
   }
 
 }

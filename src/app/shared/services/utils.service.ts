@@ -7,7 +7,8 @@ import * as firebase from 'firebase';
 })
 
 export class UtilsService {
-  public htmlEmail = firebase.functions().httpsCallable('htttpEmail')
+  public htmlEmail = firebase.functions().httpsCallable('httpEmail')
+  public notifyRFxBot = firebase.functions().httpsCallable('notifyRFxBot')
   constructor(
     private _http: HttpClient
   ) { }
@@ -20,6 +21,10 @@ export class UtilsService {
     }
 
     return this.htmlEmail(params)
+  }
+
+  public sendSkypeNotification(messageText: string, businessUnit: string): Promise<firebase.functions.HttpsCallableResult> {
+    return this.notifyRFxBot({ message: messageText, business_unit: businessUnit })
   }
 }
 
