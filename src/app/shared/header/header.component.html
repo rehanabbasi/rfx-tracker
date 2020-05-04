@@ -1,14 +1,23 @@
 <div class="row header-container">
     <div class="col-3 px-4">
         <a [routerLink]="['/']">
-            <img class="logo-img" src="./../../../assets/img/test-logo.png" alt="image">
+            <img class="logo-img" src="./../../../assets/img/test-logo.jpg" alt="image">
         </a>
     </div>
     <div class="col-9 px-4">
-        <div class="nav-container text-right">
-            <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/pre-rfx-search']" class="mx-3 link" [ngClass]="{ 'active': router.url == '/pre-rfx-search' }">Pre-RFx Search</a>
-            <a *ngIf="currentUser && currentUser.role_id === _auth.ADMIN_ROLE_ID" [routerLink]="['/admin-dashboard']" class="mx-3 link" [ngClass]="{ 'active': router.url.indexOf('/admin-dashboard') > -1 }">Admin Dashboard</a>
-            <a *ngIf="_auth.isLoggedIn | async" class="mx-3 link" (click)="logout()">Logout</a>
+        <div *ngIf="_auth.isLoggedIn | async" class="nav-container text-right">
+            <div *ngIf="currentUser">Welcome back, <b>{{ currentUser.name }}</b></div>
+            <div class="text-left"><button type="button" class="btn btn-primary logout-btn" (click)="logout()">Logout</button></div>
         </div>
+    </div>
+    <div class="col-12 px-4 main-nav-links">
+        <a *ngIf="_auth.isLoggedIn | async" [routerLink]="['/pre-rfx-search']" class="nav-link text-center" [ngClass]="{ 'active': router.url == '/pre-rfx-search' }">
+            <fa-icon [icon]="preRFxIcon"></fa-icon>
+            <div>Pre-RFx</div>
+        </a>
+        <a *ngIf="currentUser && currentUser.role_id === _auth.ADMIN_ROLE_ID" [routerLink]="['/admin-dashboard']" class="nav-link text-center" [ngClass]="{ 'active': router.url.indexOf('/admin-dashboard') > -1 }">
+            <fa-icon [icon]="adminDashboardIcon"></fa-icon>
+            <div>Admin Dashboard</div>
+        </a>
     </div>
 </div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { faUserCog, faFileContract } from '@fortawesome/free-solid-svg-icons';
 
-import { AuthService } from '../services/auth.service'
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,8 @@ import { AuthService } from '../services/auth.service'
   styleUrls: ['./header.component.sass']
 })
 export class HeaderComponent implements OnInit {
+  public preRFxIcon = faFileContract
+  public adminDashboardIcon = faUserCog
   public currentUser: any
   constructor(
     public _auth: AuthService,
