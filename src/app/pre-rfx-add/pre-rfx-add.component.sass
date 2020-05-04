@@ -5,7 +5,7 @@
 
 .main-content
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
-    background-color: #fff
+    background-color: $white-color
     margin: auto
 
     .form-contianer
@@ -35,7 +35,7 @@
             display: grid
             grid-template-columns: 20px auto
             grid-column-gap: 10px
-            background-color: $primary-color
+            @include bg-gradient
             color: $white-color
             border-radius: 2px
             cursor: pointer
@@ -164,9 +164,9 @@
                 height: 40px
                 line-height: 40px
                 padding: 0px 10px
-                border: 1px solid #e0e0e0
+                border: 1px solid $input-border-color
                 border-radius: 0px
-                color: #333333 !important
+                color: $input-color !important
                 font-family: "Roboto", sans-serif
                 font-size: 15px
 
@@ -248,12 +248,11 @@
 
             &.btn-primary
                 color: $white-color
-                border-color: $primary-color
-                background-color: $primary-color
+                border: none
+                @include bg-gradient
 
                 &:hover
-                    background-color: $primary-color-hover
-                    border-color: $primary-color-hover
+                    @include bg-gradient-hover
 
             &.btn-secondary
                 color: $primary-color
@@ -262,7 +261,7 @@
                 margin: 0px 5px
 
                 &:hover
-                    background-color: $primary-color
+                    @include bg-gradient
                     color: $white-color
 
             &:disabled

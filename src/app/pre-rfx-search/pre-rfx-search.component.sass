@@ -36,12 +36,11 @@
                 font-family: "Roboto", sans-serif
                 font-size: 18px
                 color: $white-color
-                border-color: $primary-color
-                background-color: $primary-color
+                border: none
+                @include bg-gradient
 
                 &:hover
-                    background-color: $primary-color-hover
-                    border-color: $primary-color-hover
+                    @include bg-gradient-hover
 
             .adv-search-link
                 display: flex
@@ -51,7 +50,6 @@
                 color: $label-color
                 cursor: pointer
 
-
     .add-btn
         font-family: "Roboto", sans-serif
         font-size: 14px
@@ -60,13 +58,14 @@
         border-color: $primary-color
 
         &:hover
-            background-color: $primary-color
+            @include bg-gradient
             color: $white-color
+
     .table-container
         font-family: 'Roboto Condensed', sans-serif
 
         thead
-            background-color: $primary-color
+            @include bg-gradient
             color: $white-color
         
         td

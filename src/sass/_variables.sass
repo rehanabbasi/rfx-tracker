@@ -5,10 +5,11 @@ $label-color: #ababab
 $input-border-color: #e0e0e0
 $input-color: #333333
 $input-disabled-background-color: #e9ecef
+$input-group-label-color: #9c9a9a
 
-$primary-color: #27909d
-$primary-color-hover: #1c717b
-$primary-color-active: #125158
+$comment-bg-color: $input-disabled-background-color
+
+
 $white-color: #FFFFFF
 
 $error-color: #ea5a5a
@@ -18,3 +19,33 @@ $nav-link-color: #444
 
 $radio-background-color: #d1d3d1
 $nav-links-background-color: #f1f1f1
+$archived-color: #adb5bc
+$checked-icon-color: #04a904
+$uncheck-icon-color: #ea5757
+$section-header-color: #a5a3a3
+
+$blue-color-1: #004b83
+$blue-color-2: #0076a9
+$blue-color-3: #009dcd
+
+$old-primary-color: #27909d
+$primary-color: $blue-color-2
+
+$primary-color-hover: #1c717b
+$primary-color-active: #125158
+
+$blue-hover-color-1: #013052
+$blue-hover-color-2: #03364c
+$blue-hover-color-3: #0a7fa2
+
+@mixin bg-gradient
+    background: -webkit-linear-gradient(to right, $blue-color-1 , $blue-color-2, $blue-color-3)
+    background: -moz-linear-gradient(to right, $blue-color-1 , $blue-color-2, $blue-color-3)
+    background: -o-linear-gradient(to right, $blue-color-1 , $blue-color-2, $blue-color-3)
+    background: linear-gradient(to right, $blue-color-1 , $blue-color-2, $blue-color-3)
+
+@mixin bg-gradient-hover
+    background: -webkit-linear-gradient(to right, $blue-hover-color-1 , $blue-hover-color-2, $blue-hover-color-3)
+    background: -moz-linear-gradient(to right, $blue-hover-color-1 , $blue-hover-color-2, $blue-hover-color-3)
+    background: -o-linear-gradient(to right, $blue-hover-color-1 , $blue-hover-color-2, $blue-hover-color-3)
+    background: linear-gradient(to right, $blue-hover-color-1 , $blue-hover-color-2, $blue-hover-color-3)

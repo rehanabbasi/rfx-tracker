@@ -2,7 +2,7 @@
 
 .side-nav
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
-    background-color: #fff
+    background-color: $white-color
     min-height: 500px
 
     .sec-header
@@ -10,7 +10,7 @@
         font-weight: bold
         font-size: 18px
         letter-spacing: 0.25px
-        color: #a5a3a3
+        color: $section-header-color
         cursor: pointer
         display: flex
         justify-content: space-between
@@ -35,6 +35,6 @@
         text-decoration: none
 
         &.selected, &:hover
-            background-color: $primary-color
+            @include bg-gradient
             color: $white-color
             border-radius: 2px

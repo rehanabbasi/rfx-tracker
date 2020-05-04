@@ -5,7 +5,7 @@
 
 .main-content
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
-    background-color: #fff
+    background-color: $white-color
     margin: auto
 
     .content-contianer
@@ -44,7 +44,7 @@
             display: grid
             grid-template-columns: 20px auto
             grid-column-gap: 10px
-            background-color: $primary-color
+            @include bg-gradient
             color: $white-color
             border-radius: 2px
             cursor: pointer
@@ -105,7 +105,7 @@
 
             .comment-content
                 padding: 10px
-                background-color: #e9ecef
+                background-color: $comment-bg-color
                 border-radius: 2px
                 
                 &.invert

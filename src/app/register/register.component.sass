@@ -10,7 +10,7 @@
     flex-direction: column
     justify-content: center
     margin: auto
-    background: #FFFFFF
+    background: $white-color
     box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28)
 
     .form-status-container
@@ -26,7 +26,7 @@
         height: 40px
         padding: 10px
         border: 1px solid $input-border-color
-        color: #333333 !important
+        color: $input-color !important
         font-family: "Roboto", sans-serif
 
         &:disabled
@@ -36,21 +36,14 @@
         font-family: 'Arimo', sans-serif
         font-size: 15px
         color: $white-color
-        background-color: $primary-color
-        border: none
         border-radius: 2px
         width: 175px
         height: 36px
-        transition: background-color 250ms ease-out
-        
-        &:hover
-            background-color: $primary-color-hover
+        border: none
+        @include bg-gradient
 
-        &:active
-            background-color: $primary-color-active
-
-        &:focus
-            // outline: none    
+        &:hover, &:active
+            @include bg-gradient-hover   
     
     select
         width: 375px
@@ -59,3 +52,13 @@
         color: $input-color !important
         font-family: "Roboto", sans-serif
         border-radius: 0px
+
+    .input-label
+        font-size: 15px
+        font-family: "Nunito", sans-serif
+        font-weight: 600
+        letter-spacing: 0.5px
+        display: block
+        color: $label-color
+        width: 375px
+        margin: 5px auto

@@ -7,7 +7,7 @@
     <div class="col-9 px-4">
         <div *ngIf="_auth.isLoggedIn | async" class="nav-container text-right">
             <div *ngIf="currentUser">Welcome back, <b>{{ currentUser.name }}</b></div>
-            <div class="text-left"><button type="button" class="btn btn-primary logout-btn" (click)="logout()">Logout</button></div>
+            <div *ngIf="currentUser" class="text-left"><button type="button" class="btn btn-primary logout-btn" (click)="logout()">Logout</button></div>
         </div>
     </div>
     <div class="col-12 px-4 main-nav-links">

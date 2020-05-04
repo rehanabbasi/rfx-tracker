@@ -6,7 +6,8 @@
         border: 0px
 
         .modal-header
-            background-color: #27909d
+            // background-color: #27909d
+            @include bg-gradient
             color: $white-color
             border-radius: 2px
             padding: 0.5rem 1rem
@@ -50,7 +51,7 @@
                     font-size: 16px
                     font-weight: bold
                     letter-spacing: 0.5px
-                    color: #9c9a9a
+                    color: $input-group-label-color
                     font-family: "Nunito", sans-serif
 
                 .form-check
@@ -166,12 +167,11 @@
 
                     &.btn-primary
                         color: $white-color
-                        border-color: $primary-color
-                        background-color: $primary-color
+                        border: none
+                        @include bg-gradient
 
                         &:hover
-                            background-color: $primary-color-hover
-                            border-color: $primary-color-hover
+                            @include bg-gradient-hover
 
                     &.btn-secondary
                         color: $primary-color
@@ -180,5 +180,6 @@
                         margin: 0px 5px
 
                         &:hover
-                            background-color: $primary-color
+                            @include bg-gradient
                             color: $white-color
+                            
