@@ -18,12 +18,24 @@ import { switchMap } from 'rxjs/operators';
 })
 export class PreRfxAddComponent implements OnInit, OnDestroy {
   public secHeaderIcon = faChevronRight
+  private reqFieldsMap: any = {
+    'bu_id': 'Business Unit',
+    'rfx_number': 'RFx Number',
+    'title': 'RFx Title',
+    'rfx_type_id': 'RFx Type',
+    'rfx_category_id': 'RFx Category',
+    'rfx_due_date_time': 'RFx Due Date & Time',
+    'rfx_scope': 'RFx Scope',
+    'client_agency_id': 'RFx Client Agency/Company Name',
+    'state_province': 'State/Province',
+    'submission_format': 'Submission Format',
+    'source': 'Source'
+  }
   
   public preRFxForm = this._fb.group({
     bu_id: ['', [ Validators.required ]],
     rfx_number: ['', [ Validators.required ]],
     title: ['', [ Validators.required ]],
-    // status: ['', [ Validators.required ]],
     rfx_type_id: ['', [ Validators.required ]],
     rfx_category_id: ['', [ Validators.required ]],
     rfx_pub_date: [''],
@@ -347,7 +359,8 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         
       }
     } else {
-      this.formStatusMessage = 'Make sure you have provided data for all the required fields.'
+      let invalidFields: string[] = this.getInvalidFields()
+      this.formStatusMessage = `Make sure you have provided data for all the required fields. ${ invalidFields.join(', ') } ${ invalidFields.length > 1 ? 'are' : 'is' } missing data.`
       window.scrollTo(0, 0)
     }
   }
@@ -570,4 +583,13 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     return `The RFX, titled *${title}* from _${clientAgency}_, has been updated and is available for another review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
   }
 
+  getInvalidFields(): string[] {
+    let invalidFields: string[] = []
+    for(let control in this.preRFxForm.controls) {
+      if( !this.preRFxForm.controls[control].valid ) {
+        invalidFields.push( this.reqFieldsMap[control] )
+      }
+    }
+    return invalidFields
+  }
 }
