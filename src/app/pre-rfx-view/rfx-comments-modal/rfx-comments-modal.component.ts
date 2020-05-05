@@ -127,13 +127,13 @@ export class RfxCommentsModalComponent implements OnInit {
     let subject: string = ''
     switch(this.pre_rfx_data.status) {
       case 'go':
-        subject = subject = `Pre-RFx : ${this.pre_rfx_data.title} is a Go`
+        subject = `Go - Pre-RFx titled ${this.pre_rfx_data.title} is a Go`
         break
       case 'no-go':
-        subject = `Pre-RFx : ${this.pre_rfx_data.title} is a No Go`
+        subject = `No Go - Pre-RFx titled ${this.pre_rfx_data.title} is a No Go`
         break
       case 'push-back':
-        subject = `Pre-RFx : ${this.pre_rfx_data.title} needs additional info`
+        subject = `Pushed Back - Pre-RFx titled ${this.pre_rfx_data.title} needs additional info`
         break
       default:
         break
