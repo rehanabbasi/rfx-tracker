@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { from } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -73,6 +74,7 @@ import { PreRfxAdvancedSearchModalComponent } from './pre-rfx-search/pre-rfx-adv
 import { RegisterComponent } from './register/register.component';
 import { RfxCommentsModalComponent } from './pre-rfx-view/rfx-comments-modal/rfx-comments-modal.component';
 import { PreRfxAddCommentsModalComponent } from './pre-rfx-add/pre-rfx-add-comments-modal/pre-rfx-add-comments-modal.component';
+import { EllipsisPipe } from './shared/pipes/ellipsis.pipe';
 
 @NgModule({
   declarations: [
@@ -128,7 +130,8 @@ import { PreRfxAddCommentsModalComponent } from './pre-rfx-add/pre-rfx-add-comme
     PreRfxAdvancedSearchModalComponent,
     RegisterComponent,
     RfxCommentsModalComponent,
-    PreRfxAddCommentsModalComponent
+    PreRfxAddCommentsModalComponent,
+    EllipsisPipe
   ],
   imports: [
     BrowserModule,
@@ -141,7 +144,8 @@ import { PreRfxAddCommentsModalComponent } from './pre-rfx-add/pre-rfx-add-comme
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    TooltipModule
   ],
   providers: [
     AuthService,

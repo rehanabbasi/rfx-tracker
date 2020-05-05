@@ -53,6 +53,13 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   private preRFxResultsSubscription: Subscription
 
   public showPreRFxAdvSearch: boolean = false
+  
+  public tooltipOpts: any = {
+    'theme': 'light',
+    'max-width': 250,
+    'tooltip-class': 'rfx-data-tooltip',
+    'hide-delay': 1000
+  }
 
   constructor(
     private _pre_rfx: PreRfxService,

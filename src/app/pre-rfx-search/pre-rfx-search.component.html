@@ -26,7 +26,9 @@
               <th>Pre-RFx Status</th>
               <th>RFx Category</th>
               <th>RFx Client Agency</th>
+              <th>RFx Scope</th>
               <th>Source</th>
+              <th>Source URL</th>
               <th>RFx Attachment</th>
               <th>Actions</th>
             </tr>
@@ -38,7 +40,15 @@
               <td>{{ getRFxStatusText( preRFx.status ) }}</td>
               <td>{{ getRFxCategoryText( preRFx.rfx_category_id ) }}</td>
               <td>{{ getClientAgencyText( preRFx.client_agency_id ) }}</td>
+              <td>
+                <div *ngIf="preRFx.rfx_scope && preRFx.rfx_scope.length > 30" [tooltip]="preRFx.rfx_scope" [options]="tooltipOpts">{{ preRFx.rfx_scope | ellipsis:30 }}</div>
+                <div *ngIf="preRFx.rfx_scope && preRFx.rfx_scope.length <= 30">{{ preRFx.rfx_scope }}</div>
+              </td>
               <td>{{ getRFxSourceText( preRFx.source ) }}</td>
+              <td>
+                <a class="url-link" *ngIf="preRFx.source_url && preRFx.source_url.length > 20" [href]="preRFx.source_url" [tooltip]="preRFx.source_url" [options]="tooltipOpts">{{ preRFx.source_url | ellipsis:20 }}</a>
+                <a class="url-link" *ngIf="preRFx.source_url && preRFx.source_url.length <= 20" [href]="preRFx.source_url">{{ preRFx.source_url }}</a>
+              </td>
               <td><a class="download-link" *ngIf="preRFx.attachment && preRFx.attachment.name" [href]="preRFx.attachment.download_url" download>{{ preRFx.attachment.name }}</a></td>
               <td>
                 <fa-icon *ngIf="hasWriteAccess()" [icon]="editIcon" [routerLink]="['/pre-rfx-edit/' + preRFx.id]" title="Edit Pre-RFx"></fa-icon>
