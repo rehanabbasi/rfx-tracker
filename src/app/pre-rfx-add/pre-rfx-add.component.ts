@@ -83,7 +83,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     label: string
   }[] = [
     { value: 'pending', label: 'Pending' },
-    { value: 'push-back', label: 'Push Back' },
+    { value: 'push-back', label: 'Pushed Back' },
     { value: 'no-go', label: 'No Go' },
     { value: 'go', label: 'Go' },
     { value: 'draft', label: 'Draft' }
