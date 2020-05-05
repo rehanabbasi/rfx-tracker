@@ -42,14 +42,18 @@ export class RfxCommentsModalComponent implements OnInit {
   }
 
   public updateStatus(): void {
+    if(!this.commentText) {
+      this.errorMessage = 'Must leave a comment for searcher before you proceed.'
+      return
+    }
+
     let commentsArray: any[] = this.pre_rfx_data.commentsArray
 
-    let commentText: string = this.commentText ? this.commentText : ''
     let commentObj: RFxComment = {
       date_time: formatDate(new Date(), 'MMM d, y h:mm a', 'en'),
       sender_id: this.currentUser.id,
       sender_name: this.currentUser.name,
-      comment_text: commentText,
+      comment_text: this.commentText,
       status: this.pre_rfx_data.status
     }
     commentsArray.push(commentObj)
