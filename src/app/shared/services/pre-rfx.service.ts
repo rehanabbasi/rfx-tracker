@@ -78,13 +78,14 @@ export class PreRfxService {
   public searchPreRFx( params: any ): Observable<PreRFx[]> {
     if( params['query']) {
       let termArray = params['query'].toLowerCase().split(' ')
-      return this.afs.collection<PreRFx>('pre-rfx', ref => ref.where('title_search_array', 'array-contains-any', termArray)).valueChanges()
+      return this.afs.collection<PreRFx>('pre-rfx', ref => ref.where('title_search_array', 'array-contains-any', termArray).orderBy('created_on_date', 'desc')).valueChanges()
     } else {
       return this.afs.collection<PreRFx>('pre-rfx', ref => {
         let query: Query = ref
         for (let key in params) {
           query = query.where(key, '==', params[key])
         }
+        query = query.orderBy('created_on_date', 'desc')
         return query
       }).valueChanges()
     }
