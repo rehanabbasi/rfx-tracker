@@ -576,7 +576,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   }
 
   private preRfxCreateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
-    return `There’s a new RFX, titled *${title}* from _${clientAgency}_, posted. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+    return `${this.currentUser.name} created a new RFx Titled, *${title}* from _${clientAgency}_ that requires APPROVER's Decision on Go/No-Go”. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
   }
 
   private preRfxUpdateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {

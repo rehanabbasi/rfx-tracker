@@ -160,6 +160,7 @@ export class PreRfxViewComponent implements OnInit, OnDestroy {
       author_id: this.preRFxData.created_by_user_id,
       rfx_number: this.preRFxData.rfx_number,
       title: this.preRFxData.title,
+      clientAgency: this.getClientAgencyText(this.preRFxData.client_agency_id),
       pre_rfx_author_name: this.authorObj.name,
       pre_rfx_author_email: this.authorObj.email,
       status: status,

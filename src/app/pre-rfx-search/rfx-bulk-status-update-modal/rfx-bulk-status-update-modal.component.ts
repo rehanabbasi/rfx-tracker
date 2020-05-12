@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { PreRfxService, RFxComment, PreRFx } from '../../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, User } from '../../shared/services/admin.service';
+import { AdminService, BusinessUnit, User, ClientAgency } from '../../shared/services/admin.service';
 import { UtilsService, EmailTypes } from '../../shared/services/utils.service';
 
 declare var $: any;
@@ -22,6 +22,9 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
 
   @Input()
   public businessUnits: BusinessUnit[]
+
+  @Input()
+  public clientAgencies: ClientAgency[]
   
   @Input()
   public selected_pre_rfx_ids: string[]
@@ -95,7 +98,7 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
               }
               this._utils.sendEmail(authorObj.email, EmailTypes.PreRFxUpdatedByApprover, emailData)
                 .then( (emailResponse) => {
-                  let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(pre_rfx_data.title, pre_rfx_data.id)
+                  let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(pre_rfx_data.title, this.getClientAgencyText(pre_rfx_data.client_agency_id), pre_rfx_data.id)
                   this._utils.sendSkypeNotification(notificaitonText, this.getBusinessUnitText(pre_rfx_data.bu_id))
                     .then( (notificationResponse) => {
                       this.successMessage = `Pre-RFx Status Update: ${currentSelectedIndex} of ${this.selected_pre_rfx_ids.length} Completed.`
@@ -134,6 +137,13 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
       return businessUnit.id === bu_id
     })
     return buObjs.length > 0 ? buObjs[0].name : ''
+  }
+
+  private getClientAgencyText(ca_id: string): string {
+    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
+      return clientAgency.id === ca_id
+    })
+    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
   }
 
   public showModal(): void {
@@ -190,8 +200,22 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
     return subject
   }
 
-  private preRfxStatusUpdateNotificationMsg(title: string, preRFxId: string):string {
-    return `The RFX titled *${title}* is a _${this.getStatusLabel(this.status)}_. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+  private preRfxStatusUpdateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
+    let notificationText: string = ''
+    switch(this.status) {
+      case 'go':
+        notificationText = `*${title}* from _${clientAgency}_ is a *Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      case 'no-go':
+        notificationText = `*${title}* from _${clientAgency}_ is a *No-Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      case 'push-back':
+        notificationText = `_${this.currentUser.name}_ *PUSHED BACK* RFx Titled, *${title}* from _${clientAgency}_ that requires SOURCER's Review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      default:
+        break
+    }
+    return notificationText
   }
 
 }

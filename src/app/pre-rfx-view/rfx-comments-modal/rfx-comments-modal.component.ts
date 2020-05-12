@@ -72,7 +72,7 @@ export class RfxCommentsModalComponent implements OnInit {
         }
         this._utils.sendEmail(this.pre_rfx_data.pre_rfx_author_email, EmailTypes.PreRFxUpdatedByApprover, emailData)
           .then( (emailResponse) => {
-            let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(this.pre_rfx_data.title, this.getStatusLabel(this.pre_rfx_data.status), this.pre_rfx_data.id)
+            let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(this.pre_rfx_data.title, this.pre_rfx_data.status, this.pre_rfx_data.clientAgency, this.pre_rfx_data.id)
             this._utils.sendSkypeNotification(notificaitonText, this.businessUnit)
               .then( (notificationResponse) => {
                 this.successMessage = 'The Pre-RFx Status has been updated.'
@@ -145,8 +145,22 @@ export class RfxCommentsModalComponent implements OnInit {
     return subject
   }
 
-  private preRfxStatusUpdateNotificationMsg(title: string, status: string, preRFxId: string):string {
-    return `The RFX titled *${title}* is a _${status}_. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+  private preRfxStatusUpdateNotificationMsg(title: string, status: string, clientAgency: string, preRFxId: string):string {
+    let notificationText: string = ''
+    switch(status) {
+      case 'go':
+        notificationText = `*${title}* from _${clientAgency}_ is a *Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      case 'no-go':
+        notificationText = `*${title}* from _${clientAgency}_ is a *No-Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      case 'push-back':
+        notificationText = `_${this.currentUser.name}_ *PUSHED BACK* RFx Titled, *${title}* from _${clientAgency}_ that requires SOURCER's Review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        break
+      default:
+        break
+    }
+    return notificationText
   }
 
 }
