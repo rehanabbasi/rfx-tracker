@@ -50,16 +50,36 @@
                 color: $label-color
                 cursor: pointer
 
-    .add-btn
+    .add-btn, .status-btn
         font-family: "Roboto", sans-serif
         font-size: 14px
         letter-spacing: 0.25px
         color: $primary-color
         border-color: $primary-color
 
+        &.disabled-btn
+            pointer-events: none
+            color: $input-border-color !important
+            border-color: $input-border-color !important
+
         &:hover
-            @include bg-gradient
+            background-color: $primary-color
             color: $white-color
+
+        &.no-go
+            color: $error-color
+            border-color: $error-color
+
+            &:hover
+                background-color: $error-color
+                color: $white-color
+        &.push-back
+            color: $warn-color
+            border-color: $warn-color
+
+            &:hover
+                background-color: $warn-color
+                color: $white-color
 
     .table-container
         font-family: 'Roboto Condensed', sans-serif
@@ -84,3 +104,30 @@
 
                 &:hover
                     color: $primary-color
+
+            input[type='checkbox']
+                cursor: pointer
+                margin: 0
+                &:after
+                    width: 20px
+                    height: 20px
+                    top: -2px
+                    left: -2px
+                    position: relative
+                    background-color: $radio-background-color
+                    content: ''
+                    display: inline-block
+                    visibility: visible
+                    border: 2px solid white
+
+                &:checked:after
+                    width: 20px
+                    height: 20px
+                    top: -2px
+                    left: -2px
+                    position: relative
+                    background-color: $primary-color
+                    content: ''
+                    display: inline-block
+                    visibility: visible
+                    border: 2px solid white

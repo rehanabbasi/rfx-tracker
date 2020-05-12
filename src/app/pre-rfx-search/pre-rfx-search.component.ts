@@ -22,6 +22,7 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   public clientAgencies: ClientAgency[] = []
   public users: User[] = []
   public currentUser: any
+  public selectedPreRFxIds: string[] = []
 
   public preRFxStatus: {
     value: string,
@@ -60,6 +61,8 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
     'tooltip-class': 'rfx-data-tooltip',
     'hide-delay': 1000
   }
+
+  public selectedPreRFxUpdateStatus: string = ""
 
   constructor(
     private _pre_rfx: PreRfxService,
@@ -161,9 +164,33 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
     })
   }
 
+  public updatePreRFxStatus(status: string): void {
+    this.selectedPreRFxUpdateStatus = status
+  }
+
+  public preRFxCheckboxChanged(event: any): void {
+    let preRfxId: string = event.target.value,
+        checked: boolean = event.target.checked,
+        index: number = this.selectedPreRFxIds.indexOf(preRfxId)
+
+    if(checked && index < 0) {
+      this.selectedPreRFxIds.push(preRfxId)
+    } else if (!checked && index > -1) {
+      this.selectedPreRFxIds.splice(index, 1)
+    }
+  }
+
   public hasReadAccess(): boolean {
     if(this.currentUser){
       return this.currentUser.view_access.indexOf('pre_rfx_read') > -1
+    } else {
+      return false
+    }
+  }
+
+  public hasApproveAccess(): boolean {
+    if(this.currentUser){
+      return this.currentUser.view_access.indexOf('pre_rfx_approve') > -1
     } else {
       return false
     }

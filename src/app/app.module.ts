@@ -75,6 +75,7 @@ import { RegisterComponent } from './register/register.component';
 import { RfxCommentsModalComponent } from './pre-rfx-view/rfx-comments-modal/rfx-comments-modal.component';
 import { PreRfxAddCommentsModalComponent } from './pre-rfx-add/pre-rfx-add-comments-modal/pre-rfx-add-comments-modal.component';
 import { EllipsisPipe } from './shared/pipes/ellipsis.pipe';
+import { RfxBulkStatusUpdateModalComponent } from './pre-rfx-search/rfx-bulk-status-update-modal/rfx-bulk-status-update-modal.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { EllipsisPipe } from './shared/pipes/ellipsis.pipe';
     RegisterComponent,
     RfxCommentsModalComponent,
     PreRfxAddCommentsModalComponent,
-    EllipsisPipe
+    EllipsisPipe,
+    RfxBulkStatusUpdateModalComponent
   ],
   imports: [
     BrowserModule,
