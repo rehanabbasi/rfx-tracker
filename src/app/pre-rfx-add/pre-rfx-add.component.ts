@@ -576,11 +576,13 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   }
 
   private preRfxCreateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
-    return `${this.currentUser.name} created a new RFx Titled, *${title}* from _${clientAgency}_ that requires APPROVER's Decision on Go/No-Go”. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+    // return `${this.currentUser.name} created a new RFx Titled, *${title}* from _${clientAgency}_ that requires APPROVER's Decision on Go/No-Go”. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} ` // DEV
+    return `${this.currentUser.name} created a new RFx Titled, *${title}* from _${clientAgency}_ that requires APPROVER's Decision on Go/No-Go”. For more details visit: https://rfx-tracker-prod.web.app/pre-rfx-view/${preRFxId} ` // PROD
   }
 
   private preRfxUpdateNotificationMsg(title: string, clientAgency: string, preRFxId: string):string {
-    return `The RFX, titled *${title}* from _${clientAgency}_, has been updated and is available for another review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+    // return `The RFX, titled *${title}* from _${clientAgency}_, has been updated and is available for another review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} ` // DEV
+    return `The RFX, titled *${title}* from _${clientAgency}_, has been updated and is available for another review. For more details visit: https://rfx-tracker-prod.web.app/pre-rfx-view/${preRFxId} ` // PROD
   }
 
   getInvalidFields(): string[] {

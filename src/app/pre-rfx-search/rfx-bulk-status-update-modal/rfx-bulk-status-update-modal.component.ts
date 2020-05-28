@@ -204,13 +204,16 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
     let notificationText: string = ''
     switch(this.status) {
       case 'go':
-        notificationText = `*${title}* from _${clientAgency}_ is a *Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        // notificationText = `*${title}* from _${clientAgency}_ is a *Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} ` // DEV
+        notificationText = `*${title}* from _${clientAgency}_ is a *Go*. For more details visit: https://rfx-tracker-prod.web.app/pre-rfx-view/${preRFxId} ` // PROD
         break
       case 'no-go':
-        notificationText = `*${title}* from _${clientAgency}_ is a *No-Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        // notificationText = `*${title}* from _${clientAgency}_ is a *No-Go*. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} ` // DEV
+        notificationText = `*${title}* from _${clientAgency}_ is a *No-Go*. For more details visit: https://rfx-tracker-prod.web.app/pre-rfx-view/${preRFxId} ` // PROD
         break
       case 'push-back':
-        notificationText = `_${this.currentUser.name}_ *PUSHED BACK* RFx Titled, *${title}* from _${clientAgency}_ that requires SOURCER's Review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} `
+        // notificationText = `_${this.currentUser.name}_ *PUSHED BACK* RFx Titled, *${title}* from _${clientAgency}_ that requires SOURCER's Review. For more details visit: https://rfx-tracker.web.app/pre-rfx-view/${preRFxId} ` // DEV
+        notificationText = `_${this.currentUser.name}_ *PUSHED BACK* RFx Titled, *${title}* from _${clientAgency}_ that requires SOURCER's Review. For more details visit: https://rfx-tracker-prod.web.app/pre-rfx-view/${preRFxId} ` // PROD
         break
       default:
         break

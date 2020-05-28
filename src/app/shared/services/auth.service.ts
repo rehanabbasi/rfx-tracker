@@ -13,7 +13,8 @@ export class AuthService {
   public currentUser$: Observable<any>
   public isLoggedIn: Observable<boolean>
 
-  public  ADMIN_ROLE_ID: string = 'kq7fQ8pUoPcA2k7wqAMb'
+  // public  ADMIN_ROLE_ID: string = 'kq7fQ8pUoPcA2k7wqAMb' // Dev Environment
+  public  ADMIN_ROLE_ID: string = 'ZZxx38pv34wQFl55Bxz8' // Prod Environment
 
   constructor(
     private _afAuth: AngularFireAuth,
