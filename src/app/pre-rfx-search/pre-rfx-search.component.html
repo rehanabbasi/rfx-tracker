@@ -50,7 +50,7 @@
               <td>{{ preRFx.title }}</td>
               <td>{{ getRFxStatusText( preRFx.status ) }}</td>
               <td>{{ getRFxCategoryText( preRFx.rfx_category_id ) }}</td>
-              <td>{{ getClientAgencyText( preRFx.client_agency_id ) }}</td>
+              <td>{{ preRFx.client_agency_name }}</td>
               <td>
                 <div *ngIf="preRFx.rfx_scope && preRFx.rfx_scope.length > 30" [tooltip]="preRFx.rfx_scope" [options]="tooltipOpts">{{ preRFx.rfx_scope | ellipsis:30 }}</div>
                 <div *ngIf="preRFx.rfx_scope && preRFx.rfx_scope.length <= 30">{{ preRFx.rfx_scope }}</div>
@@ -73,5 +73,5 @@
   </div>
 </div>
 
-<app-pre-rfx-advanced-search-modal *ngIf="showPreRFxAdvSearch" [businessUnits]="businessUnits" [rfxCategories]="rfxCategories" [clientAgencies]="clientAgencies" [preRFxStatus]="preRFxStatus" [users]="users" (advSearchModalClosed)="showPreRFxAdvSearch = false"></app-pre-rfx-advanced-search-modal>
-<app-rfx-bulk-status-update-modal *ngIf="selectedPreRFxUpdateStatus" [businessUnits]="businessUnits" [clientAgencies]="clientAgencies" [selected_pre_rfx_ids]="selectedPreRFxIds" [pre_rfx_items]="preRFxs" [status]="selectedPreRFxUpdateStatus" [currentUser]="currentUser" (modalClosed)="selectedPreRFxUpdateStatus = ''"></app-rfx-bulk-status-update-modal>
+<app-pre-rfx-advanced-search-modal *ngIf="showPreRFxAdvSearch" [businessUnits]="businessUnits" [rfxCategories]="rfxCategories" [preRFxStatus]="preRFxStatus" [users]="users" (advSearchModalClosed)="showPreRFxAdvSearch = false"></app-pre-rfx-advanced-search-modal>
+<app-rfx-bulk-status-update-modal *ngIf="selectedPreRFxUpdateStatus" [businessUnits]="businessUnits" [selected_pre_rfx_ids]="selectedPreRFxIds" [pre_rfx_items]="preRFxs" [status]="selectedPreRFxUpdateStatus" [currentUser]="currentUser" (modalClosed)="selectedPreRFxUpdateStatus = ''"></app-rfx-bulk-status-update-modal>

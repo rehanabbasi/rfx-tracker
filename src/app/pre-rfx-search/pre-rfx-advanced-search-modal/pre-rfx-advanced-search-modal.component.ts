@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { AdminService, BusinessUnit, RfxCategory, ClientAgency, User } from '../../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxCategory, User } from '../../shared/services/admin.service';
 import { PreRfxService } from '../../shared/services/pre-rfx.service';
 
 declare var $: any;
@@ -21,9 +21,6 @@ export class PreRfxAdvancedSearchModalComponent implements OnInit {
   public rfxCategories: RfxCategory[]
 
   @Input()
-  public clientAgencies: ClientAgency[]
-
-  @Input()
   public preRFxStatus: { value: string, label: string }[]
 
   @Input()
@@ -40,7 +37,7 @@ export class PreRfxAdvancedSearchModalComponent implements OnInit {
     { label: 'RFx Number', name: 'rfx_number', type: 'text' },
     { label: 'RFx Category', name: 'rfx_category_id', type: 'dropdown' },
     { label: 'RFx Title', name: 'title', type: 'text' },
-    { label: 'RFx Client Agency', name: 'client_agency_id', type: 'dropdown' },
+    { label: 'RFx Client Agency', name: 'client_agency_name', type: 'text' },
     { label: 'Pre-RFx Status', name: 'status', type: 'dropdown' },
     { label: 'Created by', name: 'created_by_user_id', type: 'dropdown' },
     { label: 'Created on', name: 'created_on_date', type: 'date' }
@@ -67,9 +64,6 @@ export class PreRfxAdvancedSearchModalComponent implements OnInit {
         case 'rfx_category_id':
           field.controlled_list_items = this.rfxCategories
           break
-        case 'client_agency_id':
-          field.controlled_list_items = this.clientAgencies
-          break
         case 'status':
           field.controlled_list_items = this.preRFxStatus
           break
@@ -93,9 +87,6 @@ export class PreRfxAdvancedSearchModalComponent implements OnInit {
         break
       case 'rfx_category_id':
         label = item.code + ' - ' + item.display_text
-        break
-      case 'client_agency_id':
-        label = item.name + ' (' + item.type + ')'
         break
       case 'status':
         label = item.label

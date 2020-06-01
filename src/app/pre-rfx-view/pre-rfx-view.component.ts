@@ -4,7 +4,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { ActivatedRoute } from '@angular/router';
 
 import { PreRfxService, PreRFx } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxType, RfxCategory, User } from '../shared/services/admin.service';
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -18,7 +18,6 @@ export class PreRfxViewComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public businessUnits: BusinessUnit[] = []
   public rfxTypes: RfxType[] = []
-  public clientAgencies: ClientAgency[] = []
   public rfxCategories: RfxCategory[] = []
 
   public preRFxStatus: {
@@ -69,9 +68,6 @@ export class PreRfxViewComponent implements OnInit, OnDestroy {
       }),
       this._admin.rfxTypes.subscribe( rfxTypes => {
         this.rfxTypes = rfxTypes
-      }),
-      this._admin.clientAgencies.subscribe( clientAgencies => {
-        this.clientAgencies = clientAgencies
       }),
       this._admin.rfxCategories.subscribe( rfxCategories => {
         this.rfxCategories = rfxCategories
@@ -133,13 +129,6 @@ export class PreRfxViewComponent implements OnInit, OnDestroy {
     return catObjs.length > 0 ? catObjs[0].code + ' - ' + catObjs[0].display_text : ''
   }
 
-  public getClientAgencyText(ca_id: string): string {
-    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
-      return clientAgency.id === ca_id
-    })
-    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
-  }
-
   public getRFxStatusText(status: string): string {
     let statusObjs: { value: string, label: string }[] = this.preRFxStatus.filter( preRFxStatus => {
       return preRFxStatus.value === status
@@ -160,7 +149,7 @@ export class PreRfxViewComponent implements OnInit, OnDestroy {
       author_id: this.preRFxData.created_by_user_id,
       rfx_number: this.preRFxData.rfx_number,
       title: this.preRFxData.title,
-      clientAgency: this.getClientAgencyText(this.preRFxData.client_agency_id),
+      clientAgency: this.preRFxData.client_agency_name,
       pre_rfx_author_name: this.authorObj.name,
       pre_rfx_author_email: this.authorObj.email,
       status: status,

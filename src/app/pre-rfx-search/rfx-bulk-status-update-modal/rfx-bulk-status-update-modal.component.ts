@@ -3,7 +3,7 @@ import { formatDate } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { PreRfxService, RFxComment, PreRFx } from '../../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, User, ClientAgency } from '../../shared/services/admin.service';
+import { AdminService, BusinessUnit, User } from '../../shared/services/admin.service';
 import { UtilsService, EmailTypes } from '../../shared/services/utils.service';
 
 declare var $: any;
@@ -22,9 +22,6 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
 
   @Input()
   public businessUnits: BusinessUnit[]
-
-  @Input()
-  public clientAgencies: ClientAgency[]
   
   @Input()
   public selected_pre_rfx_ids: string[]
@@ -98,7 +95,7 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
               }
               this._utils.sendEmail(authorObj.email, EmailTypes.PreRFxUpdatedByApprover, emailData)
                 .then( (emailResponse) => {
-                  let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(pre_rfx_data.title, this.getClientAgencyText(pre_rfx_data.client_agency_id), pre_rfx_data.id)
+                  let notificaitonText: string = this.preRfxStatusUpdateNotificationMsg(pre_rfx_data.title, pre_rfx_data.client_agency_name, pre_rfx_data.id)
                   this._utils.sendSkypeNotification(notificaitonText, this.getBusinessUnitText(pre_rfx_data.bu_id))
                     .then( (notificationResponse) => {
                       this.successMessage = `Pre-RFx Status Update: ${currentSelectedIndex} of ${this.selected_pre_rfx_ids.length} Completed.`
@@ -137,13 +134,6 @@ export class RfxBulkStatusUpdateModalComponent implements OnInit, OnDestroy {
       return businessUnit.id === bu_id
     })
     return buObjs.length > 0 ? buObjs[0].name : ''
-  }
-
-  private getClientAgencyText(ca_id: string): string {
-    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
-      return clientAgency.id === ca_id
-    })
-    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
   }
 
   public showModal(): void {

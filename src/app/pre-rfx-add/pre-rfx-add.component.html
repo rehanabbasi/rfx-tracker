@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <div class="sec">
-                        <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showBasicInfoSec }" data-toggle="collapse" data-target="#basic-info-sec" aria-expanded="true" aria-controls="basic-info-sec" (click)="showBasicInfoSec = !showBasicInfoSec">
+                        <div class="row mx-4 mb-4 p-2 sec-header" [ngClass]="{ 'sec-expanded': showBasicInfoSec }" data-toggle="collapse" data-target="#basic-info-sec" aria-expanded="true" aria-controls="basic-info-sec" (click)="showBasicInfoSec = false">
                             <div class="icon-cntnr"><fa-icon [icon]="secHeaderIcon"></fa-icon></div>
                             <div>
                                 <h4 class="m-0">Basic Information</h4>
@@ -102,9 +102,7 @@
                                 <div class="col mx-4">
                                     <div class="mb-2">
                                         <label class="input-label">RFx Client Agency/Company Name *</label>
-                                        <select class="custom-select" formControlName="client_agency_id" [ngClass]="{ 'control-disabled': editDisabled }">
-                                            <option *ngFor="let agency of clientAgencies" [value]="agency.id">{{ agency.name + ' (' + agency.type + ')' }}</option>
-                                        </select>
+                                        <input type="text" formControlName="client_agency_name" [ngClass]="{ 'control-disabled': editDisabled }">
                                     </div>
                                     <div>
                                         <label class="input-label">State/Province *</label>

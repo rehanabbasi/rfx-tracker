@@ -4,7 +4,7 @@ import { faEdit, faEye, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { PreRfxService, PreRFx } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxCategory, ClientAgency, User } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxCategory, User } from '../shared/services/admin.service';
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -19,7 +19,6 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
   
   public businessUnits: BusinessUnit[] = []
   public rfxCategories: RfxCategory[] = []
-  public clientAgencies: ClientAgency[] = []
   public users: User[] = []
   public currentUser: any
   public selectedPreRFxIds: string[] = []
@@ -82,10 +81,6 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
         this.rfxCategories = rfxCategories
       }),
 
-      this._admin.clientAgencies.subscribe( clientAgencies => {
-        this.clientAgencies = clientAgencies
-      }),
-
       this._admin.users.subscribe ( users => {
         this.users = users
       }),
@@ -133,13 +128,6 @@ export class PreRfxSearchComponent implements OnInit, OnDestroy {
       return category.id === rfx_cat_id
     })
     return catObjs.length > 0 ? catObjs[0].code + ' - ' + catObjs[0].display_text : ''
-  }
-
-  public getClientAgencyText(ca_id: string): string {
-    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
-      return clientAgency.id === ca_id
-    })
-    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
   }
 
   public getRFxStatusText(status: string): string {

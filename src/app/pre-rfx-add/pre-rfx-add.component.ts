@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 
 import { PreRfxService, PreRFx, Upload, RFxComment } from '../shared/services/pre-rfx.service';
-import { AdminService, BusinessUnit, RfxType, ClientAgency, RfxCategory, User, UserBusinessUnit } from '../shared/services/admin.service';
+import { AdminService, BusinessUnit, RfxType, RfxCategory, User } from '../shared/services/admin.service';
 import { AuthService } from '../shared/services/auth.service';
 import { UtilsService, EmailTypes } from '../shared/services/utils.service';
 import { switchMap } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     'rfx_category_id': 'RFx Category',
     'rfx_due_date_time': 'RFx Due Date & Time',
     'rfx_scope': 'RFx Scope',
-    'client_agency_id': 'RFx Client Agency/Company Name',
+    'client_agency_name': 'RFx Client Agency/Company Name',
     'state_province': 'State/Province',
     'submission_format': 'Submission Format',
     'source': 'Source'
@@ -65,7 +65,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         text: ['']
       })
     }),
-    client_agency_id: ['', [ Validators.required ]],
+    client_agency_name: ['', [ Validators.required ]],
     state_province: ['', [ Validators.required ]],
     pre_proposal_conf: [false, [ Validators.required ]],
     pre_proposal_conf_date: [''],
@@ -87,7 +87,6 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = []
   public businessUnits: BusinessUnit[] = []
   public rfxTypes: RfxType[] = []
-  public clientAgencies: ClientAgency[] = []
   public rfxCategories: RfxCategory[] = []
 
   public preRFxStatus: {
@@ -154,9 +153,6 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       }),
       this._admin.rfxTypes.subscribe( rfxTypes => {
         this.rfxTypes = rfxTypes
-      }),
-      this._admin.clientAgencies.subscribe( clientAgencies => {
-        this.clientAgencies = clientAgencies
       }),
       this._admin.rfxCategories.subscribe( rfxCategories => {
         this.rfxCategories = rfxCategories
@@ -238,7 +234,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         this.preRFxForm.controls['rfx_min_qualifications'].setValue(this.preRFxEdit.rfx_min_qualifications)
         this.preRFxForm.controls['rfx_comments'].setValue(this.preRFxEdit.rfx_comments)
 
-        this.preRFxForm.controls['client_agency_id'].setValue(this.preRFxEdit.client_agency_id)
+        this.preRFxForm.controls['client_agency_name'].setValue(this.preRFxEdit.client_agency_name)
         this.preRFxForm.controls['state_province'].setValue(this.preRFxEdit.state_province)
 
         this.preRFxForm.controls['rfx_constraints']['controls']['local_vendors']['controls'].value.setValue(this.preRFxEdit.rfx_constraints.local_vendors.value)
@@ -373,7 +369,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
           this._pre_rfx.attachIdToPreRFx(res.id)
             .then( response => {
               if(data.status === 'pending') {
-                let clientAgencyName: string = this.getClientAgencyText( data.client_agency_id )
+                let clientAgencyName: string = data.client_agency_name
                 let emailData: any = {
                   "searcher_name": this.currentUser.name,
                   "pre_rfx_id": res.id,
@@ -431,7 +427,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
         data.title_search_array = data.title.toLowerCase().split(' ')
         this._pre_rfx.updatePreRFx(data)
           .then( res => {
-            let clientAgencyName: string = this.getClientAgencyText( data.client_agency_id )
+            let clientAgencyName: string = data.client_agency_name
             let emailData: any = {
               "searcher_name": this.currentUser.name,
               "pre_rfx_id": data.id,
@@ -493,7 +489,7 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
       event.pre_rfx_data.title_search_array = event.pre_rfx_data.title.toLowerCase().split(' ')
       this._pre_rfx.updatePreRFx(event.pre_rfx_data)
         .then( res => {
-          let clientAgencyName: string = this.getClientAgencyText( event.pre_rfx_data.client_agency_id )
+          let clientAgencyName: string = event.pre_rfx_data.client_agency_name
           let emailData: any = {
             "searcher_name": this.currentUser.name,
             "pre_rfx_id": event.pre_rfx_data.id,
@@ -559,13 +555,6 @@ export class PreRfxAddComponent implements OnInit, OnDestroy {
     }
     className += this.editDisabledMessage ? ' show' : ' hide'
     return className
-  }
-
-  public getClientAgencyText(ca_id: string): string {
-    let caObjs: ClientAgency[] = this.clientAgencies.filter( clientAgency => {
-      return clientAgency.id === ca_id
-    })
-    return caObjs.length > 0 ? caObjs[0].name + ' (' + caObjs[0].type + ')' : ''
   }
 
   public getBusinessUnitText(bu_id: string): string {

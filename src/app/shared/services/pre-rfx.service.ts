@@ -134,7 +134,7 @@ export interface PreRFx {
     minority_certified: RfxConstraint,
     other_constraints: RfxConstraint
   },
-  client_agency_id: string,
+  client_agency_name: string,
   state_province: string,
   pre_proposal_conf: boolean,
   pre_proposal_conf_date?: string,
