@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     email: ['', [ Validators.required, Validators.email ]],
     pwd: ['', Validators.required],
     phone: ['', Validators.required],
-    role_id: ['', Validators.required]
+    role_ids: ['', Validators.required]
   })
 
   public formStatusMessage: string = ''
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
               .subscribe( user => {
                 setTimeout(()=> {
                   this.registerForm.controls['email'].setValue(user.email)
-                  this.registerForm.controls['role_id'].setValue(user.role_id)
+                  this.registerForm.controls['role_ids'].setValue(user.role_ids)
                 }, 250)
               })
           )
@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         name: this.registerForm.value.name,
         email: this.registerForm.value.email,
         phone: this.registerForm.value.phone,
-        role_id: this.registerForm.value.role_id,
+        role_ids: this.registerForm.value.role_ids,
         active: true
       }
       this._admin.updateUser(userData)
@@ -96,6 +96,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.formStatusMessage = 'Phone is a required field.'
       }
     }
+  }
+
+  public getRoleText(role_id: string): string {
+    let roleObj: UserRole[] = this.userRoles.filter( role => {
+      return role.id === role_id
+    })
+    return roleObj.length > 0 ? roleObj[0].name : ''
   }
 
 }

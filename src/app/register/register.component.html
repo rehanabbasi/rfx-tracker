@@ -14,14 +14,23 @@
             </div>
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    <label class="text-left input-label">Full Name</label>
-                    <input type="text" formControlName="name">
+                    <label class="text-left input-label">Email</label>
+                    <input type="text" formControlName="email" disabled>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <label class="text-left input-label">User Roles</label>
+                    <div *ngFor="let role_id of registerForm.value.role_ids" class="user-role">{{ getRoleText(role_id) }}</div>
+                    <!-- <select class="custom-select" formControlName="role_id" disabled>
+                        <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
+                    </select> -->
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-12 text-center">
-                    <label class="text-left input-label">Email</label>
-                    <input type="text" formControlName="email" disabled>
+                    <label class="text-left input-label">Full Name</label>
+                    <input type="text" formControlName="name">
                 </div>
             </div>
             <div class="row mb-4">
@@ -34,14 +43,6 @@
                 <div class="col-12 text-center">
                     <label class="text-left input-label">Phone</label>
                     <input type="text" formControlName="phone"></div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-12 text-center">
-                    <label class="text-left input-label">User Role</label>
-                    <select class="custom-select" formControlName="role_id" disabled>
-                        <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
-                    </select>
-                </div>
             </div>
             <div class="row mb-4">
                 <div class="col-12 text-center"><input type="submit" value="Done"></div>

@@ -302,11 +302,11 @@ export class AdminService {
   
   // Get users details by ids
   public getUsersByIds( userIds: string[]): Observable<User[]> {
-    return this.afs.collection<User>('users', ref => ref.where('role_id', 'in', userIds)).valueChanges()
+    return this.afs.collection<User>('users', ref => ref.where('role_ids', 'array-contains-any', userIds)).valueChanges()
   }
 
-  public getRoleById(role_id: string): AngularFirestoreDocument<UserRole> {
-    return this.urCollection.doc(role_id)
+  public getRoleByIds(role_ids: string[]): Observable<UserRole[]> {
+    return this.afs.collection<UserRole>('user-roles', ref => ref.where('id', 'in', role_ids)).valueChanges()
   }
 
   public getPreRFxApprovalRoles(): Observable<UserRole[]> {
@@ -385,7 +385,8 @@ export interface User {
   name: string,
   email: string,
   phone: string,
-  role_id: string,
+  // role_id: string,
+  role_ids: string[],
   active: boolean
 }
 

@@ -27,10 +27,14 @@ export class AuthService {
           return this._admin.getUsersByEmail(user.email).valueChanges().pipe(
             switchMap( userArray => {
               if(userArray) {
-                return this._admin.getRoleById(userArray[0].role_id).valueChanges().pipe(
-                  map( role => { 
+                return this._admin.getRoleByIds(userArray[0].role_ids).pipe(
+                  map( roles => {
                     let userData = userArray[0]
-                    userData['view_access'] = role.view_access
+                    let view_access_array: string[] = []
+                    for(let role of roles) {
+                      view_access_array = this.arrayUnique(view_access_array.concat(role.view_access))
+                    } 
+                    userData['view_access'] = view_access_array
                     return [ userData ]
                   })
                 )
@@ -60,5 +64,16 @@ export class AuthService {
 
   public logout(): Promise<any> {
     return this._afAuth.auth.signOut()
+  }
+
+  private arrayUnique(array: string[]): string[] {
+    var uniqueArray = array.concat();
+    for(var i=0; i < uniqueArray.length; ++i) {
+      for(var j = i + 1; j < uniqueArray.length; ++j) {
+        if(uniqueArray[i] === uniqueArray[j])
+          uniqueArray.splice(j--, 1);
+      }
+    }
+    return uniqueArray;
   }
 }

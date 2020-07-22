@@ -15,7 +15,7 @@
             <fa-icon [icon]="preRFxIcon"></fa-icon>
             <div>Pre-RFx</div>
         </a>
-        <a *ngIf="currentUser && currentUser.role_id === _auth.ADMIN_ROLE_ID" [routerLink]="['/admin-dashboard']" class="nav-link text-center" [ngClass]="{ 'active': router.url.indexOf('/admin-dashboard') > -1 }">
+        <a *ngIf="currentUser && currentUser.role_ids.indexOf(_auth.ADMIN_ROLE_ID) > -1" [routerLink]="['/admin-dashboard']" class="nav-link text-center" [ngClass]="{ 'active': router.url.indexOf('/admin-dashboard') > -1 }">
             <fa-icon [icon]="adminDashboardIcon"></fa-icon>
             <div>Admin Dashboard</div>
         </a>

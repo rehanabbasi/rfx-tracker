@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, EventEmitter, Output, Input } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AdminService, User, UserRole } from '../../../shared/services/admin.service';
@@ -7,6 +7,18 @@ import { UtilsService, EmailTypes } from '../../../shared/services/utils.service
 import { AuthService } from '../../../shared/services/auth.service';
 
 declare var $: any;
+
+function rolesValidator(control: FormControl) {
+  let roles = control.value;
+  if(roles.indexOf(true) === -1) {
+    return {
+      role_ids: {
+        error: "No Roles selected"
+      }
+    }
+  }
+  return null
+}
 
 @Component({
   selector: 'app-usr-form-modal',
@@ -19,7 +31,7 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
     name: [''],
     email: ['', [ Validators.required, Validators.email ]],
     phone: [''],
-    role_id: ['', [ Validators.required ]],
+    // role_id: ['', [ Validators.required ]],
     active: [true]
   })
 
@@ -47,6 +59,7 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.usrForm.addControl('role_ids', this._fb.array(this.userRoles.map(x => !1), rolesValidator))
     this.showUSRForm()
 
     this.subscriptions.push(
@@ -70,14 +83,20 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.usrForm.controls['name'].setValue(this.selectedUSRData.name)
         this.usrForm.controls['email'].setValue(this.selectedUSRData.email)
         this.usrForm.controls['phone'].setValue(this.selectedUSRData.phone)
-        this.usrForm.controls['role_id'].setValue(this.selectedUSRData.role_id)
+        // this.usrForm.controls['role_id'].setValue(this.selectedUSRData.role_id)
+        this.usrForm.setControl('role_ids', this._fb.array(this.userRoles.map(x => this.selectedUSRData.role_ids.indexOf(x.id) > -1)))
         this.usrForm.controls['active'].setValue(this.selectedUSRData.active)
       }, 250)
-    } else {
-      setTimeout(() => {
-        this.usrForm.controls['role_id'].setValue('')
-      }, 250)
-    }
+    } 
+    // else {
+      // setTimeout(() => {
+      //   this.usrForm.controls['role_id'].setValue('')
+      // }, 250)
+    // }
+  }
+
+  private convertCheckBoxesValueToRoleid(key: string): string {
+    return this.usrForm.value[key].map((x, i) => x && this.userRoles[i].id).filter(x => !!x)
   }
 
   public usrFormSubmit(): void {
@@ -88,6 +107,7 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
       if(this.selectedUSRData && this.selectedUSRData.id) {
         let data = this.usrForm.value
         data.id = this.selectedUSRData.id
+        data.role_ids = this.convertCheckBoxesValueToRoleid('role_ids')
         this._admin.updateUser(data)
           .then( res => {
             this.formSuccessMessage = "User has been updated."
@@ -98,21 +118,29 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
             this.savingUser = false
           })
       } else {
-        this._admin.createUser(this.usrForm.value)
+        let data = this.usrForm.value
+        data.role_ids = this.convertCheckBoxesValueToRoleid('role_ids')
+        this._admin.createUser(data)
           .then( res => {
             if(res.id) {
               this._admin.attachIdToUser(res.id)
                 .then( result => {
+                  let roleValues = ''
+                  for(let role_id of data.role_ids) {
+                    roleValues += roleValues ? ', ' : ''
+                    roleValues += this.getRoleText( role_id )
+                  }
                   let emailData = {
                     "admin_name": this.currentUser.name,
-                    "user_role": this.getRoleText( this.usrForm.value.role_id ),
+                    // "user_role": this.getRoleText( this.usrForm.value.role_id ),
+                    "user_role": roleValues,
                     "user_id": res.id
                   }
                   this._utils.sendEmail(this.usrForm.value.email, EmailTypes.UserInvite, emailData)
                     .then( emailResponse => {
                       this.formSuccessMessage = "New user added. An email invite has been sent to the user to complete the registration process."
                       this.usrForm.reset()
-                      this.usrForm.controls['role_id'].setValue('')
+                      // this.usrForm.controls['role_id'].setValue('')
                       this.savingUser = false
                     })
                     .catch( error => {
@@ -135,7 +163,7 @@ export class UsrFormModalComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (this.usrForm.controls.email.errors) {
         this.formStatusMessage = this.usrForm.controls.email.errors.required ? 'User Email is a required field.' : 'Enter a valid User Email'
-      } else if (this.usrForm.controls.role_id.errors) {
+      } else if (this.usrForm.controls.role_ids.errors) {
         this.formStatusMessage = 'User Role is a required field.'
       }
     }

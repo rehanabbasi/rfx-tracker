@@ -39,12 +39,16 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-12 text-center">
+                            <div class="col-12">
                                 <label class="text-left input-label">User Role</label>
-                                <select class="custom-select" formControlName="role_id">
+                                <!-- <select class="custom-select" formControlName="role_id">
                                     <option value="">Select a User Role</option>
                                     <option *ngFor="let userRole of userRoles" [value]="userRole.id">{{ userRole.name + ' - ' + userRole.text }}</option>
-                                </select>
+                                </select> -->
+                                <div *ngFor="let userRole of userRoles; let i = index" class="form-check mb-2" formArrayName="role_ids">
+                                    <input class="form-check-input" type="checkbox" [formControlName]="i" id="role_checkbox_{{ userRole.id }}" [value]="userRole.id">
+                                    <label class="form-check-label" for="role_checkbox_{{ userRole.id }}">{{ userRole.name }}</label>
+                                </div>
                             </div>
                         </div>
                         

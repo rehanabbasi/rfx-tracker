@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate {
       take(1),
       map(
         users => {
-          return users[0] && users[0].role_id === this._auth.ADMIN_ROLE_ID
+          return users[0] && users[0].role_ids.indexOf(this._auth.ADMIN_ROLE_ID) > -1
         }),
       tap(isAdmin => {
         if (!isAdmin) {
